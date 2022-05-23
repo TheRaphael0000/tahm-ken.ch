@@ -15,7 +15,7 @@
     float: left;
   }
 
-  .cb_champion {
+  .champion_cb {
     display: none;
   }
 
@@ -29,11 +29,13 @@
   <h1 class="text-center p-3">Challenges Intersections</h1>
   <div class="d-flex flex-nowrap">
     <div class="d-flex flex-column flex-shrink-0 p-2">
+      <button id="btn_reset" type="button" class="btn btn-light">Reset</button>
       <form action=".">
         {% for i, challenge in challenges %}
-        <input class="cb_challenge" type="checkbox" id="challenge_{{i}}" data-id="{{i}}">
-        <label class="label_challenge" for="challenge_{{i}}">
+        <input id="challenge_cb_{{i}}" class="challenge_cb" type="checkbox" data-id="{{i}}" data-qte="{{ challenge['qte'] }}">
+        <label id="challenge_label_{{i}}" class="challenge_label" for="challenge_cb_{{ i }}">
           {{challenge['challenge_name']}}
+          [<span id="challenge_qte_{{ i }}" class="challenge_qte">0</span>/{{ challenge['qte'] }}]
         </label>
         <br>
         {% endfor %}
@@ -41,8 +43,8 @@
     </div>
     <div class="d-flex flex-wrap">
       {% for i, champion in champions %}
-      <input class="cb_champion" type="checkbox" id="champion_{{champion}}" data-id="{{i}}">
-      <label class="label_champion" for="champion_{{champion}}">
+      <input id="champion_{{ champion }}" class="champion_cb" type="checkbox" data-id="{{ i }}">
+      <label id="champion_label_{{ champion }}" class="label_champion" for="champion_{{ champion }}">
         <img src="http://ddragon.leagueoflegends.com/cdn/12.9.1/img/champion/{{ champion }}.png" alt="{{ champion }}" class="img-responsive champion_img">
       </label>
       {% endfor %}
@@ -52,10 +54,13 @@
 
 
 <script type="text/javascript">
-  let cb_champion = document.querySelectorAll(".cb_champion")
-  let cb_challenge = document.querySelectorAll(".cb_challenge")
+  let champion_cb = document.querySelectorAll(".champion_cb")
+  let challenge_cb = document.querySelectorAll(".challenge_cb")
+  let challenge_label = document.querySelectorAll(".challenge_label")
+  let challenge_qte = document.querySelectorAll(".challenge_qte")
+  let btn_reset = document.querySelector("#btn_reset")
 
-  for (let cbc of cb_champion) {
+  for (let cbc of champion_cb) {
     cbc.addEventListener('change', function(e) {
       let label = e.target.nextSibling.nextSibling
       if (e.target.checked) {
@@ -67,30 +72,45 @@
   }
 
   function updateAll() {
-    for (let cbc of cb_champion) {
+    for (let cbc of champion_cb) {
       cbc.dispatchEvent(new Event('change'))
     }
   }
 
-  function setAll(value) {
-    for (let cbc of cb_champion) {
+  function setAllChampion(value) {
+    for (let cbc of champion_cb) {
       cbc.checked = value
     }
     updateAll()
   }
 
+  function resetChallenge() {
+    setAllChampion(false)
+    for (let c of challenge_cb) {
+      c.checked = false
+    }
+    for (let c of challenge_qte) {
+      c.innerHTML = 0
+    }
+    for (let c of challenge_label) {
+      c.style.opacity = "1.0"
+    }
+  }
+
+  btn_reset.addEventListener("click", resetChallenge);
+
   updateAll();
 
-  for (let cbc of cb_challenge) {
+  for (let cbc of challenge_cb) {
     cbc.addEventListener('change', function(e) {
-      let checked_challenges = document.querySelectorAll(".cb_challenge:checked")
+      let checked_challenges = document.querySelectorAll(".challenge_cb:checked")
       let ids = []
       for (let cc of checked_challenges) {
         ids.push(cc.dataset.id)
       }
 
       if (ids.length <= 0) {
-        setAll(false)
+        resetChallenge()
         return
       }
 
@@ -99,15 +119,23 @@
           return response.json();
         })
         .then((json) => {
-          setAll(false)
+          setAllChampion(false)
           updateAll();
-          let intersection = json.intersection
-          if(intersection.length <= 0)
+          if (json.intersection.length <= 0)
             return
-          for(let c of intersection) {
-            console.log(c)
+          for (let c of json.intersection) {
             let el = document.getElementById("champion_" + c)
             el.checked = true
+          }
+          for (const [challenge, qte] of json.challenges_additional_intersection) {
+            let challenge_cb = document.querySelector("#challenge_cb_" + challenge)
+            let challenge_qte = document.querySelector("#challenge_qte_" + challenge)
+            let challenge_label = document.querySelector("#challenge_label_" + challenge)
+            challenge_qte.innerHTML = qte
+            if (qte < challenge_cb.dataset.qte)
+              challenge_label.style.opacity = "0.2"
+            else
+              challenge_label.style.opacity = "1.0"
           }
           updateAll();
         })

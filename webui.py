@@ -28,12 +28,12 @@ def challenge_intersection(challenges_id):
 
     response = {
         "intersection": list(u),
-        "challenges_additional_intersection": {}
+        "challenges_additional_intersection": list()
     }
     for i, c in enumerate(challenges):
         s = set(c["champions"])
         uc = u.intersection(s)
-        response["challenges_additional_intersection"][i] = len(uc)
+        response["challenges_additional_intersection"].append([i, len(uc)])
 
     return json.dumps(response)
 
