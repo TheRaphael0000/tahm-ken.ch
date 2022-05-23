@@ -8,7 +8,7 @@
 </head>
 <style media="screen">
   .champion_img {
-    width: 92px;
+    width: 85px;
     height: auto;
     object-fit: contain;
 
@@ -43,7 +43,7 @@
     </div>
     <div class="d-flex flex-wrap">
       {% for i, champion in champions %}
-      <input id="champion_{{ champion }}" class="champion_cb" type="checkbox" data-id="{{ i }}">
+      <input id="champion_{{ champion }}" class="champion_cb" type="checkbox" data-id="{{ i }}" disabled>
       <label id="champion_label_{{ champion }}" class="label_champion" for="champion_{{ champion }}">
         <img src="http://ddragon.leagueoflegends.com/cdn/12.9.1/img/champion/{{ champion }}.png" alt="{{ champion }}" class="img-responsive champion_img">
       </label>
