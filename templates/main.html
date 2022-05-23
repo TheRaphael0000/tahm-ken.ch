@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <title>Challenges Intersections - League of Legends</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
 </head>
 <style media="screen">
   .champion_img {
@@ -26,30 +27,37 @@
 </style>
 
 <body class="bg-dark text-white">
-  <h1 class="text-center p-3">Challenges Intersections</h1>
-  <div class="d-flex flex-nowrap">
-    <div class="d-flex flex-column flex-shrink-0 p-2">
-      <button id="btn_reset" type="button" class="btn btn-light">Reset</button>
-      <form action=".">
-        {% for i, challenge in challenges %}
-        <input id="challenge_cb_{{i}}" class="challenge_cb" type="checkbox" data-id="{{i}}" data-qte="{{ challenge['qte'] }}">
-        <label id="challenge_label_{{i}}" class="challenge_label" for="challenge_cb_{{ i }}">
-          {{challenge['challenge_name']}}
-          [<span id="challenge_qte_{{ i }}" class="challenge_qte">{{ challenge['champions_l'] }}</span>/{{ challenge['qte'] }}]
+  <header>
+    <h1 class="text-center p-3">Challenges Intersections</h1>
+  </header>
+  <main>
+    <div class="d-flex flex-nowrap">
+      <div class="d-flex flex-column flex-shrink-0 p-2">
+        <form action=".">
+          {% for i, challenge in challenges %}
+          <input id="challenge_cb_{{i}}" class="challenge_cb" type="checkbox" data-id="{{i}}" data-qte="{{ challenge['qte'] }}">
+          <label id="challenge_label_{{i}}" class="challenge_label" for="challenge_cb_{{ i }}">
+            {{challenge['challenge_name']}}
+            [<span id="challenge_qte_{{ i }}" class="challenge_qte" data-maxqte="{{ challenge['champions_l'] }}">{{ challenge['champions_l'] }}</span>/{{ challenge['qte'] }}]
+          </label>
+          <br>
+          {% endfor %}
+        </form>
+        <button id="btn_reset" type="button" class="btn btn-light my-3">Reset</button>
+      </div>
+      <div class="d-flex flex-wrap">
+        {% for i, champion in champions %}
+        <input id="champion_{{ champion }}" class="champion_cb" type="checkbox" data-id="{{ i }}" disabled>
+        <label id="champion_label_{{ champion }}" class="label_champion" for="champion_{{ champion }}">
+          <img src="https://ddragon.leagueoflegends.com/cdn/12.9.1/img/champion/{{ champion }}.png" alt="{{ champion }}" class="img-responsive champion_img">
         </label>
-        <br>
         {% endfor %}
-      </form>
+      </div>
     </div>
-    <div class="d-flex flex-wrap">
-      {% for i, champion in champions %}
-      <input id="champion_{{ champion }}" class="champion_cb" type="checkbox" data-id="{{ i }}" disabled>
-      <label id="champion_label_{{ champion }}" class="label_champion" for="champion_{{ champion }}">
-        <img src="https://ddragon.leagueoflegends.com/cdn/12.9.1/img/champion/{{ champion }}.png" alt="{{ champion }}" class="img-responsive champion_img">
-      </label>
-      {% endfor %}
-    </div>
-  </div>
+  </main>
+  <footer class="text-center p-3 h3">
+    <a style="color:#e8eaea;" href="https://github.com/TheRaphael0000/challenges_intersection_league"><i class="fab fa-github"></i></a>
+  </footer>
 </body>
 
 
@@ -90,7 +98,7 @@
       c.checked = false
     }
     for (let c of challenge_qte) {
-      c.innerHTML = 0
+      c.innerHTML = c.dataset.maxqte
     }
     for (let c of challenge_label) {
       c.style.opacity = "1.0"
