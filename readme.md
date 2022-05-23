@@ -9,7 +9,7 @@ still wip, you can pr if you want.
 - [x] parse the data
 - [x] create a basic ui
 - [x] add functions to intersect the sets
-- [ ] update the ui according to the challenge selections
+- [x] update the ui according to the challenge selections
 - [ ] update the ui according to the champion selections
 - [ ] make the app front-end only (i probably won't do it)
 
