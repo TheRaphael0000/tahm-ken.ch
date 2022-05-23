@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+</head>
+<style media="screen">
+  .champion_img {
+    width: 92px;
+    height: auto;
+    object-fit: contain;
+
+    float: left;
+  }
+</style>
+
+<body class="d-flex flex-nowrap bg-dark text-white">
+
+  <div class="d-flex flex-column flex-shrink-0 p-2">
+    <form action=".">
+      {% for challenge in challenges %}
+      <input type="checkbox" id="{{challenge['challenge_name']}}" name="{{challenge['challenge_name']}}" value="{{challenge['challenge_name']}}">
+      <label for="{{challenge['challenge_name']}}">{{challenge['challenge_name']}}</label><br>
+      {% endfor %}
+    </form>
+  </div>
+  <div style="d-flex flex-column flex-shrink-0">
+    {% for champion in champions %}
+    <img src="static/champion/{{ champion }}.png" alt="{{ champion }}" class="img-responsive champion_img">
+    {% endfor %}
+  </div>
+</body>
+
+<script type="text/javascript">
+
+</script>
+
+</html>
