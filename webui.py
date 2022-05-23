@@ -16,7 +16,7 @@ champions.sort()
 
 @app.route("/")
 def main():
-    return render_template('main.html', champions=champions, challenges=challenges)
+    return render_template('main.html', champions=enumerate(champions), challenges=enumerate(challenges))
 
 
 @app.route("/challenge_intersection/<challenges_id>")
@@ -30,11 +30,10 @@ def challenge_intersection(challenges_id):
         "intersection": list(u),
         "challenges_additional_intersection": {}
     }
-    for c in challenges:
+    for i, c in enumerate(challenges):
         s = set(c["champions"])
         uc = u.intersection(s)
-        response["challenges_additional_intersection"][c["challenge_name"]] = len(
-            uc)
+        response["challenges_additional_intersection"][i] = len(uc)
 
     return json.dumps(response)
 

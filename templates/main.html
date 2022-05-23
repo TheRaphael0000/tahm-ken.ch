@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title></title>
+  <title>Challenges Intersections - League of Legends</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 </head>
 <style media="screen">
@@ -14,27 +14,105 @@
 
     float: left;
   }
+
+  .cb_champion {
+    display: none;
+  }
+
+  .label_champion {
+    opacity: 0.2;
+    transition: 0.3s;
+  }
 </style>
 
-<body class="d-flex flex-nowrap bg-dark text-white">
-
-  <div class="d-flex flex-column flex-shrink-0 p-2">
-    <form action=".">
-      {% for challenge in challenges %}
-      <input type="checkbox" id="{{challenge['challenge_name']}}" name="{{challenge['challenge_name']}}" value="{{challenge['challenge_name']}}">
-      <label for="{{challenge['challenge_name']}}">{{challenge['challenge_name']}}</label><br>
+<body class="bg-dark text-white">
+  <h1 class="text-center p-3">Challenges Intersections</h1>
+  <div class="d-flex flex-nowrap">
+    <div class="d-flex flex-column flex-shrink-0 p-2">
+      <form action=".">
+        {% for i, challenge in challenges %}
+        <input class="cb_challenge" type="checkbox" id="challenge_{{i}}" data-id="{{i}}">
+        <label class="label_challenge" for="challenge_{{i}}">
+          {{challenge['challenge_name']}}
+        </label>
+        <br>
+        {% endfor %}
+      </form>
+    </div>
+    <div class="d-flex flex-wrap">
+      {% for i, champion in champions %}
+      <input class="cb_champion" type="checkbox" id="champion_{{champion}}" data-id="{{i}}">
+      <label class="label_champion" for="champion_{{champion}}">
+        <img src="http://ddragon.leagueoflegends.com/cdn/12.9.1/img/champion/{{ champion }}.png" alt="{{ champion }}" class="img-responsive champion_img">
+      </label>
       {% endfor %}
-    </form>
-  </div>
-  <div style="d-flex flex-column flex-shrink-0">
-    {% for champion in champions %}
-    <img src="static/champion/{{ champion }}.png" alt="{{ champion }}" class="img-responsive champion_img">
-    {% endfor %}
+    </div>
   </div>
 </body>
 
-<script type="text/javascript">
 
+<script type="text/javascript">
+  let cb_champion = document.querySelectorAll(".cb_champion")
+  let cb_challenge = document.querySelectorAll(".cb_challenge")
+
+  for (let cbc of cb_champion) {
+    cbc.addEventListener('change', function(e) {
+      let label = e.target.nextSibling.nextSibling
+      if (e.target.checked) {
+        label.style.opacity = "1"
+      } else {
+        label.style.opacity = "0.2"
+      }
+    })
+  }
+
+  function updateAll() {
+    for (let cbc of cb_champion) {
+      cbc.dispatchEvent(new Event('change'))
+    }
+  }
+
+  function setAll(value) {
+    for (let cbc of cb_champion) {
+      cbc.checked = value
+    }
+    updateAll()
+  }
+
+  updateAll();
+
+  for (let cbc of cb_challenge) {
+    cbc.addEventListener('change', function(e) {
+      let checked_challenges = document.querySelectorAll(".cb_challenge:checked")
+      let ids = []
+      for (let cc of checked_challenges) {
+        ids.push(cc.dataset.id)
+      }
+
+      if (ids.length <= 0) {
+        setAll(false)
+        return
+      }
+
+      fetch("/challenge_intersection/" + ids)
+        .then((response) => {
+          return response.json();
+        })
+        .then((json) => {
+          setAll(false)
+          updateAll();
+          let intersection = json.intersection
+          if(intersection.length <= 0)
+            return
+          for(let c of intersection) {
+            console.log(c)
+            let el = document.getElementById("champion_" + c)
+            el.checked = true
+          }
+          updateAll();
+        })
+    })
+  }
 </script>
 
 </html>

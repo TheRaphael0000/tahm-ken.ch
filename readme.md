@@ -15,16 +15,11 @@ still wip, you can pr if you want.
 ## install
 you need python
 
-you can download champion images at https://developer.riotgames.com/docs/lol#data-dragon
-put the champion square image in static/champion
-
 ```
-python -m pip install -r requirements.txt
+make install
 ```
 
 ## run
 ```
-export FLASK_ENV=development
-export FLASK_APP=webui
-flask run
+make run
 ```
