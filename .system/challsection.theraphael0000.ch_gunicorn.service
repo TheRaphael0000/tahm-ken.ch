@@ -6,7 +6,7 @@ After=network.target
 User=www-data
 Group=www-data
 WorkingDirectory=/var/www/theraphael0000.ch/challsection.theraphael0000.ch
-ExecStart=/usr/bin/python /usr/local/bin/gunicorn --bind unix:/tmp/challsection.theraphael0000.ch_gunicorn.sock -m 007 webui:app
+ExecStart=/usr/bin/python /usr/local/bin/gunicorn --bind unix:/tmp/challsection.theraphael0000.ch_gunicorn.sock -m 007 app:app
 
 [Install]
 WantedBy=multi-user.target

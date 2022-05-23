@@ -35,7 +35,7 @@
         <input id="challenge_cb_{{i}}" class="challenge_cb" type="checkbox" data-id="{{i}}" data-qte="{{ challenge['qte'] }}">
         <label id="challenge_label_{{i}}" class="challenge_label" for="challenge_cb_{{ i }}">
           {{challenge['challenge_name']}}
-          [<span id="challenge_qte_{{ i }}" class="challenge_qte">0</span>/{{ challenge['qte'] }}]
+          [<span id="challenge_qte_{{ i }}" class="challenge_qte">{{ challenge['champions_l'] }}</span>/{{ challenge['qte'] }}]
         </label>
         <br>
         {% endfor %}

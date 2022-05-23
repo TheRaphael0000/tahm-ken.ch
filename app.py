@@ -10,6 +10,8 @@ challenges = json.load(open("challenges.json", "r"))
 champions = set()
 for c in challenges:
     champions |= set(c["champions"])
+
+    c["champions_l"] = len(c["champions"])
 champions = list(champions)
 champions.sort()
 
