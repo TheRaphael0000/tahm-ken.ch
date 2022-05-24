@@ -7,11 +7,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">
+
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-9TT2F05HDD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'G-9TT2F05HDD');
+  </script>
 </head>
 <style media="screen">
   body {
     font-size: 0.92em;
   }
+
   .champion_img {
     width: 85px;
     height: auto;
@@ -49,14 +63,6 @@
           {% endfor %}
         </form>
         <button id="btn_reset" type="button" class="btn btn-light my-3">Reset</button>
-        <div class="ad">
-          <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2935964794184774" crossorigin="anonymous"></script>
-          <!-- Square1 -->
-          <ins class="adsbygoogle" style="display:inline-block;width:280px;height:180px" data-ad-client="ca-pub-2935964794184774" data-ad-slot="6846366333"></ins>
-          <script>
-            (adsbygoogle = window.adsbygoogle || []).push({});
-          </script>
-        </div>
       </div>
       <div class="d-flex flex-wrap">
         {% for i, champion in champions %}
