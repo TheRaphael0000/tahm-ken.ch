@@ -23,11 +23,11 @@
 </head>
 <style media="screen">
   body {
-    font-size: 0.92em;
+    font-size: 1em;
   }
 
   .champion_img {
-    width: 85px;
+    width: 81px;
     height: auto;
     margin: 2px;
   }
@@ -40,31 +40,54 @@
     opacity: 0.2;
     transition: 0.3s;
   }
+
+  #flex {
+    margin:5px;
+    display: flex;
+    height:100%;
+    align-content: stretch;
+    flex-wrap: wrap;
+    align-items: stretch;
+  }
 </style>
 
 <body class="bg-dark text-white">
   <header>
-    <h1 class="text-center p-3">
-      Challenges Intersections
-      <a style="color:#e8eaea;float:right;" href="https://github.com/TheRaphael0000/challenges_intersection_league"><i class="fab fa-github"></i></a>
-    </h1>
   </header>
   <main>
     <div class="d-flex flex-nowrap">
       <div class="d-flex flex-column flex-shrink-0 p-2">
         <form action=".">
-          {% for i, challenge in challenges %}
-          <input id="challenge_cb_{{i}}" class="challenge_cb" type="checkbox" data-id="{{i}}" data-qte="{{ challenge['qte'] }}">
-          <label id="challenge_label_{{i}}" class="challenge_label" for="challenge_cb_{{ i }}">
-            {{challenge['challenge_name']}}
-            [<span id="challenge_qte_{{ i }}" class="challenge_qte" data-maxqte="{{ challenge['champions_l'] }}">{{ challenge['champions_l'] }}</span>/{{ challenge['qte'] }}]
-          </label>
-          <br>
-          {% endfor %}
+          <table class="table table-dark table-sm">
+            {% for i, challenge in challenges %}
+            <tr>
+              <td>
+                <input id="challenge_cb_{{i}}" class="challenge_cb" type="checkbox" data-id="{{i}}" data-qte="{{ challenge['qte'] }}">
+              </td>
+              <td>
+                <label id="challenge_label_{{i}}" class="challenge_label" for="challenge_cb_{{ i }}">
+                  {{challenge['challenge_name']}}
+                </label>
+
+              </td>
+              <td>
+                {% if 'region' in challenge %}
+                {{challenge['region']}}
+                {% endif %}
+              </td>
+
+              <td class="text-end">
+                <span id="challenge_qte_{{ i }}" class="challenge_qte" data-maxqte="{{ challenge['champions_l'] }}">
+                  {{ challenge['champions_l'] }}
+                </span> / {{ challenge['qte'] }}
+              </td>
+            </tr>
+            {% endfor %}
+          </table>
         </form>
-        <button id="btn_reset" type="button" class="btn btn-light my-3">Reset</button>
+        <button id="btn_reset" type="button" class="btn btn-light">Reset</button>
       </div>
-      <div class="d-flex flex-wrap">
+      <div id="flex">
         {% for i, champion in champions %}
         <input id="champion_{{ champion }}" class="champion_cb" type="checkbox" data-id="{{ i }}" disabled>
         <label id="champion_label_{{ champion }}" class="label_champion" for="champion_{{ champion }}">
@@ -74,6 +97,11 @@
       </div>
     </div>
   </main>
+  <footer class="text-center pt-3">
+    <h2>
+      <a style="color:#e8eaea;" href="https://github.com/TheRaphael0000/challenges_intersection_league"><i class="fab fa-github"></i></a>
+    </h2>
+  </footer>
 </body>
 
 

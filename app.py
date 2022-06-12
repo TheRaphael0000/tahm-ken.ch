@@ -18,6 +18,8 @@ champions.sort()
 
 @app.route("/")
 def main():
+    challenges.sort(key=lambda l: -l["champions_l"])
+    challenges.sort(key=lambda l: l["qte"])
     return render_template('main.html', champions=enumerate(champions), challenges=enumerate(challenges))
 
 
