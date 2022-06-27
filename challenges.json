@@ -292,6 +292,7 @@
       "Alistar",
       "Anivia",
       "Bard",
+      "Belveth",
       "Braum",
       "Ekko",
       "Elise",
@@ -536,6 +537,7 @@
     "challenge_name_fr": "(Cris inhumains)",
     "region": "Void",
     "champions": [
+      "Belveth"
       "Chogath",
       "Kaisa",
       "Kassadin",
