@@ -1,0 +1,31 @@
+body {
+    font-size: 1em;
+}
+
+.champion_img {
+    width: 81px;
+    height: auto;
+    margin: 2px;
+}
+
+.champion_cb {
+    display: none;
+}
+
+.label_champion {
+    opacity: 0.2;
+    transition: 0.3s;
+}
+
+.challenge_label {
+    transition: 0.3s;
+}
+
+#flex {
+    margin: 5px;
+    display: flex;
+    height: 100%;
+    align-content: stretch;
+    flex-wrap: wrap;
+    align-items: stretch;
+}
