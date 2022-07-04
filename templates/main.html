@@ -51,7 +51,7 @@
                 {% endif %}
               </td>
 
-              <td class="text-end">
+              <td class="text-end" width="60px"> <!-- fixed width to avoid column resized on change -->
                 <span id="challenge_qte_{{ i }}" class="challenge_qte" data-maxqte="{{ challenge['champions_l'] }}">
                   {{ challenge['champions_l'] }}
                 </span> / {{ challenge['qte'] }}
@@ -60,11 +60,12 @@
             {% endfor %}
           </table>
         </form>
-        <button id="btn_reset" type="button" class="btn btn-light">Reset</button>
+        <button id="btn_reset" type="button" class="btn btn-light mx-3 my-1">Reset</button>
+        <button id="btn_copy" type="button" class="btn btn-light mx-3 my-1">Copy selected Champions to clipboard</button>
       </div>
       <div id="flex">
         {% for i, champion in champions %}
-        <input id="champion_{{ champion }}" class="champion_cb" type="checkbox" data-id="{{ i }}" disabled>
+        <input id="champion_{{ champion }}" class="champion_cb" type="checkbox" data-id="{{ i }}" data-champion_name="{{champion}}" disabled>
         <label id="champion_label_{{ champion }}" class="label_champion" for="champion_{{ champion }}">
           <img src="https://ddragon.leagueoflegends.com/cdn/12.12.1/img/champion/{{ champion }}.png"
             alt="{{ champion }}" class="img-responsive champion_img">

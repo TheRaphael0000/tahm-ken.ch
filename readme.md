@@ -10,8 +10,8 @@ still wip, you can pr if you want.
 - [x] create a basic ui
 - [x] add functions to intersect the sets
 - [x] update the ui according to the challenge selections
+- [x] Copy the selected champion into the clipboard
 - [ ] update the ui according to the champion selections
-- [ ] Copy the selected champion into the clipboard
 - [ ] make the app front-end only (i probably won't do it)
 
 
