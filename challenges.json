@@ -423,8 +423,8 @@
       "Heimerdinger",
       "Jayce",
       "Orianna",
-      "Vi",
-      "Zilean"
+      "Seraphine",
+      "Vi"
     ],
     "qte": "5"
   },
@@ -626,6 +626,7 @@
       "Kled",
       "Leblanc",
       "Rell",
+      "Riven",
       "Samira",
       "Sion",
       "Swain",
@@ -648,7 +649,8 @@
       "Sivir",
       "Skarner",
       "Taliyah",
-      "Xerath"
+      "Xerath",
+      "Zilean"
     ],
     "qte": "5"
   },
