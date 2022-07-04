@@ -10,16 +10,15 @@ challenges = json.load(open("challenges.json", "r"))
 champions = set()
 for c in challenges:
     champions |= set(c["champions"])
-
     c["champions_l"] = len(c["champions"])
+
 champions = list(champions)
 champions.sort()
-
+challenges.sort(key=lambda l: -l["champions_l"])
+challenges.sort(key=lambda l: l["qte"])
 
 @app.route("/")
 def main():
-    challenges.sort(key=lambda l: -l["champions_l"])
-    challenges.sort(key=lambda l: l["qte"])
     return render_template('main.html', champions=enumerate(champions), challenges=enumerate(challenges))
 
 
@@ -54,3 +53,7 @@ def champions_selected(champions):
             valid_challenges.append(i)
 
     return json.dumps(valid_challenges)
+
+
+if __name__ == "__main__":
+    app.run(host='127.0.0.1', port=8000, debug=True)

@@ -24,5 +24,5 @@ make install
 
 ## run
 ```
-make run
+python app.py
 ```
