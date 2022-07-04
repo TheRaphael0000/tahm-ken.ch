@@ -47,9 +47,12 @@ def champions_selected(champions):
 
     valid_challenges = []
 
+    print(champions)
+
     for i, c in enumerate(challenges):
-        s = set(c["champions"])
-        if champions <= s:
+        set_champions = set(c["champions"])
+        print(c["challenge_name"], c["qte"], set_champions)
+        if len(set_champions.intersection(champions)) >= int(c["qte"]):
             valid_challenges.append(i)
 
     return json.dumps(valid_challenges)

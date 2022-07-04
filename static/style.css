@@ -3,7 +3,7 @@ body {
 }
 
 .champion_img {
-    width: 81px;
+    width: 78px;
     height: auto;
     margin: 2px;
 }
@@ -21,11 +21,28 @@ body {
     transition: 0.3s;
 }
 
-#flex {
+#champions_pool {
     margin: 5px;
     display: flex;
     height: 100%;
     align-content: stretch;
     flex-wrap: wrap;
     align-items: stretch;
+}
+
+#champions_selected {
+    position: fixed;
+    bottom: 25px;
+    left: calc(50% - 600px * 0.5 + 405px * 0.5);
+    width: 600px;
+    padding: 6px;
+    border-bottom: 2px solid rgba(255, 255, 255, .2);
+    display: flex;
+    justify-content: space-evenly;
+}
+
+#champions_selected img {
+    border: 1px solid rgba(255, 255, 255, .2);
+    width: 85px;
+    height: 85px;
 }
