@@ -26,3 +26,8 @@ make install
 ```
 python app.py
 ```
+
+## thanks
+
+- thanks to @celiendonze and @Etiouse for helping me populate the initial `challenges.json`
+- thanks to @Pomarine for reviewing and correcting the `challenges.json` file
