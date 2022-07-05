@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+    {% block main %}
+    With the compositions below, you unlock the 7 following challenges :
+    <ul>
+        <li>Get Over Here</li>
+        <li>Hold That Pose</li>
+        <li>It Has "Ultimate" In the Name !</li>
+        <li>It's a Trap!</li>
+        <li>Nowhere to Hide</li>
+        <li>The Just... Don't... DIE!</li>
+        <li>We're Good Over Here</li>
+    </ul>
+
+    {% for (additional_challenge, champions) in comps %}
+    <p>
+        {% for champion in champions %}
+        <img src="https://ddragon.leagueoflegends.com/cdn/12.12.1/img/champion/{{ champion }}.png" alt="{{ champion }}"
+            class="img-responsive" width="65px">
+        {% endfor %}
+
+        + {{ additional_challenge }}
+    </p>
+    {% endfor %}
+    {% endblock %}
+

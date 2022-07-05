@@ -17,9 +17,26 @@ champions.sort()
 challenges.sort(key=lambda l: -l["champions_l"])
 challenges.sort(key=lambda l: l["qte"])
 
+
 @app.route("/")
 def main():
     return render_template('main.html', champions=enumerate(champions), challenges=enumerate(challenges))
+
+
+@app.route("/comps")
+def comps():
+    comps = [
+        ("Summoners on the Rift", ["Maokai", "Ziggs", "Kled", "Zyra", "Elise"]),
+        ("Summoners on the Rift", ["Maokai", "Ziggs", "Kled", "Zyra", "Lissandra"]),
+        ("Summoners on the Rift", ["Maokai", "Ziggs", "Kled", "Zyra", "Kalista"]),
+        ("Summoners on the Rift", ["Maokai", "Ziggs", "Kled", "Zyra", "Kindred"]),
+        ("Summoners on the Rift", ["Maokai", "Ziggs", "Kled", "Zyra", "Malzahar"]),
+        ("Summoners on the Rift", ["Maokai", "Ziggs", "Kled", "Zyra", "Zed"]),
+        ("Summoners on the Rift", ["Maokai", "Ziggs", "Kled", "Lissandra", "Shaco"]),
+        ("We Protec", ["Maokai", "Ziggs", "Bard", "Nidalee", "Alistar"]),
+        ("We Protec", ["Maokai", "Ziggs", "Bard", "Nidalee", "TahmKench"]),
+    ]
+    return render_template('comps.html', comps=comps)
 
 
 @app.route("/challenge_intersection/<challenges_id>")
