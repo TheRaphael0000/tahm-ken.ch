@@ -11,8 +11,11 @@ still wip, you can pr if you want.
 - [x] add functions to intersect the sets
 - [x] update the ui according to the challenge selections
 - [x] Copy the selected champion into the clipboard
-- [ ] update the ui according to the champion selections
+- [x] update the ui according to the champion selections
+- [ ] show challenges for each champions when hovering them 
+- [ ] implement a way to handle Variety's Overrated
 - [ ] make the app front-end only (i probably won't do it)
+- [ ] add a page to good composition found for each challenges that require 5 specifics champions
 
 
 ## install
