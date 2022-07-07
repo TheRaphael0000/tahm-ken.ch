@@ -18,19 +18,7 @@ champions.sort()
 challenges.sort(key=lambda l: -l["champions_l"])
 challenges.sort(key=lambda l: l["qte"])
 
-
-best_compositions = json.load(open("compositions.json", "r"))
-compositions_factions = json.load(open("compositions_factions.json", "r"))
-compositions = {}
-
-for faction, compositions_faction in compositions_factions.items():
-    compositions[faction] = compositions_faction
-
-for composition_, challenges_ in best_compositions:
-    key = f"Best compositions ({len(challenges_)} challenges)"
-    if key not in compositions:
-        compositions[key] = []
-    compositions[key].append((composition_, challenges_))
+compositions = json.load(open("compositions", "r"))
 
 
 @app.route("/")

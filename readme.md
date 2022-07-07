@@ -26,7 +26,11 @@ you need python
 make install
 ```
 
-you also need `compositions.json` and `compositions_factions.json` which can be obtained by running `brute_force_compositions.ipynb` with jupyter
+you also need `compositions.json` which can be obtained by running `brute_force_compositions.ipynb` with jupyter
+
+or
+
+you can download the current version on https://challsection.theraphael0000.ch/static/compositions.json
 
 ## run
 ```
