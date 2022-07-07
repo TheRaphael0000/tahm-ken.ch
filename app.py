@@ -1,6 +1,7 @@
 from flask import Flask
 from flask import render_template
 import json
+from collections import defaultdict
 
 
 app = Flask(__name__, static_url_path='/static')
@@ -18,25 +19,32 @@ challenges.sort(key=lambda l: -l["champions_l"])
 challenges.sort(key=lambda l: l["qte"])
 
 
+best_compositions = json.load(open("compositions.json", "r"))
+compositions_factions = json.load(open("compositions_factions.json", "r"))
+compositions = {}
+
+for faction, compositions_faction in compositions_factions.items():
+    compositions[faction] = compositions_faction
+
+for composition_, challenges_ in best_compositions:
+    key = f"Best compositions ({len(challenges_)} challenges)"
+    if key not in compositions:
+        compositions[key] = []
+    compositions[key].append((composition_, challenges_))
+
+
 @app.route("/")
 def main():
-    return render_template('main.html', champions=enumerate(champions), challenges=enumerate(challenges))
+    return render_template('main.html', champions=enumerate(champions), challenges=enumerate(challenges), compositions=list(compositions.keys()))
 
 
-@app.route("/comps")
-def comps():
-    comps = [
-        ("Summoners on the Rift", ["Maokai", "Ziggs", "Kled", "Zyra", "Elise"]),
-        ("Summoners on the Rift", ["Maokai", "Ziggs", "Kled", "Zyra", "Lissandra"]),
-        ("Summoners on the Rift", ["Maokai", "Ziggs", "Kled", "Zyra", "Kalista"]),
-        ("Summoners on the Rift", ["Maokai", "Ziggs", "Kled", "Zyra", "Kindred"]),
-        ("Summoners on the Rift", ["Maokai", "Ziggs", "Kled", "Zyra", "Malzahar"]),
-        ("Summoners on the Rift", ["Maokai", "Ziggs", "Kled", "Zyra", "Zed"]),
-        ("Summoners on the Rift", ["Maokai", "Ziggs", "Kled", "Lissandra", "Shaco"]),
-        ("We Protec", ["Maokai", "Ziggs", "Bard", "Nidalee", "Alistar"]),
-        ("We Protec", ["Maokai", "Ziggs", "Bard", "Nidalee", "TahmKench"]),
-    ]
-    return render_template('comps.html', comps=comps)
+@app.route("/compositions/<challenge>")
+def comps(challenge):
+    by_number = defaultdict(list)
+    comps = compositions[challenge]
+    for comp, chall in comps:
+        by_number[len(chall)].append((comp, chall))
+    return render_template('compositions.html', by_number=by_number, compositions=list(compositions.keys()))
 
 
 @app.route("/challenge_intersection/<challenges_id>")

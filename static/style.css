@@ -28,6 +28,7 @@ body {
     align-content: stretch;
     flex-wrap: wrap;
     align-items: stretch;
+    justify-content: space-evenly;
 }
 
 #champions_selected {
