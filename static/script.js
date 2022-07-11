@@ -4,6 +4,9 @@ let challenge_label = document.querySelectorAll(".challenge_label")
 let challenge_qte = document.querySelectorAll(".challenge_qte")
 let btn_reset = document.querySelector("#btn_reset")
 let btn_copy = document.querySelector("#btn_copy")
+let champion_selecteds = document.querySelectorAll(".champion_selected")
+
+let selected_champs = new Array()
 
 
 function updateAll() {
@@ -29,7 +32,21 @@ function resetChallenge() {
     }
     for (let c of challenge_label) {
         c.style.opacity = "1.0"
+        c.style.color = "white"
     }
+}
+
+function resetSelection() {
+    for (let champion_selected of champion_selecteds) {
+        champion_selected.src = "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
+        champion_selected.removeAttribute("data-champion_name")
+    }
+    selected_champs = []
+}
+
+function reset() {
+    resetChallenge()
+    resetSelection()
 }
 
 function challengeChanged(e) {
@@ -72,9 +89,9 @@ function challengeChanged(e) {
 
 function copyChallenges() {
     let champions = []
-    for (let cbc of champion_cb) {
-        if (cbc.checked) {
-            champions.push(cbc.dataset.champion_name)
+    for (let champion_selected of champion_selecteds) {
+        if ("champion_name" in champion_selected.dataset) {
+            champions.push(champion_selected.dataset.champion_name)
         }
     }
     let s = champions.join(", ")
@@ -92,20 +109,8 @@ for (let cbc of champion_cb) {
     })
 }
 
-btn_reset.addEventListener("click", resetChallenge)
-updateAll()
-
-for (let cbc of challenge_cb) {
-    cbc.addEventListener('change', challengeChanged)
-}
-
-
-btn_copy.addEventListener("click", copyChallenges)
-
-
 /* drag and drop logic */
 
-let selected_champs = new Array()
 
 function allowDrop(ev) {
     ev.preventDefault()
@@ -133,29 +138,34 @@ function drop(ev) {
     fetch_challenges()
 }
 
-
 function fetch_challenges() {
     let champs = Array.from(selected_champs).join(",")
-    console.log(champs)
 
     fetch("/champions_selected/" + champs)
-    .then((response) => {
-        return response.json()
-    })
-    .then((json) => {
-        let array = Array.from(json.values())
-        console.log(array)
-        let i = 0
-        for (const c of challenge_label) {
-            if (array.includes(i))
-                c.style.color = "yellow"
-            else
-                c.style.color = "white"
-            i++
-        }
-    })
+        .then((response) => {
+            return response.json()
+        })
+        .then((json) => {
+            let array = Array.from(json.values())
+            let i = 0
+            for (const c of challenge_label) {
+                if (array.includes(i))
+                    c.style.color = "yellow"
+                else
+                    c.style.color = "white"
+                i++
+            }
+        })
 
 }
 
 
+btn_reset.addEventListener("click", reset)
+reset()
+updateAll()
 
+for (let cbc of challenge_cb) {
+    cbc.addEventListener('change', challengeChanged)
+}
+
+btn_copy.addEventListener("click", copyChallenges)
