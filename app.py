@@ -29,9 +29,13 @@ def main():
 def comps(challenge):
     by_number = defaultdict(list)
     comps = compositions[challenge]
+    champions_available = set()
     for comp, chall in comps:
         by_number[len(chall)].append((comp, chall))
-    return render_template('compositions.html', by_number=by_number, compositions=list(compositions.keys()))
+        champions_available |= set(comp)
+    champions_ = {c: d for c, d in champions.items()
+                  if c in champions_available}
+    return render_template('compositions.html', by_number=by_number, compositions=list(compositions.keys()), champions=champions_)
 
 
 @app.route("/challenge_intersection/<challenges_id>")

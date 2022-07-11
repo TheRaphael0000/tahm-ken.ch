@@ -1,9 +1,10 @@
 body {
-    font-size: 1em;
+    padding: 0px 15px;
+    font-size: 0.95em !important;
 }
 
 .champion_img {
-    width: 77px;
+    width: 74px;
     height: auto;
     margin: 2px;
 }
@@ -34,7 +35,8 @@ body {
 #champions_selected {
     position: fixed;
     bottom: 25px;
-    left: calc(50% - 600px * 0.5 + 405px * 0.5);
+    /* (100% - left menu - this menu) * 0.5 */
+    right: calc((100% - 390px - 600px) * 0.5);
     width: 600px;
     padding: 6px;
     border-bottom: 2px solid rgba(255, 255, 255, .2);

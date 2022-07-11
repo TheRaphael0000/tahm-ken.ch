@@ -1,5 +1,5 @@
 {% extends "layout.html" %}
-    {% block main %}
+{% block main %}
     <style>
     .compositions {
         display: flex;
@@ -19,22 +19,84 @@
         display: block;
     }
     </style>
+    <div class="text-center">
+        Filters :
+        {% for i in [0, 1, 2, 3, 4] %}
+            <select class="filter_select" class="form-select">
+                <option>
+                </option>
+                {% for champion_id, champion in champions.items() %}
+                    <option name="{{ champion_id }}">
+                        {{ champion["name"] }}
+                    </option>
+                {% endfor %}
+            </select>
+        {% endfor %}
+        <button id="reset" class="btn btn-light">Reset</button>
+    </div>
     {% for number, comps in by_number.items() %}
-        <h1>{{number}} challenges</h1>
+        <h1>{{ number }} challenges</h1>
         <div class="compositions">
             {% for champions, challenges in comps %}
                 <div class="composition">
                     {% for champion in champions %}
                         <img src="/static/datadragon_cache/champions_img/{{ champion }}.png"
-                            alt="{{ champion }}" class="img-responsive" width="65px">
+                             alt="{{ champion }}"
+                             data-champion="{{ champion }}"
+                             class="img-responsive"
+                             width="65px">
                     {% endfor %}
                     <ul id="challenges_{{ i }}" class="challenges">
-                    {% for challenge in challenges %}
-                        <li>{{ challenge }}</li>
-                    {% endfor %}
+                        {% for challenge in challenges %}<li>{{ challenge }}</li>{% endfor %}
                     </ul>
                 </div>
             {% endfor %}
         </div>
     {% endfor %}
-    {% endblock %}
+    <script>
+        let selects = document.querySelectorAll(".filter_select")
+        let reset = document.querySelector("#reset")
+        let compositions = document.querySelectorAll(".composition")
+
+        function filterChanged() {
+            let champions = []
+            for(let select of selects) {
+                let champion = select.selectedOptions[0].getAttribute("name")
+                if(champion != null)
+                    champions.push(champion)
+            }
+
+            for(let composition of compositions) {
+                let imgs = composition.getElementsByTagName("img")
+                let comp_champs = []
+                for(let img of imgs) { 
+                    comp_champs.push(img.dataset.champion)
+                }
+
+                let intersection = champions.filter(value => comp_champs.includes(value));
+
+                if(intersection.length >= champions.length)
+                    composition.style.display = "block";
+                else
+                    composition.style.display = "none";
+            }
+        }
+
+        function resetFilters() {
+            for(let select of selects) {
+                select.selectedIndex = 0;
+                let evt = document.createEvent("HTMLEvents");
+                evt.initEvent("change", false, true);
+                select.dispatchEvent(evt);
+            }
+        }
+
+        for(let select of selects) {
+            select.addEventListener("change", filterChanged)
+        }
+        
+        reset.addEventListener("click", resetFilters)
+
+
+    </script>
+{% endblock %}
