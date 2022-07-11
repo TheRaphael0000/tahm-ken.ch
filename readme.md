@@ -13,10 +13,10 @@ still wip, you can pr if you want.
 - [x] copy the selected champion into the clipboard
 - [x] update the ui according to the champion selections
 - [x] add a page to good composition found for each challenges that require 5 specifics champions
+- [x] add a filter for specifics champions in optimized compositions
 - [ ] show challenges for each champions when hovering them 
 - [ ] implement a way to handle Variety's Overrated
 - [ ] use genetic algorithms to find the best compositions to try to avoid having always the same champs in the best compositions
-- [ ] add a filter for specifics champions in optimized compositions
 
 
 ## install
