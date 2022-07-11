@@ -1,6 +1,6 @@
 # challenges intersection league
 
-trying to create a gui help optimize in the league of legends new teamwork challenges by finding compositions that contain the most challenges.
+trying to create a gui which help to optimize the new teamwork challenges in league of legends by finding compositions that contain the most challenges.
 
 still wip, you can pr if you want.
 
