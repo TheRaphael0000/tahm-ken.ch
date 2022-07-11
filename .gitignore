@@ -1,4 +1,6 @@
 compositions*.json
+datadragon_cache/
+.vscode/
 
 
 # Byte-compiled / optimized / DLL files

@@ -40,8 +40,8 @@
       <input id="champion_{{ champion }}" class="champion_cb" type="checkbox" data-id="{{ i }}"
         data-champion_name="{{champion}}" disabled>
       <label id="champion_label_{{ champion }}" class="label_champion" for="champion_{{ champion }}">
-        <img src="https://ddragon.leagueoflegends.com/cdn/12.12.1/img/champion/{{ champion }}.png" alt="{{ champion }}"
-          class="img-responsive champion_img" draggable="true" ondragstart="drag(event)"
+        <img src="/static/datadragon_cache/champions_img/{{ champion }}.png" alt="{{ champion }}"
+          class="img-responsive champion_img ease_load" draggable="true" ondragstart="drag(event)"
           data-champion_name="{{ champion }}">
       </label>
       {% endfor %}

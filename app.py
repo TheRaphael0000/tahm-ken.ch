@@ -7,23 +7,22 @@ from collections import defaultdict
 app = Flask(__name__, static_url_path='/static')
 
 challenges = json.load(open("challenges.json", "r"))
-
-champions = set()
 for c in challenges:
-    champions |= set(c["champions"])
     c["champions_l"] = len(c["champions"])
-
-champions = list(champions)
-champions.sort()
 challenges.sort(key=lambda l: -l["champions_l"])
 challenges.sort(key=lambda l: l["qte"])
 
-compositions = json.load(open("compositions", "r"))
+
+champions = json.load(
+    open("static/datadragon_cache/champion.json", "rb"))["data"]
+champions_keys = sorted(champions, key=lambda c: champions[c]["name"])
+
+compositions = json.load(open("compositions.json", "r"))
 
 
 @app.route("/")
 def main():
-    return render_template('main.html', champions=enumerate(champions), challenges=enumerate(challenges), compositions=list(compositions.keys()))
+    return render_template('main.html', champions=enumerate(champions_keys), challenges=enumerate(challenges), compositions=list(compositions.keys()))
 
 
 @app.route("/compositions/<challenge>")
@@ -60,11 +59,8 @@ def champions_selected(champions):
 
     valid_challenges = []
 
-    print(champions)
-
     for i, c in enumerate(challenges):
         set_champions = set(c["champions"])
-        print(c["challenge_name"], c["qte"], set_champions)
         if len(set_champions.intersection(champions)) >= int(c["qte"]):
             valid_challenges.append(i)
 
