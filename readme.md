@@ -4,6 +4,8 @@ trying to create a gui which help to optimize the new teamwork challenges in lea
 
 still wip, you can pr if you want.
 
+or use it on https://challsection.theraphael0000.ch/
+
 ## todo
 - [x] collect the data
 - [x] parse the data
