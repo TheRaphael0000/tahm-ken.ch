@@ -1,4 +1,6 @@
+
 {% extends "layout.html" %}
+{% block title %}Composition - {{challenge_name}}{% endblock %}
 {% block main %}
     <style>
     .compositions {
@@ -19,7 +21,9 @@
         display: block;
     }
     </style>
+
     <div class="text-center">
+        {{challenge_name}}
         Filters :
         {% for i in [0, 1, 2, 3, 4] %}
             <select class="filter_select" class="form-select">

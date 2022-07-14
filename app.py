@@ -2,11 +2,12 @@ from flask import Flask
 from flask import render_template
 import json
 from collections import defaultdict
+import random
 
 
 app = Flask(__name__, static_url_path='/static')
 
-challenges = json.load(open("challenges.json", "r"))
+challenges = json.load(open("static/challenges.json", "r"))
 for c in challenges:
     c["champions_l"] = len(c["champions"])
 challenges.sort(key=lambda l: -l["champions_l"])
@@ -17,7 +18,7 @@ champions = json.load(
     open("static/datadragon_cache/champion.json", "rb"))["data"]
 champions_keys = sorted(champions, key=lambda c: champions[c]["name"])
 
-compositions = json.load(open("compositions.json", "r"))
+compositions = json.load(open("static/compositions.json", "r"))
 
 
 @app.route("/")
@@ -29,13 +30,20 @@ def main():
 def comps(challenge):
     by_number = defaultdict(list)
     comps = compositions[challenge]
+    # limit large challenges
+    limit = 8000
+    if len(comps) > limit:
+        random.shuffle(comps)
+        comps = comps[0:limit]
+        comps = [(sorted(comp), comp_challenge) for comp, comp_challenge in comps]
+        comps.sort()
     champions_available = set()
     for comp, chall in comps:
         by_number[len(chall)].append((comp, chall))
         champions_available |= set(comp)
     champions_ = {c: d for c, d in champions.items()
                   if c in champions_available}
-    return render_template('compositions.html', by_number=by_number, compositions=list(compositions.keys()), champions=champions_)
+    return render_template('compositions.html', by_number=by_number, challenge_name=challenge, compositions=list(compositions.keys()), champions=champions_)
 
 
 @app.route("/challenge_intersection/<challenges_id>")
