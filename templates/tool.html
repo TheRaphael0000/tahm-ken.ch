@@ -2,8 +2,11 @@
 
   {% block title %}Tool{% endblock %}
 
-  {% block main %}
+  {% block head %}
+  <link rel="stylesheet" href="/static/css/tool.css">
+  {% endblock %}
 
+  {% block main %}
   <div class="d-flex flex-nowrap">
     <div class="d-flex flex-column flex-shrink-0">
       <table class="table table-dark table-sm">
@@ -57,6 +60,6 @@
   </div>
 
 
-  <script src="/static/script.js"></script>
+  <script src="/static/js/tool.js"></script>
 
   {% endblock %}

@@ -23,7 +23,7 @@ compositions = json.load(open("static/compositions.json", "r"))
 
 @app.route("/")
 def main():
-    return render_template('main.html', champions=enumerate(champions_keys), challenges=enumerate(challenges), compositions=list(compositions.keys()))
+    return render_template('tool.html', champions=enumerate(champions_keys), challenges=enumerate(challenges), compositions=list(compositions.keys()))
 
 
 @app.route("/compositions/<challenge>")

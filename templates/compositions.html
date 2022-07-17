@@ -1,30 +1,16 @@
 
 {% extends "layout.html" %}
 {% block title %}Composition - {{challenge_name}}{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="/static/css/compositions.css">
+{% endblock %}
+
 {% block main %}
-    <style>
-    .compositions {
-        display: flex;
-        flex-wrap: wrap;
-        width: 100%;
-        height: 100%;
-        justify-content: space-evenly;
-        align-content: center;
-    
-    }
-    
-    .challenges {
-        display: none;
-    }
-    
-    .composition:hover .challenges {
-        display: block;
-    }
-    </style>
+    <h1>{{ challenge_name }}</h1>
 
     <div class="text-center">
-        {{challenge_name}}
-        Filters :
+        Filters
         {% for i in [0, 1, 2, 3, 4] %}
             <select class="filter_select" class="form-select">
                 <option>
@@ -38,8 +24,9 @@
         {% endfor %}
         <button id="reset" class="btn btn-light">Reset</button>
     </div>
+
     {% for number, comps in by_number.items() %}
-        <h1>{{ number }} challenges</h1>
+        <h2>{{ number }} challenges</h2>
         <div class="compositions">
             {% for champions, challenges in comps %}
                 <div class="composition">
@@ -57,50 +44,7 @@
             {% endfor %}
         </div>
     {% endfor %}
-    <script>
-        let selects = document.querySelectorAll(".filter_select")
-        let reset = document.querySelector("#reset")
-        let compositions = document.querySelectorAll(".composition")
 
-        function filterChanged() {
-            let champions = []
-            for(let select of selects) {
-                let champion = select.selectedOptions[0].getAttribute("name")
-                if(champion != null)
-                    champions.push(champion)
-            }
-
-            for(let composition of compositions) {
-                let imgs = composition.getElementsByTagName("img")
-                let comp_champs = []
-                for(let img of imgs) { 
-                    comp_champs.push(img.dataset.champion)
-                }
-
-                let intersection = champions.filter(value => comp_champs.includes(value));
-
-                if(intersection.length >= champions.length)
-                    composition.style.display = "block";
-                else
-                    composition.style.display = "none";
-            }
-        }
-
-        function resetFilters() {
-            for(let select of selects) {
-                select.selectedIndex = 0;
-                let evt = document.createEvent("HTMLEvents");
-                evt.initEvent("change", false, true);
-                select.dispatchEvent(evt);
-            }
-        }
-
-        for(let select of selects) {
-            select.addEventListener("change", filterChanged)
-        }
-        
-        reset.addEventListener("click", resetFilters)
-
-
-    </script>
+    
+    <script src="/static/js/compositions.js"></script>
 {% endblock %}
