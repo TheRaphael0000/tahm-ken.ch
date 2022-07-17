@@ -35,7 +35,8 @@ def comps(challenge):
     if len(comps) > limit:
         random.shuffle(comps)
         comps = comps[0:limit]
-        comps = [(sorted(comp), comp_challenge) for comp, comp_challenge in comps]
+        comps = [(sorted(comp), comp_challenge)
+                 for comp, comp_challenge in comps]
         comps.sort()
     champions_available = set()
     for comp, chall in comps:

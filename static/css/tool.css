@@ -1,16 +1,8 @@
 .champion_img {
-    width: 74px;
+    width: 79px;
     height: auto;
     margin: 2px;
-}
-
-.champion_cb {
-    display: none;
-}
-
-.label_champion {
-    opacity: 0.2;
-    transition: 0.3s;
+    transition: opacity 0.3s;
 }
 
 .challenge_label {
@@ -25,6 +17,7 @@
     flex-wrap: wrap;
     align-items: stretch;
     justify-content: space-evenly;
+    user-select: none;
 }
 
 #champions_selected {

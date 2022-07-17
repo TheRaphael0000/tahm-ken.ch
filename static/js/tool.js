@@ -1,29 +1,45 @@
-let champion_cb = document.querySelectorAll(".champion_cb")
+let champion_img = document.querySelectorAll(".champion_img")
 let challenge_cb = document.querySelectorAll(".challenge_cb")
 let challenge_label = document.querySelectorAll(".challenge_label")
 let challenge_qte = document.querySelectorAll(".challenge_qte")
 let btn_reset = document.querySelector("#btn_reset")
 let btn_copy = document.querySelector("#btn_copy")
-let champion_selecteds = document.querySelectorAll(".champion_selected")
-
-let selected_champs = new Array()
 
 
-function updateAll() {
-    for (let cbc of champion_cb) {
-        cbc.dispatchEvent(new Event('change'))
+function updateChampionsStyle() {
+    for (let img of champion_img) {
+        if (img.dataset.checked == "1") {
+            img.style.opacity = "1.0"
+        }
+        else {
+            img.style.opacity = "0.2"
+        }
+
+        if (img.dataset.selected == "1") {
+            img.style.border = "3px solid yellow"
+        }
+        else {
+            img.style.border = "none"
+        }
     }
 }
 
-function setAllChampion(value) {
-    for (let cbc of champion_cb) {
-        cbc.checked = value
+function setChampionsChecked(value) {
+    for (let img of champion_img) {
+        img.dataset.checked = value
     }
-    updateAll()
+    updateChampionsStyle()
+}
+
+function setChampionsSelected(value) {
+    for (let img of champion_img) {
+        img.dataset.selected = value
+    }
+    updateChampionsStyle()
 }
 
 function resetChallenge() {
-    setAllChampion(false)
+    setChampionsChecked("0")
     for (let c of challenge_cb) {
         c.checked = false
     }
@@ -32,16 +48,14 @@ function resetChallenge() {
     }
     for (let c of challenge_label) {
         c.style.opacity = "1.0"
-        c.style.color = "white"
     }
 }
 
 function resetSelection() {
-    for (let champion_selected of champion_selecteds) {
-        champion_selected.src = "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
-        champion_selected.removeAttribute("data-champion_name")
+    for (let c of challenge_label) {
+        c.style.color = "white"
     }
-    selected_champs = []
+    setChampionsSelected("0")
 }
 
 function reset() {
@@ -66,12 +80,12 @@ function challengeChanged(e) {
             return response.json()
         })
         .then((json) => {
-            setAllChampion(false)
+            setChampionsChecked("0")
             if (json.intersection.length <= 0)
                 return
             for (let c of json.intersection) {
-                let el = document.getElementById("champion_" + c)
-                el.checked = true
+                let img = document.getElementById("champion_" + c)
+                img.dataset.checked = "1"
             }
             for (const [challenge, qte] of json.challenges_additional_intersection) {
                 let challenge_cb = document.querySelector("#challenge_cb_" + challenge)
@@ -83,65 +97,64 @@ function challengeChanged(e) {
                 else
                     challenge_label.style.opacity = "1.0"
             }
-            updateAll()
+            updateChampionsStyle()
         })
 }
 
 function copyChallenges() {
-    let champions = []
-    for (let champion_selected of champion_selecteds) {
-        if ("champion_name" in champion_selected.dataset) {
-            champions.push(champion_selected.dataset.champion_name)
+    let selectedChampionName = getSelectedChampionsName()
+    navigator.clipboard.writeText(selectedChampionName.join(", "))
+}
+
+function getSelectedChampions() {
+    let selectedChampions = [];
+    for (let img of champion_img) {
+        if (img.dataset.selected == "1") {
+            selectedChampions.push(img)
         }
     }
-    let s = champions.join(", ")
-    navigator.clipboard.writeText(s)
+    return selectedChampions
 }
 
-for (let cbc of champion_cb) {
-    cbc.addEventListener('change', function (e) {
-        let label = e.target.nextSibling.nextSibling
-        if (e.target.checked) {
-            label.style.opacity = "1"
-        } else {
-            label.style.opacity = "0.2"
-        }
-    })
+function getSelectedChampionsName() {
+    let selectedChampions = getSelectedChampions()
+    let selectedChampionName = []
+    for (let s of selectedChampions)
+        selectedChampionName.push(s.dataset.champion_name)
+    return selectedChampionName
 }
 
-/* drag and drop logic */
+function selectChampion(e) {
+    selectedChampions = getSelectedChampions()
 
+    if (e.target.dataset.selected == "1") {
+        e.target.dataset.selected = "0"
+        updateChampionsSelection()
+        updateChampionsStyle()
+        return
+    }
 
-function allowDrop(ev) {
-    ev.preventDefault()
+    if (selectedChampions.length < 5)
+        e.target.dataset.selected = "1"
+
+    updateChampionsSelection()
+    updateChampionsStyle()
 }
 
-function drag(ev) {
-    ev.dataTransfer.setData("src", ev.target.src)
-    ev.dataTransfer.setData("name", ev.target.dataset.champion_name)
+function updateChampionsSelection() {
+    selectedChampionName = getSelectedChampionsName()
+    fetch_challenges(selectedChampionName)
 }
 
-function drop(ev) {
-    ev.preventDefault()
-    let src = ev.dataTransfer.getData("src")
-    let champion_name = ev.dataTransfer.getData("name")
-    if (!src || !champion_name)
+
+function fetch_challenges(selectedChampionName) {
+    console.log(selectedChampionName)
+    if (selectedChampionName.length <= 0)
         return
 
-    let index = selected_champs.indexOf(ev.target.dataset.champion_name);
-    if (index !== -1) {
-        selected_champs.splice(index, 1);
-    }
-    ev.target.src = src
-    ev.target.dataset.champion_name = champion_name
-    selected_champs.push(champion_name)
-    fetch_challenges()
-}
+    let champions = selectedChampionName.join(",")
 
-function fetch_challenges() {
-    let champs = Array.from(selected_champs).join(",")
-
-    fetch("/champions_selected/" + champs)
+    fetch("/champions_selected/" + champions)
         .then((response) => {
             return response.json()
         })
@@ -156,16 +169,27 @@ function fetch_challenges() {
                 i++
             }
         })
-
 }
 
 
 btn_reset.addEventListener("click", reset)
 reset()
-updateAll()
 
 for (let cbc of challenge_cb) {
     cbc.addEventListener('change', challengeChanged)
 }
 
 btn_copy.addEventListener("click", copyChallenges)
+
+for (let c of champion_img) {
+    c.addEventListener("click", function (e) {
+        selectChampion(e)
+    })
+
+    c.addEventListener("mouseenter", function (e) {
+        e.target.style.border = "3px solid yellow"
+    })
+    c.addEventListener("mouseleave", function (e) {
+        updateChampionsStyle()
+    })
+}

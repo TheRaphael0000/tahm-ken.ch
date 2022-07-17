@@ -1,14 +1,8 @@
-
 {% extends "layout.html" %}
-{% block title %}Composition - {{challenge_name}}{% endblock %}
-
-{% block head %}
-<link rel="stylesheet" href="/static/css/compositions.css">
-{% endblock %}
-
+{% block title %}Composition - {{ challenge_name }}{% endblock %}
+{% block head %}<link rel="stylesheet" href="/static/css/compositions.css">{% endblock %}
 {% block main %}
     <h1>{{ challenge_name }}</h1>
-
     <div class="text-center">
         Filters
         {% for i in [0, 1, 2, 3, 4] %}
@@ -24,7 +18,6 @@
         {% endfor %}
         <button id="reset" class="btn btn-light">Reset</button>
     </div>
-
     {% for number, comps in by_number.items() %}
         <h2>{{ number }} challenges</h2>
         <div class="compositions">
@@ -44,7 +37,5 @@
             {% endfor %}
         </div>
     {% endfor %}
-
-    
     <script src="/static/js/compositions.js"></script>
 {% endblock %}
