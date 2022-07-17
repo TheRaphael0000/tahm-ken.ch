@@ -126,9 +126,12 @@ function getSelectedChampionsName() {
     return selectedChampionName
 }
 
-function selectChampion(e) {
+function canSelectChampion() {
     selectedChampions = getSelectedChampions()
+    return selectedChampions.length < 5
+}
 
+function selectChampion(e) {
     if (e.target.dataset.selected == "1") {
         e.target.dataset.selected = "0"
         updateChampionsSelection()
@@ -136,7 +139,7 @@ function selectChampion(e) {
         return
     }
 
-    if (selectedChampions.length < 5)
+    if (canSelectChampion())
         e.target.dataset.selected = "1"
 
     updateChampionsSelection()
@@ -189,8 +192,11 @@ for (let c of champion_img) {
     })
 
     c.addEventListener("mouseenter", function (e) {
-        e.target.style.padding = "0px"
-        e.target.style.border = "3px solid yellow"
+        if (canSelectChampion()) {
+            e.target.style.padding = "0px"
+            e.target.style.border = "3px solid yellow"
+            // e.target.style.opacity = "1.0"
+        }
     })
     c.addEventListener("mouseleave", function (e) {
         updateChampionsStyle()

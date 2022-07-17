@@ -1,11 +1,11 @@
 .champion_img {
     width: 85px;
     height: auto;
-    transition: opacity 0.3s;
+    transition: opacity 0.2s;
 }
 
 .challenge_label {
-    transition: 0.3s;
+    transition: 0.2s;
 }
 
 #champions_pool {
