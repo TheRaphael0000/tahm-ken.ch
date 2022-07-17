@@ -17,8 +17,10 @@ function updateChampionsStyle() {
 
         if (img.dataset.selected == "1") {
             img.style.border = "3px solid yellow"
+            img.style.padding = "0px"
         }
         else {
+            img.style.padding = "3px"
             img.style.border = "none"
         }
     }
@@ -187,6 +189,7 @@ for (let c of champion_img) {
     })
 
     c.addEventListener("mouseenter", function (e) {
+        e.target.style.padding = "0px"
         e.target.style.border = "3px solid yellow"
     })
     c.addEventListener("mouseleave", function (e) {

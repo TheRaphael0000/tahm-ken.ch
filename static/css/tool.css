@@ -1,7 +1,6 @@
 .champion_img {
-    width: 79px;
+    width: 85px;
     height: auto;
-    margin: 2px;
     transition: opacity 0.3s;
 }
 
