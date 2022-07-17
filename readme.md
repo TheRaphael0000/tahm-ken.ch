@@ -19,6 +19,8 @@ or use it on https://challsection.theraphael0000.ch/
 - [ ] show challenges for each champions when hovering them 
 - [ ] find a way to implement Variety's Overrated
 - [ ] use genetic algorithms to find the best compositions to try to avoid having always the same champs in the best compositions
+- [ ] fetch from Riot API current challenges
+- [ ] User eXperience (help needed)
 
 
 ## install
