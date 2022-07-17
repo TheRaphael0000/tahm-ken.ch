@@ -20,8 +20,8 @@ or use it on https://challsection.theraphael0000.ch/
 - [ ] find a way to implement Variety's Overrated
 - [ ] use genetic algorithms to find the best compositions to try to avoid having always the same champs in the best compositions
 - [ ] fetch from Riot API current challenges
+- [ ] search for champions when typing letters
 - [ ] User eXperience (help needed)
-
 
 ## install
 you need python
