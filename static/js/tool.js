@@ -1,6 +1,6 @@
 let champion_img = document.querySelectorAll(".champion_img")
 let challenge_cb = document.querySelectorAll(".challenge_cb")
-let challenge_label = document.querySelectorAll(".challenge_label")
+let challenge_tr = document.querySelectorAll(".challenge_tr")
 let challenge_qte = document.querySelectorAll(".challenge_qte")
 let btn_reset = document.querySelector("#btn_reset")
 let btn_copy = document.querySelector("#btn_copy")
@@ -48,13 +48,13 @@ function resetChallenge() {
     for (let c of challenge_qte) {
         c.innerHTML = c.dataset.maxqte
     }
-    for (let c of challenge_label) {
+    for (let c of challenge_tr) {
         c.style.opacity = "1.0"
     }
 }
 
 function resetSelection() {
-    for (let c of challenge_label) {
+    for (let c of challenge_tr) {
         c.style.color = "white"
     }
     setChampionsSelected("0")
@@ -92,12 +92,12 @@ function challengeChanged(e) {
             for (const [challenge, qte] of json.challenges_additional_intersection) {
                 let challenge_cb = document.querySelector("#challenge_cb_" + challenge)
                 let challenge_qte = document.querySelector("#challenge_qte_" + challenge)
-                let challenge_label = document.querySelector("#challenge_label_" + challenge)
+                let challenge_tr = document.querySelector("#challenge_tr_" + challenge)
                 challenge_qte.innerHTML = qte
                 if (qte < challenge_cb.dataset.qte)
-                    challenge_label.style.opacity = "0.3"
+                    challenge_tr.style.opacity = "0.3"
                 else
-                    challenge_label.style.opacity = "1.0"
+                    challenge_tr.style.opacity = "1.0"
             }
             updateChampionsStyle()
         })
@@ -153,25 +153,28 @@ function updateChampionsSelection() {
 
 
 function fetch_challenges(selectedChampionName) {
-    console.log(selectedChampionName)
-    if (selectedChampionName.length <= 0)
-        return
+    let champions = "null"
 
-    let champions = selectedChampionName.join(",")
+    if (selectedChampionName.length > 0)
+        champions = selectedChampionName.join(",")
 
     fetch("/champions_selected/" + champions)
         .then((response) => {
             return response.json()
         })
         .then((json) => {
-            let array = Array.from(json.values())
-            let i = 0
-            for (const c of challenge_label) {
-                if (array.includes(i))
-                    c.style.color = "yellow"
+            for (const challenge in json) {
+                let qte = json[challenge]
+                let challenge_tr = document.querySelector("#challenge_tr_" + challenge)
+                let challenge_qte = document.querySelector("#challenge_current_selection_" + challenge)
+                let challenge_requirement = parseInt(document.querySelector("#challenge_requirement_" + challenge).innerHTML)
+
+                challenge_qte.innerHTML = qte
+
+                if (qte >= challenge_requirement)
+                    challenge_tr.style.color = "yellow"
                 else
-                    c.style.color = "white"
-                i++
+                    challenge_tr.style.color = "white"
             }
         })
 }

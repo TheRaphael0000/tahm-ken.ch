@@ -6,13 +6,20 @@
     <div class="d-flex flex-column flex-shrink-0">
       <table class="table table-dark table-sm">
         {% for i, challenge in challenges %}
-          <tr>
+          <tr id="challenge_tr_{{i}}" class="challenge_tr">
             <td>
               <input id="challenge_cb_{{i}}"
                      class="challenge_cb"
                      type="checkbox"
                      data-id="{{i}}"
                      data-qte="{{ challenge['qte'] }}">
+            </td>
+            <td class="text-end" width="27px">
+              <span id="challenge_qte_{{ i }}"
+                    class="challenge_qte"
+                    data-maxqte="{{ challenge['champions_l'] }}">
+                {{ challenge['champions_l'] }}
+              </span>
             </td>
             <td>
               <label id="challenge_label_{{i}}"
@@ -24,13 +31,9 @@
             <td>
               {% if 'region' in challenge %}{{ challenge['region'] }}{% endif %}
             </td>
-            <td class="text-end" width="60px">
+            <td class="text-end">
               <!-- fixed width to avoid column resized on change -->
-              <span id="challenge_qte_{{ i }}"
-                    class="challenge_qte"
-                    data-maxqte="{{ challenge['champions_l'] }}">
-                {{ challenge['champions_l'] }}
-              </span> / {{ challenge['qte'] }}
+              <span id="challenge_current_selection_{{i}}">0</span> / <span id="challenge_requirement_{{ i }}">{{ challenge['qte'] }}</span>
             </td>
           </tr>
         {% endfor %}

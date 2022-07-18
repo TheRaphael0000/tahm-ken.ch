@@ -67,15 +67,15 @@ def challenge_intersection(challenges_id):
 
 
 @app.route("/champions_selected/<champions>")
-def champions_selected(champions):
+def champions_selected(champions=""):
     champions = set(champions.split(","))
 
-    valid_challenges = []
+    valid_challenges = {}
 
     for i, c in enumerate(challenges):
         set_champions = set(c["champions"])
-        if len(set_champions.intersection(champions)) >= int(c["qte"]):
-            valid_challenges.append(i)
+        current_selection = len(set_champions.intersection(champions))
+        valid_challenges[i] = current_selection
 
     return json.dumps(valid_challenges)
 
