@@ -12,7 +12,7 @@ function updateChampionsStyle() {
             img.style.opacity = "1.0"
         }
         else {
-            img.style.opacity = "0.2"
+            img.style.opacity = "0.3"
         }
 
         if (img.dataset.selected == "1") {
@@ -95,7 +95,7 @@ function challengeChanged(e) {
                 let challenge_label = document.querySelector("#challenge_label_" + challenge)
                 challenge_qte.innerHTML = qte
                 if (qte < challenge_cb.dataset.qte)
-                    challenge_label.style.opacity = "0.2"
+                    challenge_label.style.opacity = "0.3"
                 else
                     challenge_label.style.opacity = "1.0"
             }
