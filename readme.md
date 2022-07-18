@@ -16,8 +16,9 @@ or use it on https://challsection.theraphael0000.ch/
 - [x] update the ui according to the champion selections
 - [x] add a page to good composition found for each challenges that require 5 specifics champions
 - [x] add a filter for specifics champions in optimized compositions
-- [ ] show challenges for each champions when hovering them 
-- [ ] find a way to implement Variety's Overrated
+- [x] show challenges for each champions when selecting them 
+- [x] find a way to implement Variety's Overrated
+- [ ] show challenges for each champions when hovering them them 
 - [ ] use genetic algorithms to find the best compositions to try to avoid having always the same champs in the best compositions
 - [ ] fetch from Riot API current challenges
 - [ ] search for champions when typing letters
