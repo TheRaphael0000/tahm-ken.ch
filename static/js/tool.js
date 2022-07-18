@@ -58,6 +58,7 @@ function resetSelection() {
         c.style.color = "white"
     }
     setChampionsSelected("0")
+    updateChampionsSelection()
 }
 
 function reset() {
