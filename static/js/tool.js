@@ -10,10 +10,10 @@ let btn_copy = document.querySelector("#btn_copy")
 function updateChampionsStyle() {
     for (let img of champion_img) {
         if (img.dataset.checked == "1") {
-            img.classList.add("selected");
+            img.classList.add("checked");
         }
         else {
-            img.classList.remove("selected");
+            img.classList.remove("checked");
         }
 
         if (img.dataset.selected == "1") {
