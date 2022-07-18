@@ -1,5 +1,5 @@
 .champion_img {
-    width: 85px;
+    width: 83px;
     height: auto;
     transition: opacity 0.2s;
 }
@@ -8,8 +8,12 @@
     transition: 0.2s;
 }
 
+.custom-table tr td {
+    padding: 1px 5px;
+}
+
 #champions_pool {
-    margin: 5px;
+    margin: 0px 10px;
     display: flex;
     height: 100%;
     align-content: stretch;

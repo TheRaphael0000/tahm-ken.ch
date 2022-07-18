@@ -3,8 +3,8 @@
 {% block head %}<link rel="stylesheet" href="/static/css/tool.css">{% endblock %}
 {% block main %}
   <div class="d-flex flex-nowrap">
-    <div class="d-flex flex-column flex-shrink-0">
-      <table class="table table-dark table-sm">
+    <div id="left_col" class="d-flex flex-column flex-shrink-0">
+      <table class="custom-table mb-1">
         {% for i, challenge in challenges %}
           <tr id="challenge_tr_{{i}}" class="challenge_tr">
             <td>
@@ -29,7 +29,7 @@
               </label>
             </td>
             <td>
-              {% if 'region' in challenge %}{{ challenge['region'] }}{% endif %}
+              {% if 'label' in challenge %}{{ challenge['label'] }}{% endif %}
             </td>
             <td class="text-end">
               <!-- fixed width to avoid column resized on change -->
@@ -38,8 +38,8 @@
           </tr>
         {% endfor %}
       </table>
-      <button id="btn_reset" type="button" class="btn btn-light mx-3 my-1">Reset</button>
-      <button id="btn_copy" type="button" class="btn btn-light mx-3 my-1">Copy to clipboard</button>
+      <button id="btn_reset" type="button" class="btn btn-light my-1">Reset</button>
+      <button id="btn_copy" type="button" class="btn btn-light my-1">Copy to clipboard</button>
     </div>
     <div id="champions_pool">
       {% for i, champion in champions %}
