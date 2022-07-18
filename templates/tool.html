@@ -4,9 +4,9 @@
 {% block main %}
   <div class="d-flex flex-nowrap">
     <div id="left_col" class="d-flex flex-column flex-shrink-0">
-      <table class="custom-table mb-1">
+      <table class="custom_table mb-1">
         {% for i, challenge in challenges %}
-          <tr id="challenge_tr_{{i}}" class="challenge_tr">
+          <tr id="challenge_tr_{{i}}" class="challenge_tr checked">
             <td>
               <input id="challenge_cb_{{i}}"
                      class="challenge_cb"
@@ -14,7 +14,7 @@
                      data-id="{{i}}"
                      data-qte="{{ challenge['qte'] }}">
             </td>
-            <td class="text-end" width="27px">
+            <td class="text-end" width="38px">
               <span id="challenge_qte_{{ i }}"
                     class="challenge_qte"
                     data-maxqte="{{ challenge['champions_l'] }}">
@@ -38,8 +38,11 @@
           </tr>
         {% endfor %}
       </table>
-      <button id="btn_reset" type="button" class="btn btn-light my-1">Reset</button>
-      <button id="btn_copy" type="button" class="btn btn-light my-1">Copy to clipboard</button>
+      <div class="btn-group" role="group">
+        <button id="btn_reset_filters" type="button" class="btn btn-light my-1">Reset filters</button>
+        <button id="btn_reset_selection" type="button" class="btn btn-light my-1">Reset selection</button>
+        <button id="btn_copy" type="button" class="btn btn-light my-1">Copy to clipboard</button>
+      </div>
     </div>
     <div id="champions_pool">
       {% for i, champion in champions %}

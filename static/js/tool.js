@@ -2,26 +2,25 @@ let champion_img = document.querySelectorAll(".champion_img")
 let challenge_cb = document.querySelectorAll(".challenge_cb")
 let challenge_tr = document.querySelectorAll(".challenge_tr")
 let challenge_qte = document.querySelectorAll(".challenge_qte")
-let btn_reset = document.querySelector("#btn_reset")
+let btn_reset_filters = document.querySelector("#btn_reset_filters")
+let btn_reset_selection = document.querySelector("#btn_reset_selection")
 let btn_copy = document.querySelector("#btn_copy")
 
 
 function updateChampionsStyle() {
     for (let img of champion_img) {
         if (img.dataset.checked == "1") {
-            img.style.opacity = "1.0"
+            img.classList.add("selected");
         }
         else {
-            img.style.opacity = "0.3"
+            img.classList.remove("selected");
         }
 
         if (img.dataset.selected == "1") {
-            img.style.border = "3px solid yellow"
-            img.style.padding = "0px"
+            img.classList.add("selected");
         }
         else {
-            img.style.padding = "3px"
-            img.style.border = "none"
+            img.classList.remove("selected");
         }
     }
 }
@@ -49,13 +48,13 @@ function resetChallenge() {
         c.innerHTML = c.dataset.maxqte
     }
     for (let c of challenge_tr) {
-        c.style.opacity = "1.0"
+        c.classList.add("checked")
     }
 }
 
 function resetSelection() {
     for (let c of challenge_tr) {
-        c.style.color = "white"
+        c.classList.remove("selected")
     }
     setChampionsSelected("0")
     updateChampionsSelection()
@@ -96,9 +95,9 @@ function challengeChanged(e) {
                 let challenge_tr = document.querySelector("#challenge_tr_" + challenge)
                 challenge_qte.innerHTML = qte
                 if (qte < challenge_cb.dataset.qte)
-                    challenge_tr.style.opacity = "0.3"
+                    challenge_tr.classList.remove("checked")
                 else
-                    challenge_tr.style.opacity = "1.0"
+                    challenge_tr.classList.add("checked")
             }
             updateChampionsStyle()
         })
@@ -173,15 +172,16 @@ function fetch_challenges(selectedChampionName) {
                 challenge_qte.innerHTML = qte
 
                 if (qte >= challenge_requirement)
-                    challenge_tr.style.color = "yellow"
+                    challenge_tr.classList.add("selected")
                 else
-                    challenge_tr.style.color = "white"
+                    challenge_tr.classList.remove("selected")
             }
         })
 }
 
 
-btn_reset.addEventListener("click", reset)
+btn_reset_filters.addEventListener("click", resetChallenge)
+btn_reset_selection.addEventListener("click", resetSelection)
 reset()
 
 for (let cbc of challenge_cb) {
@@ -197,9 +197,7 @@ for (let c of champion_img) {
 
     c.addEventListener("mouseenter", function (e) {
         if (canSelectChampion()) {
-            e.target.style.padding = "0px"
-            e.target.style.border = "3px solid yellow"
-            // e.target.style.opacity = "1.0"
+            e.target.classList.add("selected");
         }
     })
     c.addEventListener("mouseleave", function (e) {
