@@ -2,8 +2,8 @@
 {% block title %}Tool{% endblock %}
 {% block head %}<link rel="stylesheet" href="/static/css/tool.css">{% endblock %}
 {% block main %}
-  <div class="d-flex flex-nowrap">
-    <div id="left_col" class="d-flex flex-column flex-shrink-0">
+  <div id="tool_div" class="d-flex flex-nowrap">
+    <div class="d-flex flex-column flex-shrink-0">
       <table class="custom_table mb-1">
         {% for i, challenge in challenges %}
           <tr id="challenge_tr_{{i}}" class="challenge_tr checked">

@@ -13,7 +13,7 @@ function updateChampionsStyle() {
             img.classList.add("checked");
         }
         else {
-            img.classList.remove("checked");
+            img.classList.remove("checkedpy");
         }
 
         if (img.dataset.selected == "1") {
