@@ -3,37 +3,37 @@ body {
 }
 
 .IRON {
-    background-color: #7e6e6e;
+    background-color: #c5ccd7;
 }
 
 .BRONZE {
-    background-color: #c7a5a1;
+    background-color: #d09888;
 }
 
 .SILVER {
-    background-color: #c0cde6;
+    background-color: #a4b0c1;
 }
 
 .GOLD {
-    background-color: #eec9a7;
+    background-color: #e5bb82;
 }
 
 .PLATINUM {
-    background-color: #97cec5;
+    background-color: #88d6a7;
 }
 
 .DIAMOND {
-    background-color: #adbefa;
+    background-color: #7a9ec7;
 }
 
 .MASTER {
-    background-color: #ebb2f8;
+    background-color: #e753ff;
 }
 
 .GRANDMASTER {
-    background-color: #dc9f9b;
+    background-color: #fa8c85;
 }
 
 .CHALLENGER {
-    background-color: #daf1f2;
+    background-color: #53b1ff;
 }
