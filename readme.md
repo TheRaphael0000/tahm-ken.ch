@@ -18,10 +18,11 @@ or use it on https://challsection.theraphael0000.ch/
 - [x] add a filter for specifics champions in optimized compositions
 - [x] show challenges for each champions when selecting them 
 - [x] find a way to implement Variety's Overrated
+- [x] fetch from Riot API current challenges
 
 ## todo
+- [ ] add a caching system for the API calls
 - [ ] show challenges for each champions when hovering them 
-- [ ] fetch from Riot API current challenges
 - [ ] update table sorting and add visual clue of the current sort
 - [ ] search for champions when typing letters
 - [ ] use genetic algorithms to find the best compositions to try to avoid having always the same champs in the best compositions
