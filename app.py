@@ -48,8 +48,9 @@ def main():
     return redirect("/tool")
 
 
-@app.route("/tool")
-@app.route("/tool/<region>/<summoner>/")
+@app.route("/tool/")
+@app.route("/tool/<region>")
+@app.route("/tool/<region>/<summoner>")
 def tool(region="EUW1", summoner=""):
     args = {
         "champions": enumerate(champions_keys),

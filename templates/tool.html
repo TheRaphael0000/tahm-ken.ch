@@ -28,12 +28,12 @@
     </li>
   </ul>
   <script>
-  let region = document.getElementById("search_region");
-  let summoner = document.getElementById("search_summoner");
+  let region = document.getElementById("search_region")
+  let summoner = document.getElementById("search_summoner")
 
   summoner.addEventListener("keydown", (ele) => {
     if(event.key === 'Enter') {
-      window.location.replace("/tool/" + region.value + "/" + summoner.value);
+      window.location.href = "/tool/" + region.value + "/" + summoner.value
     }
   })
   </script>
