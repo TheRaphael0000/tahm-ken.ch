@@ -22,9 +22,10 @@ or use it on https://challsection.theraphael0000.ch/
 
 ## todo
 - [ ] add a caching system for the API calls
-- [ ] show challenges for each champions when hovering them 
+- [ ] show challenges for each champions when hovering them
 - [ ] update table sorting and add visual clue of the current sort
 - [ ] search for champions when typing letters
+- [ ] group 'Variety's Overrated' and use a drop down at the label to select the role in the tool's left menu
 - [ ] use genetic algorithms to find the best compositions to try to avoid having always the same champs in the best compositions
 - [ ] User eXperience (help needed)
 
