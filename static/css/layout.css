@@ -1,3 +1,39 @@
 body {
     font-size: 0.95em !important;
 }
+
+.IRON {
+    background-color: #7e6e6e;
+}
+
+.BRONZE {
+    background-color: #c7a5a1;
+}
+
+.SILVER {
+    background-color: #c0cde6;
+}
+
+.GOLD {
+    background-color: #eec9a7;
+}
+
+.PLATINUM {
+    background-color: #97cec5;
+}
+
+.DIAMOND {
+    background-color: #adbefa;
+}
+
+.MASTER {
+    background-color: #ebb2f8;
+}
+
+.GRANDMASTER {
+    background-color: #dc9f9b;
+}
+
+.CHALLENGER {
+    background-color: #daf1f2;
+}

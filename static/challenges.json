@@ -1,7 +1,7 @@
 [
   {
     "challenge_name": "It Has \"Ultimate\" In the Name !",
-    "challenge_name_fr": "Ultimes ultimes",
+    "riot_id": 303402,
     "champions": [
       "Amumu",
       "Anivia",
@@ -83,7 +83,7 @@
   },
   {
     "challenge_name": "Get Over Here",
-    "challenge_name_fr": "Viens par ici",
+    "riot_id": 303409,
     "champions": [
       "Alistar",
       "AurelionSol",
@@ -124,7 +124,7 @@
   },
   {
     "challenge_name": "Nowhere to Hide",
-    "challenge_name_fr": "Nulle part ou se cacher",
+    "riot_id": 303401,
     "champions": [
       "Akshan",
       "Ashe",
@@ -160,7 +160,7 @@
   },
   {
     "challenge_name": "We Protec",
-    "challenge_name_fr": "Protection rapproch\u00e9e",
+    "riot_id": 303403,
     "champions": [
       "Alistar",
       "Annie",
@@ -198,7 +198,7 @@
   },
   {
     "challenge_name": "We're Good Over Here",
-    "challenge_name_fr": "Gardons nos distances",
+    "riot_id": 303406,
     "champions": [
       "Akshan",
       "Ashe",
@@ -241,7 +241,7 @@
   },
   {
     "challenge_name": "Hold That Pose",
-    "challenge_name_fr": "On ne bouge plus",
+    "riot_id": 303412,
     "champions": [
       "Aatrox",
       "Alistar",
@@ -299,8 +299,8 @@
     "qte": "3"
   },
   {
-    "challenge_name": "The Just... Don't... DIE!",
-    "challenge_name_fr": "Mais tu vas mourir oui ?!",
+    "challenge_name": "They Just... Don't... DIE!",
+    "riot_id": 303404,
     "champions": [
       "Akshan",
       "Alistar",
@@ -345,7 +345,7 @@
   },
   {
     "challenge_name": "Where'd They Go ?",
-    "challenge_name_fr": "Ou ils sont pass\u00e9s ?",
+    "riot_id": 303405,
     "champions": [
       "Akali",
       "Akshan",
@@ -370,7 +370,7 @@
   },
   {
     "challenge_name": "Summoners on the Rift",
-    "challenge_name_fr": "Les invocateurs de la faille",
+    "riot_id": 303407,
     "champions": [
       "Annie",
       "Azir",
@@ -395,7 +395,7 @@
   },
   {
     "challenge_name": "It's a Trap!",
-    "challenge_name_fr": "C'est un pi\u00e8ge !",
+    "riot_id": 303410,
     "champions": [
       "Caitlyn",
       "Gangplank",
@@ -412,7 +412,7 @@
   },
   {
     "challenge_name": "I'm Helping",
-    "challenge_name_fr": "Et le terrain fut",
+    "riot_id": 303411,
     "champions": [
       "Anivia",
       "Azir",
@@ -429,7 +429,7 @@
   },
   {
     "challenge_name": "Calculated",
-    "challenge_name_fr": "Innovateurs",
+    "riot_id": 303508,
     "label": "Piltover",
     "champions": [
       "Caitlyn",
@@ -446,7 +446,7 @@
   },
   {
     "challenge_name": "5 Under 5'",
-    "challenge_name_fr": "5 sur 5",
+    "riot_id": 303501,
     "label": "Bandle City",
     "champions": [
       "Corki",
@@ -469,7 +469,7 @@
   },
   {
     "challenge_name": "All Hands on Deck",
-    "challenge_name_fr": "Naufrageurs",
+    "riot_id": 303502,
     "label": "Bilgewater",
     "champions": [
       "Fizz",
@@ -486,7 +486,7 @@
   },
   {
     "challenge_name": "FOR DEMACIA",
-    "challenge_name_fr": "POUR DEMACIA",
+    "riot_id": 303503,
     "label": "Demacia",
     "champions": [
       "Fiora",
@@ -509,7 +509,7 @@
   },
   {
     "challenge_name": "Ice, Ice, Baby",
-    "challenge_name_fr": "Premiers de la glace",
+    "riot_id": 303504,
     "label": "Freljord",
     "champions": [
       "Anivia",
@@ -531,7 +531,7 @@
   },
   {
     "challenge_name": "Spooky Scary Skeletons",
-    "challenge_name_fr": "Terreurs des \u00eeles",
+    "riot_id": 303509,
     "label": "Shadow Isles",
     "champions": [
       "Elise",
@@ -551,7 +551,7 @@
   },
   {
     "challenge_name": "(Inhuman Screeching Sounds)",
-    "challenge_name_fr": "(Cris inhumains)",
+    "riot_id": 303512,
     "label": "Void",
     "champions": [
       "Belveth",
@@ -568,7 +568,7 @@
   },
   {
     "challenge_name": "Chemtech Comrades",
-    "challenge_name_fr": "Troupe techno-chimique",
+    "riot_id": 303513,
     "label": "Zaun",
     "champions": [
       "Blitzcrank",
@@ -590,7 +590,7 @@
   },
   {
     "challenge_name": "Everybody was Wuju Fighting",
-    "challenge_name_fr": "Tendez l'autre Wuju",
+    "riot_id": 303505,
     "label": "Ionia",
     "champions": [
       "Ahri",
@@ -619,7 +619,7 @@
   },
   {
     "challenge_name": "Elemental, My Dear Watson",
-    "challenge_name_fr": "Terrible jungle",
+    "riot_id": 303506,
     "label": "Ixtal",
     "champions": [
       "Malphite",
@@ -633,7 +633,7 @@
   },
   {
     "challenge_name": "Strength Above All",
-    "challenge_name_fr": "La force avant tout",
+    "riot_id": 303507,
     "label": "Noxus",
     "champions": [
       "Cassiopeia",
@@ -654,7 +654,7 @@
   },
   {
     "challenge_name": "The Sun Disc Never Sets",
-    "challenge_name_fr": "Artistes shurimartiaux",
+    "riot_id": 303510,
     "label": "Shurima",
     "champions": [
       "Akshan",
@@ -673,7 +673,7 @@
   },
   {
     "challenge_name": "Peak Performance",
-    "challenge_name_fr": "Ma\u00eetres de la montagne",
+    "riot_id": 303511,
     "label": "Targon",
     "champions": [
       "Aphelios",
@@ -689,6 +689,7 @@
   },
   {
     "challenge_name": "Variety's Overrated",
+    "riot_id": 303408,
     "label": "Fighter",
     "champions": [
       "Aatrox",
@@ -765,6 +766,7 @@
   },
   {
     "challenge_name": "Variety's Overrated",
+    "riot_id": 303408,
     "label": "Tank",
     "champions": [
       "Aatrox",
@@ -816,6 +818,7 @@
   },
   {
     "challenge_name": "Variety's Overrated",
+    "riot_id": 303408,
     "label": "Mage",
     "champions": [
       "Ahri",
@@ -885,6 +888,7 @@
   },
   {
     "challenge_name": "Variety's Overrated",
+    "riot_id": 303408,
     "label": "Assassin",
     "champions": [
       "Ahri",
@@ -933,6 +937,7 @@
   },
   {
     "challenge_name": "Variety's Overrated",
+    "riot_id": 303408,
     "label": "Marksman",
     "champions": [
       "Akshan",
@@ -970,6 +975,7 @@
   },
   {
     "challenge_name": "Variety's Overrated",
+    "riot_id": 303408,
     "label": "Support",
     "champions": [
       "Alistar",

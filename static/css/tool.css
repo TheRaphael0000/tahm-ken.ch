@@ -3,11 +3,22 @@
         flex-direction: column !important;
         gap: 10px;
     }
-  }
+}
 
-
-.custom_table tr td {
+.custom_table td {
     padding: 1px 10px;
+}
+
+.custom_table th {
+    padding: 1px 10px;
+}
+
+.custom_table td.less_pad {
+    padding: 1px 1px !important;
+}
+
+.custom_table th.less_pad {
+    padding: 1px 1px !important;
 }
 
 .custom_table td label {
@@ -40,7 +51,7 @@
 }
 
 .champion_img {
-    width: 83px;
+    width: 79px;
     height: auto;
     border: 3px solid transparent;
     opacity: 0.3;

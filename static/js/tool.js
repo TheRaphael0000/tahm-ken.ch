@@ -13,7 +13,7 @@ function updateChampionsStyle() {
             img.classList.add("checked");
         }
         else {
-            img.classList.remove("checkedpy");
+            img.classList.remove("checked");
         }
 
         if (img.dataset.selected == "1") {
@@ -204,3 +204,5 @@ for (let c of champion_img) {
         updateChampionsStyle()
     })
 }
+
+new Tablesort(document.getElementById('table_challenges'), { descending: true });

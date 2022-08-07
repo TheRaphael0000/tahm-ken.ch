@@ -20,6 +20,11 @@
               rel="stylesheet"
               integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
               crossorigin="anonymous">
+
+        
+        <script src='/static/js/tablesort.min.js'></script>
+        <script src='/static/js/tablesort.number.min.js'></script>
+                
         <!-- Google Analytics -->
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-9TT2F05HDD"></script>
         <script src="/static/js/analytics.js"></script>
@@ -27,10 +32,10 @@
     <body class="bg-dark text-white px-3">
         <header class="broder border-bottom border-white">
             <nav class="navbar navbar-expand navbar-dark bg-dark">
-                <a class="navbar-brand" href="/">Challenges Intersections</a>
+                <a class="navbar-brand" href="/tool">Challenges Intersections</a>
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="/">Tool</span></a>
+                        <a class="nav-link" href="/tool">Tool</span></a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle"
@@ -52,18 +57,17 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link"
-                           href="https://github.com/TheRaphael0000/challenges_intersection_league/">
-                        GitHub</i>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </header>
-    <main class="py-3">
-        {% block main %}{% endblock %}
-    </main>
-    <!-- JavaScript Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous">
-    </script>
-</body>
+                           href="https://github.com/TheRaphael0000/challenges_intersection_league/">GitHub</a>
+                    </li>
+                </ul>
+                {% block navbar %}{% endblock %}
+            </nav>
+        </header>
+        <main class="py-3">
+            {% block main %}{% endblock %}
+        </main>
+        <!-- JavaScript Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous">
+        </script>
+    </body>
 </html>

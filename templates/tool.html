@@ -1,10 +1,59 @@
 {% extends "layout.html" %}
 {% block title %}Tool{% endblock %}
 {% block head %}<link rel="stylesheet" href="/static/css/tool.css">{% endblock %}
+{% block navbar %}
+  <ul class="navbar-nav ms-auto">
+    <li class="nav-item px-3">
+      <input id="search_summoner"
+             type="search"
+             class="form-control form-control-dark text-bg-dark"
+             placeholder="Summoner name..."
+             aria-label="Search"
+             value="{{summoner}}">
+    </li>
+    <li class="nav-item">
+      <select id="search_region" class="form-select">
+        {% for region_ in regions %}
+          {% if region and region_.lower() == region.lower() %}
+            <option name="{{ region }}" selected="selected">
+              {{ region_ }}
+            </option>
+          {% else %}
+            <option name="{{ region }}">
+              {{ region_ }}
+            </option>
+          {% endif %}
+        {% endfor %}
+      </select>
+    </li>
+  </ul>
+  <script>
+  let region = document.getElementById("search_region");
+  let summoner = document.getElementById("search_summoner");
+
+  summoner.addEventListener("keydown", (ele) => {
+    if(event.key === 'Enter') {
+      window.location.replace("/tool/" + region.value + "/" + summoner.value);
+    }
+  })
+  </script>
+{% endblock %}
 {% block main %}
   <div id="tool_div" class="d-flex flex-nowrap">
     <div class="d-flex flex-column flex-shrink-0">
-      <table class="custom_table mb-1">
+      <table id="table_challenges" class="custom_table mb-1">
+        <thead>
+          <tr>
+            <th role="columnheader" data-sort-method="none"></th>
+            <th role="columnheader">#</th>
+            <th role="columnheader">Challenge</th>
+            <th role="columnheader">Label</th>
+            <th role="columnheader" class="less_pad">C</th>
+            <th role="columnheader" class="less_pad" data-sort-method="none">/</th>
+            <th role="columnheader" class="less_pad">R</th>
+            <th role="columnheader" data-sort-default>Progress</th>
+          </tr>
+        </thead>
         {% for i, challenge in challenges %}
           <tr id="challenge_tr_{{i}}" class="challenge_tr checked">
             <td>
@@ -14,6 +63,7 @@
                      data-id="{{i}}"
                      data-qte="{{ challenge['qte'] }}">
             </td>
+            <!-- fixed width to avoid column resized on change -->
             <td class="text-end" width="38px">
               <span id="challenge_qte_{{ i }}"
                     class="challenge_qte"
@@ -31,10 +81,18 @@
             <td>
               {% if 'label' in challenge %}{{ challenge['label'] }}{% endif %}
             </td>
-            <td class="text-end">
-              <!-- fixed width to avoid column resized on change -->
-              <span id="challenge_current_selection_{{i}}">0</span> / <span id="challenge_requirement_{{ i }}">{{ challenge['qte'] }}</span>
+            <td class="less_pad">
+              <span id="challenge_current_selection_{{i}}">0</span>
             </td>
+            <td class="less_pad">/</td>
+            <td class="less_pad">
+              <span id="challenge_requirement_{{ i }}">{{ challenge['qte'] }}</span>
+            </td>
+            {% if summoner_progress %}
+            <td class="text-center text-dark">
+              <div class="{{ summoner_progress[challenge['riot_id']]['level'] }}">{{ summoner_progress[challenge['riot_id']]['value'] }}</div>
+            </td>
+            {% endif %}
           </tr>
         {% endfor %}
       </table>
