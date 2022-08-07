@@ -6,7 +6,7 @@ still wip, you can pr if you want.
 
 or use it on https://challsection.theraphael0000.ch/
 
-# done
+## done
 - [x] collect the data
 - [x] parse the data
 - [x] create a basic ui
