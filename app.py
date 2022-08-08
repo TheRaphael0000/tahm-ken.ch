@@ -7,7 +7,6 @@ import random
 from riotwatcher import LolWatcher, ApiError
 from config import config
 from constants import regions, ranks, default_region
-import urllib.parse
 
 # create the flask app
 app = Flask(__name__, static_url_path="/static")
@@ -72,20 +71,32 @@ def tool(region="EUW1", summoner=""):
 
             challenges_for_this_summoner = {}
             for c in challenges:
-                id = c["riot_id"]
-                if id in summoner_challenges_by_id:
-                    summoner_challenges_progress = summoner_challenges_by_id[id]
-                    challenges_for_this_summoner
+                id_ = c["riot_id"]
+
+                challenge_for_this_summoner = {
+                    "level": "UNRANKED",
+                    "value": 0,
+                }
+
+                if id_ in summoner_challenges_by_id:
                     challenge_for_this_summoner = {
-                        "level": summoner_challenges_progress["level"],
-                        "value": int(summoner_challenges_progress["value"]),
+                        "level": summoner_challenges_by_id[id_]["level"],
+                        "value": int(summoner_challenges_by_id[id_]["value"]),
                     }
-                else:
-                    challenge_for_this_summoner = {
-                        "level": "UNRANKED",
-                        "value": 0,
-                    }
-                challenges_for_this_summoner[id] = challenge_for_this_summoner
+
+                # get the next threshold to upgrade the challenge
+                thresholds = list(c["config"]["thresholds"].items())
+                thresholds.sort(key=lambda l: l[-1])
+                next_threshold = None
+                if challenge_for_this_summoner["level"] not in ["MASTER", "GRANDMASTER", "CHALLENGER"]:
+                    for _, threshold in thresholds:
+                        if threshold > challenge_for_this_summoner["value"]:
+                            next_threshold = str(int(threshold))
+                            break
+
+                challenge_for_this_summoner["next_threshold"] = next_threshold
+
+                challenges_for_this_summoner[id_] = challenge_for_this_summoner
 
             args["summoner_progress"] = challenges_for_this_summoner
     except Exception as e:

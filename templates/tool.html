@@ -3,16 +3,16 @@
 {% block head %}<link rel="stylesheet" href="/static/css/tool.css">{% endblock %}
 {% block navbar %}
   <ul class="navbar-nav ms-auto">
-    <li class="nav-item px-3">
-      <input id="search_summoner"
+    <li class="nav-item mx-3">
+      <input id="summoner"
              type="text"
              class="form-control form-control-dark text-bg-dark"
              placeholder="Summoner name..."
              aria-label="Search"
-             value="{{summoner}}">
+             value="{{ summoner }}">
     </li>
     <li class="nav-item">
-      <select id="search_region" class="form-select">
+      <select id="region" class="form-select form-control-dark text-bg-dark">
         {% for region_ in regions %}
           {% if region and region_.lower() == region.lower() %}
             <option name="{{ region }}" selected="selected">
@@ -26,15 +26,29 @@
         {% endfor %}
       </select>
     </li>
+    <li class="nav-item">
+      <button id="search_summoner" type="button" class="btn btn-dark mx-3">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+    </li>
   </ul>
   <script>
-  let region = document.getElementById("search_region")
-  let summoner = document.getElementById("search_summoner")
+  let region = document.getElementById("region")
+  let summoner = document.getElementById("summoner")
+  let search = document.getElementById("search")
+
+  function search_summoner() {
+    window.location.href = "/tool/" + region.value + "/" + summoner.value
+  }
 
   summoner.addEventListener("keydown", (ele) => {
     if(event.key === 'Enter') {
-      window.location.href = "/tool/" + region.value + "/" + summoner.value
+      search_summoner()
     }
+  })
+  
+  search.addEventListener("click", (ele) => {
+      search_summoner()
   })
   </script>
 {% endblock %}
@@ -89,18 +103,21 @@
               <span id="challenge_requirement_{{ i }}">{{ challenge['qte'] }}</span>
             </td>
             {% if summoner_progress %}
-            <td class="text-center text-dark">
-              <div class="{{ summoner_progress[challenge['riot_id']]['level'] }}">{{ summoner_progress[challenge['riot_id']]['value'] }}</div>
-            </td>
+              <td class="text-center text-dark" data-sort="{{ summoner_progress[challenge['riot_id']]['value'] }}">
+                <div class="{{ summoner_progress[challenge['riot_id']]['level'] }}">
+                  {{ summoner_progress[challenge['riot_id']]['value'] }}
+                  {% if summoner_progress[challenge['riot_id']]['next_threshold'] %}
+                   / {{ summoner_progress[challenge['riot_id']]['next_threshold'] }}
+                   {% endif %}
+                </div>
+              </td>
             {% endif %}
           </tr>
         {% endfor %}
       </table>
-      <div class="btn-group" role="group">
-        <button id="btn_reset_filters" type="button" class="btn btn-light my-1">Reset filters</button>
-        <button id="btn_reset_selection" type="button" class="btn btn-light my-1">Reset selection</button>
-        <button id="btn_copy" type="button" class="btn btn-light my-1">Copy to clipboard</button>
-      </div>
+      <button id="btn_reset_filters" type="button" class="btn btn-dark">
+        <i class="fa-solid fa-trash"></i>
+      </button>
     </div>
     <div id="champions_pool">
       {% for i, champion in champions %}
@@ -110,6 +127,14 @@
              alt="{{ champion }}"
              data-champion_name="{{ champion }}">
       {% endfor %}
+    </div>
+    <div>
+      <button id="btn_reset_selection" type="button" class="btn btn-dark">
+        <i class="fa-solid fa-trash"></i>
+      </button>
+      <button id="btn_copy" type="button" class="btn btn-dark">
+        <i class="fa-solid fa-copy"></i>
+      </button>
     </div>
   </div>
   <script src="/static/js/tool.js"></script>

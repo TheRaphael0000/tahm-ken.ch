@@ -2,6 +2,10 @@ body {
     font-size: 0.95em !important;
 }
 
+.UNRANKED {
+    background-color: #ffffff;
+}
+
 .IRON {
     background-color: #c5ccd7;
 }
