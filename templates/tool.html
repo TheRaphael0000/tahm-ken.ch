@@ -27,30 +27,11 @@
       </select>
     </li>
     <li class="nav-item">
-      <button id="search_summoner" type="button" class="btn btn-dark mx-3">
+      <button id="search" type="button" class="btn btn-dark mx-3">
         <i class="fa-solid fa-magnifying-glass"></i>
       </button>
     </li>
   </ul>
-  <script>
-  let region = document.getElementById("region")
-  let summoner = document.getElementById("summoner")
-  let search = document.getElementById("search")
-
-  function search_summoner() {
-    window.location.href = "/tool/" + region.value + "/" + summoner.value
-  }
-
-  summoner.addEventListener("keydown", (ele) => {
-    if(event.key === 'Enter') {
-      search_summoner()
-    }
-  })
-  
-  search.addEventListener("click", (ele) => {
-      search_summoner()
-  })
-  </script>
 {% endblock %}
 {% block main %}
   <div id="tool_div" class="d-flex flex-nowrap">

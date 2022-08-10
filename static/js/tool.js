@@ -206,3 +206,22 @@ for (let c of champion_img) {
 }
 
 new Tablesort(document.getElementById('table_challenges'), { descending: true });
+
+// search summmoner logic
+let region = document.getElementById("region")
+let summoner = document.getElementById("summoner")
+let search = document.getElementById("search")
+
+function search_summoner() {
+  window.location.href = "/tool/" + region.value + "/" + summoner.value
+}
+
+summoner.addEventListener("keydown", (ele) => {
+  if(event.key === 'Enter') {
+    search_summoner()
+  }
+})
+
+search.addEventListener("click", (ele) => {
+    search_summoner()
+})
