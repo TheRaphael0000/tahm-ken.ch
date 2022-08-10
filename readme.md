@@ -27,6 +27,7 @@ or use it on https://challsection.theraphael0000.ch/
 - [ ] search for champions when typing letters
 - [ ] group 'Variety's Overrated' and use a drop down at the label to select the role in the tool's left menu
 - [ ] use genetic algorithms to find the best compositions to try to avoid having always the same champs in the best compositions
+- [ ] in the compositions, update the filter to only show available champs
 - [ ] User eXperience (help needed)
 
 ## install
