@@ -4,11 +4,12 @@ let challenge_tr = document.querySelectorAll(".challenge_tr")
 let challenge_qte = document.querySelectorAll(".challenge_qte")
 let btn_reset_filters = document.querySelector("#btn_reset_filters")
 let btn_reset_selection = document.querySelector("#btn_reset_selection")
+let btn_search_champion = document.querySelector("#btn_search_champion")
 let btn_copy = document.querySelector("#btn_copy")
-let region = document.getElementById("region")
-let summoner = document.getElementById("summoner")
-let search = document.getElementById("search")
-let search_champion = document.getElementById("search_champion")
+let region = document.querySelector("#region")
+let summoner = document.querySelector("#summoner")
+let search = document.querySelector("#search")
+let search_champion = document.querySelector("#search_champion")
 
 
 function updateChampionsStyle() {
@@ -186,6 +187,8 @@ function fetch_challenges(selectedChampionName) {
 
 btn_reset_filters.addEventListener("click", resetChallenge)
 btn_reset_selection.addEventListener("click", resetSelection)
+btn_search_champion.addEventListener("click", e => search_champion.focus())
+
 reset()
 
 for (let cbc of challenge_cb) {
@@ -237,7 +240,7 @@ function clear_out() {
 }
 
 document.addEventListener("keydown", function (e) {
-    if(e.key.length <= 1) {
+    if (e.key.length <= 1) {
         search_champion.focus()
     }
     if (["Escape"].includes(e.key)) {
@@ -259,15 +262,15 @@ search_champion.addEventListener("input", function (e) {
     }
 })
 
-search_champion.addEventListener("keypress", function(e) {
-    if(e.key == "Enter") {
+search_champion.addEventListener("keypress", function (e) {
+    if (e.key == "Enter") {
         let visible_champs = []
-        for(let c of champion_img) {
-            if(c.style.display == "block") {
+        for (let c of champion_img) {
+            if (c.style.display == "block") {
                 visible_champs.push(c)
             }
         }
-        if(visible_champs.length == 1) {
+        if (visible_champs.length == 1) {
             selectChampion(visible_champs[0])
         }
         clear_out()
