@@ -5,6 +5,10 @@ let challenge_qte = document.querySelectorAll(".challenge_qte")
 let btn_reset_filters = document.querySelector("#btn_reset_filters")
 let btn_reset_selection = document.querySelector("#btn_reset_selection")
 let btn_copy = document.querySelector("#btn_copy")
+let region = document.getElementById("region")
+let summoner = document.getElementById("summoner")
+let search = document.getElementById("search")
+let search_champion = document.getElementById("search_champion")
 
 
 function updateChampionsStyle() {
@@ -132,15 +136,15 @@ function canSelectChampion() {
 }
 
 function selectChampion(e) {
-    if (e.target.dataset.selected == "1") {
-        e.target.dataset.selected = "0"
+    if (e.dataset.selected == "1") {
+        e.dataset.selected = "0"
         updateChampionsSelection()
         updateChampionsStyle()
         return
     }
 
     if (canSelectChampion())
-        e.target.dataset.selected = "1"
+        e.dataset.selected = "1"
 
     updateChampionsSelection()
     updateChampionsStyle()
@@ -192,7 +196,7 @@ btn_copy.addEventListener("click", copyChallenges)
 
 for (let c of champion_img) {
     c.addEventListener("click", function (e) {
-        selectChampion(e)
+        selectChampion(e.target)
     })
 
     c.addEventListener("mouseenter", function (e) {
@@ -208,20 +212,64 @@ for (let c of champion_img) {
 new Tablesort(document.getElementById('table_challenges'), { descending: true });
 
 // search summmoner logic
-let region = document.getElementById("region")
-let summoner = document.getElementById("summoner")
-let search = document.getElementById("search")
-
 function search_summoner() {
-  window.location.href = "/tool/" + region.value + "/" + summoner.value
+    window.location.href = "/tool/" + region.value + "/" + summoner.value
 }
 
 summoner.addEventListener("keydown", (ele) => {
-  if(event.key === 'Enter') {
-    search_summoner()
-  }
+    if (event.key === 'Enter') {
+        search_summoner()
+    }
 })
 
-search.addEventListener("click", (ele) => {
-    search_summoner()
+search.addEventListener("click", search_summoner)
+
+
+
+function clear_out() {
+    search_champion.value = ""
+    search_champion.blur()
+
+    for (let c of champion_img) {
+        c.style.display = "block"
+    }
+    return false
+}
+
+document.addEventListener("keydown", function (e) {
+    if(e.key.length <= 1) {
+        search_champion.focus()
+    }
+    if (["Escape"].includes(e.key)) {
+        clear_out()
+    }
+})
+
+search_champion.addEventListener("input", function (e) {
+    if (e.target.value.length <= 0) {
+        return clear_out()
+    }
+
+    for (let c of champion_img) {
+        c.style.display = "none"
+    }
+    for (let c of champion_img) {
+        if (c.dataset.champion_display_name.toLowerCase().includes(e.target.value.toLowerCase()))
+            c.style.display = "block"
+    }
+})
+
+search_champion.addEventListener("keypress", function(e) {
+    if(e.key == "Enter") {
+        let visible_champs = []
+        for(let c of champion_img) {
+            if(c.style.display == "block") {
+                visible_champs.push(c)
+            }
+        }
+        if(visible_champs.length == 1) {
+            selectChampion(visible_champs[0])
+        }
+        clear_out()
+    }
 })

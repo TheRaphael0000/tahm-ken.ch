@@ -19,15 +19,14 @@ or use it on https://challsection.theraphael0000.ch/
 - [x] show challenges for each champions when selecting them 
 - [x] find a way to implement Variety's Overrated
 - [x] fetch from Riot API current challenges
+- [x] in the compositions, update the filter to only show available champs
+- [x] search for champions when typing letters
 
 ## todo
 - [ ] add a caching system for the API calls
 - [ ] show challenges for each champions when hovering them
 - [ ] update table sorting and add visual clue of the current sort
-- [ ] search for champions when typing letters
-- [ ] group 'Variety's Overrated' and use a drop down at the label to select the role in the tool's left menu
 - [ ] use genetic algorithms to find the best compositions to try to avoid having always the same champs in the best compositions
-- [ ] in the compositions, update the filter to only show available champs
 - [ ] User eXperience (help needed)
 
 ## install

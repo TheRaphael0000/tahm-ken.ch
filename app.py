@@ -52,7 +52,8 @@ def main():
 @app.route("/tool/<region>/<summoner>")
 def tool(region="EUW1", summoner=""):
     args = {
-        "champions": enumerate(champions_keys),
+        "champions": champions,
+        "champions_keys": enumerate(champions_keys),
         "challenges": enumerate(challenges),
         "compositions": list(compositions.keys()),
         "regions": regions,

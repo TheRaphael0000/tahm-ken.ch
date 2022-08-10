@@ -34,6 +34,7 @@
   </ul>
 {% endblock %}
 {% block main %}
+  <input id="search_champion" type="search" value="">
   <div id="tool_div" class="d-flex flex-nowrap">
     <div class="d-flex flex-column flex-shrink-0">
       <table id="table_challenges" class="custom_table mb-1">
@@ -101,12 +102,13 @@
       </button>
     </div>
     <div id="champions_pool">
-      {% for i, champion in champions %}
+      {% for i, champion in champions_keys %}
         <img id="champion_{{ champion }}"
              class="champion_img"
              src="/static/datadragon_cache/champions_img/{{ champion }}.png"
              alt="{{ champion }}"
-             data-champion_name="{{ champion }}">
+             data-champion_name="{{ champion }}"
+             data-champion_display_name="{{ champions[champion]["name"] }}">
       {% endfor %}
     </div>
     <div>

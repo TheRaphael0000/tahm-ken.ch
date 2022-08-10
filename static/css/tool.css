@@ -65,3 +65,29 @@
 .champion_img.checked {
     opacity: 1.0 !important;
 }
+
+#search_champion { 
+    position:absolute;
+    width: 100%;
+    top: 40%;
+    left: 0;
+    font-size: 4em;
+    text-align: center;
+    background-color: transparent;
+    color: white;
+    border: 0;
+    pointer-events: none;
+    z-index: 100;
+}
+
+#search_champion:focus {
+    outline: none;
+}
+
+/* hide decorations */
+#search_champion::-webkit-search-decoration,
+#search_champion::-webkit-search-cancel-button,
+#search_champion::-webkit-search-results-button,
+#search_champion::-webkit-search-results-decoration {
+  -webkit-appearance:none;
+}
