@@ -3,29 +3,21 @@
 {% block head %}<link rel="stylesheet" href="/static/css/compositions.css">{% endblock %}
 {% block main %}
     <h1>{{ challenge_name }}</h1>
-    <div class="text-center">
-        Filters
-        {% for i in [0, 1, 2, 3, 4] %}
-            <select class="filter_select" class="form-select">
-                <option>
-                </option>
-                {% for champion_id, champion in champions.items() %}
-                    <option name="{{ champion_id }}">
-                        {{ champion["name"] }}
-                    </option>
-                {% endfor %}
-            </select>
-        {% endfor %}
-        <button id="reset" class="btn btn-light">Reset</button>
+    <div class="m-3 text-center">
+        <span>Filters :</span>
+        <select id="filter_select" class="m-2" style="width:100px;">
+        </select>
+        <div id="filters">
+        </div>
     </div>
     {% for number, comps in by_number.items() %}
         <h2>{{ number }} challenges</h2>
         <div class="compositions">
-            {% for champions, challenges in comps %}
-                <div class="composition">
-                    {% for champion in champions %}
+            {% for champions_, challenges in comps %}
+                <div class="composition" style="display: block;">
+                    {% for champion in champions_ %}
                         <img src="/static/datadragon_cache/champions_img/{{ champion }}.png"
-                             alt="{{ champion }}"
+                             alt="{{ champions[champion]["name"] }}"
                              data-champion="{{ champion }}"
                              class="img-responsive"
                              width="65px">
