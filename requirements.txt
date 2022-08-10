@@ -3,3 +3,5 @@ gunicorn
 jupyter
 numpy
 riotwatcher
+fabric
+click
