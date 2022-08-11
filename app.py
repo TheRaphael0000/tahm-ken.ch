@@ -2,6 +2,7 @@ from flask import Flask
 from flask import render_template
 from flask import redirect
 import json
+import random
 from collections import defaultdict
 import random
 from riotwatcher import LolWatcher, ApiError
@@ -41,32 +42,48 @@ champions_keys = sorted(champions, key=lambda c: champions[c]["name"])
 # load the pre-calculated compositions
 compositions = json.load(open("static/compositions.json", "r"))
 
+tk_quotes = open("static/txt/tk_quotes.txt").read().split("\n")
+
+
+class RandomQuotes:
+    # a small class to be able to access a random property in the template
+    @property
+    def random(self):
+        return random.choice(tk_quotes)
+
+
+# variables which are required for the layout
+layout = {
+    "quote": RandomQuotes(),
+    "compositions": list(compositions.keys()),
+}
+
 
 @app.route("/")
 def main():
-    return redirect("/challenge_intersections")
+    return redirect("/challenges_intersection")
 
 
 # temporary redirection for old route
 @app.route('/tool/', defaults={'path': ''})
 @app.route('/tool/<path:path>')
 def tool(path):
-    return redirect("/".join(["/challenge_intersections", path]))
+    return redirect("/".join(["/challenges_intersection", path]))
 
 
-@app.route("/challenge_intersections")
-@app.route("/challenge_intersections/<region>")
-@app.route("/challenge_intersections/<region>/<summoner>")
-def challenge_intersections(region="EUW1", summoner=""):
+@app.route("/challenges_intersection")
+@app.route("/challenges_intersection/<region>")
+@app.route("/challenges_intersection/<region>/<summoner>")
+def challenges_intersection(region="EUW1", summoner=""):
     args = {
         "champions": champions,
         "champions_keys": enumerate(champions_keys),
         "challenges": enumerate(challenges),
-        "compositions": list(compositions.keys()),
         "regions": regions,
         "region": region,
         "summoner": summoner,
         "summoner_progress": None,
+        "layout": layout,
     }
     try:
         if region and summoner and lol_watcher:
@@ -110,7 +127,7 @@ def challenge_intersections(region="EUW1", summoner=""):
     except Exception as e:
         print(e)
 
-    return render_template("challenge_intersections.html", **args)
+    return render_template("challenges_intersection.html", **args)
 
 
 @app.route("/compositions/<challenge>")
@@ -135,8 +152,8 @@ def comps(challenge):
     args = {
         "by_number": by_number,
         "challenge_name": challenge,
-        "compositions": list(compositions.keys()),
         "champions": champions_,
+        "layout": layout,
     }
     return render_template("compositions.html", **args)
 
@@ -176,7 +193,10 @@ def champions_selected(champions=""):
 
 @app.route("/how_to_use")
 def how_to_use():
-    return render_template("how_to_use.html")
+    args = {
+        "layout": layout,
+    }
+    return render_template("how_to_use.html", **args)
 
 
 @app.errorhandler(404)

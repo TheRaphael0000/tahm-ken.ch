@@ -12,7 +12,6 @@
         <title>
             {% block title %}{% endblock %}
         - Tahm-Ken.ch</title>
-
         <link rel="icon" href="/static/img/favicon.png">
         <!-- Custom CSS/JS -->
         <link rel="stylesheet" href="/static/css/layout.css">
@@ -38,7 +37,7 @@
                 <a class="navbar-brand" href="/">Tahm-Ken.ch</a>
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link" href="/challenge_intersections">Challenge intersections</a>
+                        <a class="nav-link" href="/challenges_intersection">Challenges intersection</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle"
@@ -51,7 +50,7 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark"
                             aria-labelledby="navbarDropdown">
-                            {% for composition in compositions %}
+                            {% for composition in layout.compositions %}
                                 <li>
                                     <a class="dropdown-item" href="/compositions/{{ composition }}">{{ composition }}</a>
                                 </li>
@@ -66,9 +65,14 @@
             </nav>
         </header>
         <main class="py-3">
+            <div class="bg_img"></div>
             {% block main %}{% endblock %}
         </main>
-        <a class="github" href="https://github.com/TheRaphael0000/challenges_intersection_league/"><i class="fa-brands fa-github" style="color: white;"></i></a>
+        <footer>
+            <i>{{ layout.quote.random }}</i> - The River King
+        </footer>
+        <a class="github"
+           href="https://github.com/TheRaphael0000/challenges_intersection_league/"><i class="fa-brands fa-github" style="color: white;"></i></a>
         <!-- JavaScript Bundle with Popper -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous">
         </script>

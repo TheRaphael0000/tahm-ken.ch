@@ -2,12 +2,33 @@ body {
     font-size: 0.95em !important;
 }
 
-h1, h2, h3, h4, h5 {
+h1,
+h2,
+h3,
+h4,
+h5 {
     margin-top: 20px !important;
 }
 
+footer {
+    text-align: center;
+}
+
+.bg_img {
+    background-image: url("/static/img/Tahm_Kench_OriginalSkin.jpg");
+    position: fixed;
+    background-position: center;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    filter: blur(10px);
+    transform: scale(1.05);
+    opacity: 0.3;
+    z-index: -1;
+}
+
 .github {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     right: 0;
     text-align: right;
