@@ -2,6 +2,10 @@ body {
     font-size: 0.95em !important;
 }
 
+h1, h2, h3, h4, h5 {
+    margin-top: 20px !important;
+}
+
 .UNRANKED {
     background-color: #ffffff;
 }

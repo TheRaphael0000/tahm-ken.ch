@@ -167,5 +167,10 @@ def champions_selected(champions=""):
     return json.dumps(valid_challenges)
 
 
+@app.route("/how_to_use")
+def how_to_use():
+    return render_template("how_to_use.html")
+
+
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=8000, debug=True)
