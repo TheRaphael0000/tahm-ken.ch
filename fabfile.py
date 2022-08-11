@@ -5,7 +5,7 @@ import fabric
 
 
 def deploy(c):
-    with c.cd("/var/www/theraphael0000.ch/challsection.theraphael0000.ch"):
+    with c.cd("/var/www/tahm-ken.ch/www.tahm-ken.ch"):
         c.run("git status")
         if not click.confirm("Stash and deploy to main ?", default=True):
             exit()
@@ -13,8 +13,8 @@ def deploy(c):
         c.run("git checkout main")
         c.run("git pull")
         c.run("pip install -r requirements.txt --upgrade")
-        c.run("systemctl restart challsection.theraphael0000.ch_gunicorn.service")
+        c.run("systemctl restart tahm-ken.ch_gunicorn.service")
 
 
-c = fabric.Connection(host="theraphael0000.ch", user="root", port=22)
+c = fabric.Connection(host="tahm-ken.ch", user="root", port=22)
 deploy(c)
