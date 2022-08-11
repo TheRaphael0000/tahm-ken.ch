@@ -1,13 +1,17 @@
 from flask import Flask
 from flask import render_template
 from flask import redirect
+from flask import abort
 import json
 import random
 from collections import defaultdict
 import random
-from riotwatcher import LolWatcher, ApiError
+from riotwatcher import LolWatcher
+from riotwatcher import ApiError
 from config import config
-from constants import regions, ranks, default_region
+from constants import regions
+from constants import ranks
+from constants import default_region
 
 # create the flask app
 app = Flask(__name__, static_url_path="/static")
@@ -125,7 +129,7 @@ def challenges_intersection(region="EUW1", summoner=""):
 
             args["summoner_progress"] = challenges_for_this_summoner
     except Exception as e:
-        print(e)
+        pass
 
     return render_template("challenges_intersection.html", **args)
 
@@ -133,7 +137,10 @@ def challenges_intersection(region="EUW1", summoner=""):
 @app.route("/compositions/<challenge>")
 def comps(challenge):
     by_number = defaultdict(list)
-    comps = compositions[challenge]
+    try:
+        comps = compositions[challenge]
+    except:
+        return abort(404)
     # limit large challenges
     limit = 8000
     if len(comps) > limit:
@@ -160,9 +167,12 @@ def comps(challenge):
 
 @app.route("/challenge_intersection/<challenges_id>")
 def challenge_intersection(challenges_id):
-    challenges_id = [int(s) for s in challenges_id.split(",")]
-    challenges_champions = [set(challenges[ci]["champions"])
-                            for ci in challenges_id]
+    try:
+        challenges_id = [int(s) for s in challenges_id.split(",")]
+        challenges_champions = [set(challenges[ci]["champions"])
+                                for ci in challenges_id]
+    except:
+        return abort(404)
     u = set.intersection(*challenges_champions)
 
     response = {
@@ -179,14 +189,17 @@ def challenge_intersection(challenges_id):
 
 @app.route("/champions_selected/<champions>")
 def champions_selected(champions=""):
-    champions = set(champions.split(","))
+    try:
+        champions = set(champions.split(","))
 
-    valid_challenges = {}
+        valid_challenges = {}
 
-    for i, c in enumerate(challenges):
-        set_champions = set(c["champions"])
-        current_selection = len(set_champions.intersection(champions))
-        valid_challenges[i] = current_selection
+        for i, c in enumerate(challenges):
+            set_champions = set(c["champions"])
+            current_selection = len(set_champions.intersection(champions))
+            valid_challenges[i] = current_selection
+    except:
+        return abort(404)
 
     return json.dumps(valid_challenges)
 

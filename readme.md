@@ -23,9 +23,10 @@ or use it on https://tahm-ken.ch/
 - [x] search for champions when typing letters
 
 ## todo
+- [ ] recompute the optimized composition for "Variety's Overrated"
 - [ ] add a caching system for the API calls, see if its better to use cassiopeia instead of riotwatcher
 - [ ] show challenges for each champions when hovering them
-- [ ] responsiveness
+- [ ] responsiveness for mobile
 - [ ] update table sorting and add visual clue of the current sort
 - [ ] use genetic algorithms to find the best compositions to try to avoid having always the same champs in the best compositions
 - [ ] User eXperience (help needed)
