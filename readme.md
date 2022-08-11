@@ -4,7 +4,7 @@ trying to create a gui which help to optimize the new teamwork challenges in lea
 
 still wip, you can pr if you want.
 
-or use it on https://challsection.theraphael0000.ch/
+or use it on https://tahm-ken.ch/
 
 ## done
 - [x] collect the data
@@ -41,7 +41,7 @@ you also need `compositions.json` which can be obtained by running `brute_force_
 
 or
 
-you can download the current version on https://challsection.theraphael0000.ch/static/compositions.json
+you can download the current version on https://tahm-ken.ch/static/compositions.json
 
 ## run
 ```

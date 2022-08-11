@@ -44,12 +44,12 @@ compositions = json.load(open("static/compositions.json", "r"))
 
 @app.route("/")
 def main():
-    return redirect("/tool")
+    return redirect("/challenge_intersections")
 
 
-@app.route("/tool")
-@app.route("/tool/<region>")
-@app.route("/tool/<region>/<summoner>")
+@app.route("/challenge_intersections")
+@app.route("/challenge_intersections/<region>")
+@app.route("/challenge_intersections/<region>/<summoner>")
 def tool(region="EUW1", summoner=""):
     args = {
         "champions": champions,
@@ -103,7 +103,7 @@ def tool(region="EUW1", summoner=""):
     except Exception as e:
         print(e)
 
-    return render_template("tool.html", **args)
+    return render_template("challenge_intersections.html", **args)
 
 
 @app.route("/compositions/<challenge>")
@@ -170,6 +170,11 @@ def champions_selected(champions=""):
 @app.route("/how_to_use")
 def how_to_use():
     return render_template("how_to_use.html")
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
 
 
 if __name__ == "__main__":

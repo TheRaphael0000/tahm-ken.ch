@@ -13,7 +13,7 @@ def deploy(c):
         c.run("git checkout main")
         c.run("git pull")
         c.run("pip install -r requirements.txt --upgrade")
-        c.run("systemctl restart tahm-ken.ch_gunicorn.service")
+        c.run("systemctl restart www.tahm-ken.ch_gunicorn.service")
 
 
 c = fabric.Connection(host="tahm-ken.ch", user="root", port=22)
