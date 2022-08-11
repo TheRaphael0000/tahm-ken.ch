@@ -201,7 +201,10 @@ def how_to_use():
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template('404.html'), 404
+    args = {
+        "layout": layout,
+    }
+    return render_template('404.html', **args), 404
 
 
 if __name__ == "__main__":
