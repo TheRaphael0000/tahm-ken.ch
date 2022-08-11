@@ -108,8 +108,8 @@ function challengeChanged(e) {
         })
 }
 
-function copyChallenges() {
-    let selectedChampionName = getSelectedChampionsName()
+function copyCurrentComp() {
+    let selectedChampionName = getSelectedChampionsName(false)
     navigator.clipboard.writeText(selectedChampionName.join(", "))
 }
 
@@ -123,11 +123,14 @@ function getSelectedChampions() {
     return selectedChampions
 }
 
-function getSelectedChampionsName() {
+function getSelectedChampionsName(id) {
     let selectedChampions = getSelectedChampions()
     let selectedChampionName = []
     for (let s of selectedChampions)
-        selectedChampionName.push(s.dataset.champion_name)
+        if(id == true)
+            selectedChampionName.push(s.dataset.champion_name)
+        else
+            selectedChampionName.push(s.dataset.champion_display_name)
     return selectedChampionName
 }
 
@@ -152,7 +155,7 @@ function selectChampion(e) {
 }
 
 function updateChampionsSelection() {
-    selectedChampionName = getSelectedChampionsName()
+    selectedChampionName = getSelectedChampionsName(true)
     fetch_challenges(selectedChampionName)
 }
 
@@ -195,7 +198,7 @@ for (let cbc of challenge_cb) {
     cbc.addEventListener('change', challengeChanged)
 }
 
-btn_copy.addEventListener("click", copyChallenges)
+btn_copy.addEventListener("click", copyCurrentComp)
 
 for (let c of champion_img) {
     c.addEventListener("click", function (e) {

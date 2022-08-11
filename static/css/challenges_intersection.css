@@ -64,24 +64,27 @@
 
 .champion_img.checked {
     opacity: 1.0 !important;
-}
+} 
 
 #search_champion { 
     position:absolute;
-    width: 100%;
+    width: 30%;
     top: 40%;
-    left: 0;
+    left: calc(50% - 15%);
     font-size: 4em;
     text-align: center;
-    background-color: transparent;
+    background-color: rgba(1, 1, 1, 0.8);
+    border-radius: 20px;
     color: white;
     border: 0;
     pointer-events: none;
     z-index: 100;
+    opacity: 0;
 }
 
 #search_champion:focus {
     outline: none;
+    opacity: 1;
 }
 
 /* hide decorations */
