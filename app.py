@@ -47,10 +47,17 @@ def main():
     return redirect("/challenge_intersections")
 
 
+# temporary redirection for old route
+@app.route('/tool/', defaults={'path': ''})
+@app.route('/tool/<path:path>')
+def tool(path):
+    return redirect("/".join(["/challenge_intersections", path]))
+
+
 @app.route("/challenge_intersections")
 @app.route("/challenge_intersections/<region>")
 @app.route("/challenge_intersections/<region>/<summoner>")
-def tool(region="EUW1", summoner=""):
+def challenge_intersections(region="EUW1", summoner=""):
     args = {
         "champions": champions,
         "champions_keys": enumerate(champions_keys),
