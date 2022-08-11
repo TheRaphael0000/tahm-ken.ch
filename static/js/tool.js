@@ -219,15 +219,13 @@ function search_summoner() {
     window.location.href = "/tool/" + region.value + "/" + summoner.value
 }
 
-summoner.addEventListener("keydown", (ele) => {
+summoner.addEventListener("keydown", (event) => {
     if (event.key === 'Enter') {
         search_summoner()
     }
 })
 
 search.addEventListener("click", search_summoner)
-
-
 
 function clear_out() {
     search_champion.value = ""
@@ -240,6 +238,10 @@ function clear_out() {
 }
 
 document.addEventListener("keydown", function (e) {
+    console.log(document.activeElement)
+    if (document.activeElement.id == "summoner") {
+        return
+    }
     if (e.key.length <= 1) {
         search_champion.focus()
     }
