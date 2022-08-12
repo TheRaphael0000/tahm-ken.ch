@@ -7,8 +7,6 @@ still wip, you can pr if you want.
 or use it on https://tahm-ken.ch/
 
 ## todo
-- [ ] add tooltips for the challenges, idea from PureImplosion on Reddit
-- [ ] filter out champions in compositions, idea from DOOGLAK on Reddit
 - [ ] recompute the optimized composition for "Variety's Overrated", idea from Konstamonsta on Reddit
 - [ ] show challenges for each champions when hovering them
 - [ ] responsiveness for mobile
@@ -34,6 +32,8 @@ or use it on https://tahm-ken.ch/
 - [x] fetch from Riot API current challenges
 - [x] in the compositions, update the filter to only show available champs
 - [x] search for champions when typing letters
+- [x] add tooltips for the challenges, idea from PureImplosion on Reddit
+- [x] filter out champions in compositions, idea from DOOGLAK on Reddit
 
 
 ## install

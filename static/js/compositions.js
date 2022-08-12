@@ -1,11 +1,17 @@
-let select = document.querySelector("#filter_select")
+let include_select = document.querySelector("#include_select")
+let exclude_select = document.querySelector("#exclude_select")
 let compositions = document.querySelectorAll(".composition")
 let filters = document.querySelector("#filters")
-let filters_ = new Map()
+let include_filters = new Map()
+let exclude_filters = new Map()
 
 function filterChanged(e) {
     let option = e.target.selectedOptions[0]
-    filters_.set(option.value, option.innerHTML)
+    if (e.target == include_select)
+        include_filters.set(option.value, option.innerHTML)
+    else if (e.target == exclude_select)
+        exclude_filters.set(option.value, option.innerHTML)
+
     updateFilterElements()
     filterCompositions()
     updateFilters()
@@ -14,30 +20,34 @@ function filterChanged(e) {
 }
 
 function filterCompositions() {
+    let include_champions = new Set(Array.from(include_filters.keys()))
+    let exclude_champions = new Set(Array.from(exclude_filters.keys()))
+
     for (let composition of compositions) {
         let imgs = composition.getElementsByTagName("img")
-        let comp_champs = []
+        let composition_champions = new Set()
+
         for (let img of imgs) {
-            comp_champs.push(img.dataset.champion)
+            composition_champions.add(img.dataset.champion)
         }
 
-        let champions = Array.from(filters_.keys())
-        let intersection = champions.filter(value => comp_champs.includes(value))
+        let include_intersection = new Set([...composition_champions].filter(x => include_champions.has(x)));
+        let exclude_intersection = new Set([...composition_champions].filter(x => exclude_champions.has(x)));
 
-        if (intersection.length >= champions.length)
-            composition.style.display = "block"
-        else
+        if (exclude_intersection.size > 0 || include_intersection.size < include_champions.size)
             composition.style.display = "none"
+        else
+            composition.style.display = "block"
     }
 }
 
 function updateFilterElements() {
     filters.innerHTML = ""
 
-    for (let [champion_id, champion_name] of filters_) {
-
+    function add_filter_element(champion_id, champion_name, color) {
         function removeFilter(id_) {
-            filters_.delete(id_)
+            include_filters.delete(id_)
+            exclude_filters.delete(id_)
             updateFilterElements()
             filterCompositions()
             updateFilters()
@@ -45,7 +55,7 @@ function updateFilterElements() {
 
         let badge = document.createElement("span")
         badge.classList.add("badge")
-        badge.classList.add("text-bg-primary")
+        badge.classList.add(color)
         badge.innerText = new DOMParser().parseFromString(champion_name, "text/html").documentElement.textContent + " "
         badge.addEventListener("click", (e) => removeFilter(champion_id))
 
@@ -58,10 +68,18 @@ function updateFilterElements() {
 
         filters.appendChild(badge);
     }
+
+    for (let [champion_id, champion_name] of include_filters) {
+        add_filter_element(champion_id, champion_name, "text-bg-success")
+    }
+    for (let [champion_id, champion_name] of exclude_filters) {
+        add_filter_element(champion_id, champion_name, "text-bg-danger")
+    }
 }
 
 
-select.addEventListener("change", filterChanged)
+include_select.addEventListener("change", filterChanged)
+exclude_select.addEventListener("change", filterChanged)
 
 
 function updateFilters() {
@@ -70,22 +88,24 @@ function updateFilters() {
         let imgs = composition.getElementsByTagName("img")
 
         for (let img of imgs) {
-            if (composition.style.display == "block" && !filters_.has(img.dataset.champion))
+            if (composition.style.display == "block" && !include_filters.has(img.dataset.champion))
                 champions_remaining.set(img.dataset.champion, img.alt)
         }
     }
 
-    // clear it
-    while (select.options.length > 0) {
-        select.remove(0);
-    }
+    for (let select of [include_select, exclude_select]) {
+        // clear it
+        while (select.options.length > 0) {
+            select.remove(0);
+        }
 
-    let mapAsc = new Map([...champions_remaining.entries()].sort());
+        let mapAsc = new Map([...champions_remaining.entries()].sort());
 
-    // fill it
-    select.options.add(new Option("", "", true));
-    for (const [champion_id, champion_name] of mapAsc.entries()) {
-        select.options.add(new Option(champion_name, champion_id));
+        // fill it
+        select.options.add(new Option("", "", true));
+        for (const [champion_id, champion_name] of mapAsc.entries()) {
+            select.options.add(new Option(champion_name, champion_id));
+        }
     }
 }
 

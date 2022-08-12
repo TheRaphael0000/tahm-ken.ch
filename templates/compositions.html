@@ -4,11 +4,13 @@
 {% block main %}
     <h1>{{ challenge_name }}</h1>
     <div class="m-3 text-center">
-        <span>Filters :</span>
-        <select id="filter_select" class="m-2" style="width:100px;">
+        <span>Must include :</span>
+        <select id="include_select" class="m-2" style="width:100px;">
         </select>
-        <div id="filters">
-        </div>
+        <span>Must exclude :</span>
+        <select id="exclude_select" class="m-2" style="width:100px;">
+        </select>
+        <div id="filters"></div>
     </div>
     {% for number, comps in by_number.items() %}
         <h2>{{ number }} challenges</h2>
