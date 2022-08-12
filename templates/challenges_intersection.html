@@ -43,6 +43,7 @@
             <th role="columnheader" data-sort-method="none"></th>
             <th role="columnheader">#</th>
             <th role="columnheader">Challenge</th>
+            <th role="columnheader" data-sort-method="none"></th>
             <th role="columnheader">Label</th>
             <th role="columnheader" class="less_pad">C</th>
             <th role="columnheader" class="less_pad" data-sort-method="none">/</th>
@@ -75,6 +76,11 @@
               </label>
             </td>
             <td>
+              <span class="tooltip_">?
+                <span class="tooltip_text">{{ challenge["config"]["localizedNames"]["en_US"]["description"] }}</span>
+              </span>
+            </td>
+            <td>
               {% if 'label' in challenge %}{{ challenge['label'] }}{% endif %}
             </td>
             <td class="less_pad">
@@ -85,12 +91,13 @@
               <span id="challenge_requirement_{{ i }}">{{ challenge['qte'] }}</span>
             </td>
             {% if summoner_progress %}
-              <td class="text-center text-dark" data-sort="{{ summoner_progress[challenge['riot_id']]['value'] }}">
+              <td class="text-center text-dark"
+                  data-sort="{{ summoner_progress[challenge['riot_id']]['value'] }}">
                 <div class="{{ summoner_progress[challenge['riot_id']]['level'] }}">
                   {{ summoner_progress[challenge['riot_id']]['value'] }}
                   {% if summoner_progress[challenge['riot_id']]['next_threshold'] %}
-                   / {{ summoner_progress[challenge['riot_id']]['next_threshold'] }}
-                   {% endif %}
+                    / {{ summoner_progress[challenge['riot_id']]['next_threshold'] }}
+                  {% endif %}
                 </div>
               </td>
             {% endif %}

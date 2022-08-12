@@ -37,6 +37,33 @@ footer {
     font-size: 2em;
 }
 
+
+/* tooltip mainly from https://www.w3schools.com/css/tryit.asp?filename=trycss_tooltip */
+.tooltip_ {
+    position: relative;
+    display: inline-block;
+    font-style: italic;
+    border-bottom: 1px dotted white;
+}
+
+.tooltip_ .tooltip_text {
+    visibility: hidden;
+    background-color: rgba(20, 20, 20, 0.85);
+    width: 250px;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    left: 20px;
+    top: calc(-50%);
+    z-index: 1;
+}
+
+.tooltip_:hover .tooltip_text {
+    visibility: visible;
+}
+
 .UNRANKED {
     background-color: #ffffff;
 }

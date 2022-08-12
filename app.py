@@ -62,6 +62,8 @@ layout = {
     "compositions": list(compositions.keys()),
 }
 
+print(challenges)
+
 
 @app.route("/")
 def main():

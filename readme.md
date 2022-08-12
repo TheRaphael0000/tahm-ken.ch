@@ -6,6 +6,19 @@ still wip, you can pr if you want.
 
 or use it on https://tahm-ken.ch/
 
+## todo
+- [ ] add tooltips for the challenges, idea from PureImplosion on Reddit
+- [ ] filter out champions in compositions, idea from DOOGLAK on Reddit
+- [ ] recompute the optimized composition for "Variety's Overrated", idea from Konstamonsta on Reddit
+- [ ] show challenges for each champions when hovering them
+- [ ] responsiveness for mobile
+- [ ] update table sorting and add visual clue of the current sort
+- [ ] add a caching system for the API calls, see if its better to use cassiopeia instead of riotwatcher
+- [ ] use genetic algorithms to find the best compositions to try to avoid having always the same champs in the best compositions
+- [ ] User eXperience (help needed)
+- [ ] multi-language
+
+
 ## done
 - [x] collect the data
 - [x] parse the data
@@ -22,14 +35,6 @@ or use it on https://tahm-ken.ch/
 - [x] in the compositions, update the filter to only show available champs
 - [x] search for champions when typing letters
 
-## todo
-- [ ] recompute the optimized composition for "Variety's Overrated"
-- [ ] add a caching system for the API calls, see if its better to use cassiopeia instead of riotwatcher
-- [ ] show challenges for each champions when hovering them
-- [ ] responsiveness for mobile
-- [ ] update table sorting and add visual clue of the current sort
-- [ ] use genetic algorithms to find the best compositions to try to avoid having always the same champs in the best compositions
-- [ ] User eXperience (help needed)
 
 ## install
 you need python
@@ -51,6 +56,12 @@ python app.py
 
 ## thanks
 
+people who directly helped the project (more than feedbacks):
+
 - thanks to @celiendonze and @Etiouse for helping me populate the initial `challenges.json`
 - thanks to @Pomarine for reviewing and correcting the `challenges.json` file
 - thanks to @Naralas for fixing paths in `brute_force_compositions.ipynb`
+
+people who gave feedback that were implemented/bug fixed:
+
+- 
