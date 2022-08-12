@@ -7,7 +7,8 @@ still wip, you can pr if you want.
 or use it on https://tahm-ken.ch/
 
 ## todo
-- [ ] recompute the optimized composition for "Variety's Overrated", idea from Konstamonsta on Reddit
+- [ ] replace the space in the name of the compositions by underscores or dashes
+- [ ] use cdragon icon for the challenge
 - [ ] show challenges for each champions when hovering them
 - [ ] responsiveness for mobile
 - [ ] update table sorting and add visual clue of the current sort
@@ -34,6 +35,7 @@ or use it on https://tahm-ken.ch/
 - [x] search for champions when typing letters
 - [x] add tooltips for the challenges, idea from PureImplosion on Reddit
 - [x] filter out champions in compositions, idea from DOOGLAK on Reddit
+- [x] recompute the optimized composition for "Variety's Overrated", idea from Konstamonsta on Reddit
 
 
 ## install
