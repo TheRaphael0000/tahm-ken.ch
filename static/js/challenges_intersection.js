@@ -241,7 +241,6 @@ function clear_out() {
 }
 
 document.addEventListener("keydown", function (e) {
-    console.log(document.activeElement)
     if (document.activeElement.id == "summoner") {
         return
     }
