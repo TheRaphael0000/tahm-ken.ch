@@ -59,7 +59,7 @@ class RandomQuotes:
 # variables which are required for the layout
 layout = {
     "quote": RandomQuotes(),
-    "compositions": list(compositions.keys()),
+    "compositions": [(c, c.replace(" ", "_")) for c in compositions.keys()],
 }
 
 @app.route("/")
@@ -135,6 +135,7 @@ def challenges_intersection(region="EUW1", summoner=""):
 
 @app.route("/compositions/<challenge>")
 def comps(challenge):
+    challenge = challenge.replace("_", " ")
     by_number = defaultdict(list)
     try:
         comps = compositions[challenge]
