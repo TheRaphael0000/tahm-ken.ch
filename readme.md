@@ -7,6 +7,7 @@ still wip, you can pr if you want.
 or use it on https://tahm-ken.ch/
 
 ## todo
+- [ ] add summoners icon and challenge progression when searching for summoner
 - [ ] show challenges for each champions when hovering them
 - [ ] block api route when too many request from same client (look into the flask_limiter package)
 - [ ] responsiveness for mobile
