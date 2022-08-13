@@ -7,7 +7,6 @@ still wip, you can pr if you want.
 or use it on https://tahm-ken.ch/
 
 ## todo
-- [ ] use cdragon icon for the challenge
 - [ ] show challenges for each champions when hovering them
 - [ ] block api route when too many request from same client (look into the flask_limiter package)
 - [ ] responsiveness for mobile
@@ -37,6 +36,7 @@ or use it on https://tahm-ken.ch/
 - [x] filter out champions in compositions, idea from DOOGLAK on Reddit
 - [x] recompute the optimized composition for "Variety's Overrated", idea from Konstamonsta on Reddit
 - [x] replace the space in the name of the compositions by underscores or dashes
+- [x] use cdragon icon for the challenge
 
 
 ## install

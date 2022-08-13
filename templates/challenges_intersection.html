@@ -41,14 +41,14 @@
         <thead>
           <tr>
             <th role="columnheader" data-sort-method="none"></th>
-            <th role="columnheader">#</th>
+            <th role="columnheader" class="text-end">#</th>
             <th role="columnheader">Challenge</th>
             <th role="columnheader" data-sort-method="none"></th>
             <th role="columnheader">Label</th>
             <th role="columnheader" class="less_pad">C</th>
             <th role="columnheader" class="less_pad" data-sort-method="none">/</th>
             <th role="columnheader" class="less_pad">R</th>
-            <th role="columnheader" data-sort-default>Progress</th>
+            <th role="columnheader" data-sort-default colspan="2" class="text-left">Progress</th>
           </tr>
         </thead>
         {% for i, challenge in challenges %}
@@ -91,14 +91,24 @@
               <span id="challenge_requirement_{{ i }}">{{ challenge['qte'] }}</span>
             </td>
             {% if summoner_progress %}
-              <td class="text-center text-dark"
-                  data-sort="{{ summoner_progress[challenge['riot_id']]['value'] }}">
-                <div class="{{ summoner_progress[challenge['riot_id']]['level'] }}">
+              <td data-sort="{{ summoner_progress[challenge['riot_id']]['value'] }}">
+                {% if summoner_progress[challenge['riot_id']]['level'] != "unranked" %}
+                  <img src="https://raw.communitydragon.org/latest/game/assets/challenges/config/{{ challenge['riot_id'] }}/tokens/{{ summoner_progress[challenge['riot_id']]['level'] }}.png"
+                       height="21px">
+                {% else %}
+                  <svg height="21" width="21">
+                    <circle cx="10" cy="10" r="9" fill="grey" />
+                  </svg>
+                {% endif %}
+              </td>
+              <td data-sort="{{ summoner_progress[challenge['riot_id']]['value'] }}"
+                  class="text-center less_pad">
+                <span>
                   {{ summoner_progress[challenge['riot_id']]['value'] }}
                   {% if summoner_progress[challenge['riot_id']]['next_threshold'] %}
                     / {{ summoner_progress[challenge['riot_id']]['next_threshold'] }}
                   {% endif %}
-                </div>
+                </span>
               </td>
             {% endif %}
           </tr>

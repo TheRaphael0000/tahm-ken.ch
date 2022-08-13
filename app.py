@@ -102,13 +102,13 @@ def challenges_intersection(region="EUW1", summoner=""):
                 id_ = c["riot_id"]
 
                 challenge_for_this_summoner = {
-                    "level": "UNRANKED",
+                    "level": "unranked",
                     "value": 0,
                 }
 
                 if id_ in summoner_challenges_by_id:
                     challenge_for_this_summoner = {
-                        "level": summoner_challenges_by_id[id_]["level"],
+                        "level": summoner_challenges_by_id[id_]["level"].lower(),
                         "value": int(summoner_challenges_by_id[id_]["value"]),
                     }
 
