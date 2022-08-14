@@ -211,6 +211,13 @@ def how_to_use():
     }
     return render_template("how_to_use.html", **args)
 
+@app.route("/faq")
+def faq():
+    args = {
+        "layout": layout,
+    }
+    return render_template("faq.html", **args)
+
 
 @app.errorhandler(404)
 def page_not_found(e):

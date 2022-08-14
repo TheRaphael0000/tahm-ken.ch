@@ -1,33 +1,26 @@
 {% extends "layout.html" %}
 {% block title %}How to use{% endblock %}
-{% block head %}
-{% endblock %}
+{% block head %}{% endblock %}
 {% block main %}
-
-<div class="container">
-    <h1>Tool</h1>
-
-    <h3>Find intersections</h3>
-    Some champions are better than others to get multiple challenge at once.
-    You can find which champion have the same challenges by ticking challenges in the left menu.
-    The left column shows you how many champions are in a specific challenge.
-
-    <h3>Create your composition</h3>
-    You can create your composition by clicking on the champion, once selected they are bordered with a yellow frame.
-    You may only select up to 5 champions (I wonder why).
-    The C column (Currently) tells you how many champions are in a specific challenge, the R column (Required) is the number of champions you need to achieve this challenge.
-    When a challenge requirements is met, the text color changes to yellow.
-    PRO-TIP: You can search for a specific champion by typing its name, if only one champion is shown and you press enter, it will select/unselect the champion. Type "Esc" to leave the search.
-    
-    <h3>Show your current challenges</h3>
-    On the top right, you can enter your summoners name and the server you're on.
-    The progress column will show you for each teamwork challenge the number of times you've won a game for a specific challenge.
-    The color represents the challenge tier you currently are at.
-    
-    <h1>Optimized compositions</h1>
-    This menu helps you optimize your composition for a specific challenge.
-    Once on the challenge page, you can filter to show only composition that contains specific champions.
-    When hovering the composition, it shows you the challenges that will be progressed if you win the game.
-</div>
-
+    <div class="container">
+        <h1>Tool</h1>
+        <h3>Find intersections</h3>
+        Some champions are better than others to get multiple challenge at once.
+        You can find which champion have the same challenges by ticking challenges in the left menu.
+        The left column shows you how many champions are in a specific challenge.
+        <h3>Create your composition</h3>
+        You can create your composition by clicking on the champion, once selected they are bordered with a yellow frame.
+        You may only select up to 5 champions (I wonder why).
+        The C column (Currently) tells you how many champions are in a specific challenge, the R column (Required) is the number of champions you need to achieve this challenge.
+        When a challenge requirements is met, the text color changes to yellow.
+        PRO-TIP: You can search for a specific champion by typing its name, if only one champion is shown and you press enter, it will select/unselect the champion. Type "Esc" to leave the search.
+        <h3>Show your current challenges</h3>
+        On the top right, you can enter your summoners name and the server you're on.
+        The progress column will show you for each teamwork challenge the number of times you've won a game for a specific challenge.
+        The color represents the challenge tier you currently are at.
+        <h1>Optimized compositions</h1>
+        This menu helps you optimize your composition for a specific challenge.
+        Once on the challenge page, you can filter to show only composition that contains specific champions.
+        When hovering the composition, it shows you the challenges that will be progressed if you win the game.
+    </div>
 {% endblock %}
