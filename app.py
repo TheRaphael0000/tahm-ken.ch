@@ -7,6 +7,9 @@ from flask import abort
 from flask import render_template
 from flask import redirect
 
+from flask_limiter import Limiter
+from flask_limiter.util import get_remote_address
+
 from riotwatcher import LolWatcher
 from riotwatcher import ApiError
 
@@ -23,6 +26,8 @@ from tk_quotes import RandomQuotes
 
 # create the flask app
 app = Flask(__name__, static_url_path="/static")
+# create the request limiter
+limiter = Limiter(app, key_func=get_remote_address)
 
 # load the pre-calculated compositions
 compositions = json.load(open("static/compositions.json", "r"))
@@ -46,11 +51,8 @@ def route_tool(path):
     return redirect("/".join(["/challenges_intersection", path]))
 
 
-@app.route("/challenges_intersection")
-@app.route("/challenges_intersection/<region>")
-@app.route("/challenges_intersection/<region>/<summoner>")
-def route_challenges_intersection(region="EUW1", summoner=""):
-    args = {
+def get_args_challenges_intersection(region, summoner):
+    return {
         "champions": champions,
         "champions_keys": enumerate(champions_keys),
         "challenges": enumerate(challenges),
@@ -60,6 +62,18 @@ def route_challenges_intersection(region="EUW1", summoner=""):
         "summoner_progress": None,
         "layout": layout,
     }
+
+
+@app.route("/challenges_intersection")
+def route_challenges_intersection():
+    args = get_args_challenges_intersection("EUW1", "")
+    return render_template("challenges_intersection.html", **args)
+
+
+@app.route("/challenges_intersection/<region>/<summoner>")
+@limiter.limit("6/minutes")
+def route_challenges_intersection_summoner(region, summoner):
+    args = get_args_challenges_intersection(region, summoner)
     try:
         if region and summoner and lol_watcher:
             summoner = lol_watcher.summoner.by_name(region, summoner)
@@ -145,6 +159,7 @@ def route_compositions(challenge):
 
 
 @app.route("/custom_compositions/<region>/<summoners_names>")
+@limiter.limit("3/minutes")
 def route_custom_compositions(region, summoners_names):
     try:
         summoners_names = summoners_names.split(",")

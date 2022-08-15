@@ -6,3 +6,4 @@ matplotlib
 riotwatcher
 fabric
 click
+flask-limiter
