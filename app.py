@@ -18,6 +18,7 @@ from challenges_tools import get_custom_optimized_compositions
 from challenges_tools import challenges
 from challenges_tools import champions
 from challenges_tools import champions_keys
+from challenges_tools import lol_watcher
 from tk_quotes import RandomQuotes
 
 # create the flask app
