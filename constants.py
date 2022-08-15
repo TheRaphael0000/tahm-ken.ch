@@ -25,4 +25,12 @@ ranks = {
     "CHALLENGER",
 }
 
+roles = [
+    "Top",
+    "Jungle",
+    "Mid",
+    "Bottom",
+    "Support",
+]
+
 default_region = "EUW1"

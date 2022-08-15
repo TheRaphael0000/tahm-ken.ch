@@ -79,7 +79,7 @@
       "Ziggs",
       "Zyra"
     ],
-    "qte": "3"
+    "qte": 3
   },
   {
     "challenge_name": "Get Over Here",
@@ -120,7 +120,7 @@
       "Zac",
       "Ziggs"
     ],
-    "qte": "3"
+    "qte": 3
   },
   {
     "challenge_name": "Nowhere to Hide",
@@ -156,7 +156,7 @@
       "Xerath",
       "Ziggs"
     ],
-    "qte": "3"
+    "qte": 3
   },
   {
     "challenge_name": "We Protec",
@@ -194,7 +194,7 @@
       "Yuumi",
       "Zilean"
     ],
-    "qte": "3"
+    "qte": 3
   },
   {
     "challenge_name": "We're Good Over Here",
@@ -237,7 +237,7 @@
       "Ziggs",
       "Zoe"
     ],
-    "qte": "3"
+    "qte": 3
   },
   {
     "challenge_name": "Hold That Pose",
@@ -296,7 +296,7 @@
       "Zac",
       "Zyra"
     ],
-    "qte": "3"
+    "qte": 3
   },
   {
     "challenge_name": "They Just... Don't... DIE!",
@@ -341,7 +341,7 @@
       "Zed",
       "Zilean"
     ],
-    "qte": "3"
+    "qte": 3
   },
   {
     "challenge_name": "Where'd They Go ?",
@@ -366,7 +366,7 @@
       "Vayne",
       "Viego"
     ],
-    "qte": "3"
+    "qte": 3
   },
   {
     "challenge_name": "Summoners on the Rift",
@@ -391,7 +391,7 @@
       "Zed",
       "Zyra"
     ],
-    "qte": "5"
+    "qte": 5
   },
   {
     "challenge_name": "It's a Trap!",
@@ -408,7 +408,7 @@
       "Ziggs",
       "Zyra"
     ],
-    "qte": "3"
+    "qte": 3
   },
   {
     "challenge_name": "I'm Helping",
@@ -425,7 +425,7 @@
       "Veigar",
       "Yorick"
     ],
-    "qte": "3"
+    "qte": 3
   },
   {
     "challenge_name": "Calculated",
@@ -442,7 +442,7 @@
       "Seraphine",
       "Vi"
     ],
-    "qte": "5"
+    "qte": 5
   },
   {
     "challenge_name": "5 Under 5'",
@@ -465,7 +465,7 @@
       "Yuumi",
       "Ziggs"
     ],
-    "qte": "5"
+    "qte": 5
   },
   {
     "challenge_name": "All Hands on Deck",
@@ -482,7 +482,7 @@
       "TahmKench",
       "TwistedFate"
     ],
-    "qte": "5"
+    "qte": 5
   },
   {
     "challenge_name": "FOR DEMACIA",
@@ -505,7 +505,7 @@
       "Vayne",
       "XinZhao"
     ],
-    "qte": "5"
+    "qte": 5
   },
   {
     "challenge_name": "Ice, Ice, Baby",
@@ -527,7 +527,7 @@
       "Udyr",
       "Volibear"
     ],
-    "qte": "5"
+    "qte": 5
   },
   {
     "challenge_name": "Spooky Scary Skeletons",
@@ -547,7 +547,7 @@
       "Viego",
       "Yorick"
     ],
-    "qte": "5"
+    "qte": 5
   },
   {
     "challenge_name": "(Inhuman Screeching Sounds)",
@@ -564,7 +564,7 @@
       "RekSai",
       "Velkoz"
     ],
-    "qte": "5"
+    "qte": 5
   },
   {
     "challenge_name": "Chemtech Comrades",
@@ -586,7 +586,7 @@
       "Zeri",
       "Ziggs"
     ],
-    "qte": "5"
+    "qte": 5
   },
   {
     "challenge_name": "Everybody was Wuju Fighting",
@@ -615,7 +615,7 @@
       "Yone",
       "Zed"
     ],
-    "qte": "5"
+    "qte": 5
   },
   {
     "challenge_name": "Elemental, My Dear Watson",
@@ -629,7 +629,7 @@
       "Rengar",
       "Zyra"
     ],
-    "qte": "5"
+    "qte": 5
   },
   {
     "challenge_name": "Strength Above All",
@@ -650,7 +650,7 @@
       "Talon",
       "Vladimir"
     ],
-    "qte": "5"
+    "qte": 5
   },
   {
     "challenge_name": "The Sun Disc Never Sets",
@@ -669,7 +669,7 @@
       "Xerath",
       "Zilean"
     ],
-    "qte": "5"
+    "qte": 5
   },
   {
     "challenge_name": "Peak Performance",
@@ -685,7 +685,7 @@
       "Taric",
       "Zoe"
     ],
-    "qte": "5"
+    "qte": 5
   },
   {
     "challenge_name": "Variety's Overrated",
@@ -762,7 +762,7 @@
       "Yorick",
       "Zac"
     ],
-    "qte": "5"
+    "qte": 5
   },
   {
     "challenge_name": "Variety's Overrated",
@@ -814,7 +814,7 @@
       "Yorick",
       "Zac"
     ],
-    "qte": "5"
+    "qte": 5
   },
   {
     "challenge_name": "Variety's Overrated",
@@ -884,7 +884,7 @@
       "Zoe",
       "Zyra"
     ],
-    "qte": "5"
+    "qte": 5
   },
   {
     "challenge_name": "Variety's Overrated",
@@ -933,7 +933,7 @@
       "Yone",
       "Zed"
     ],
-    "qte": "5"
+    "qte": 5
   },
   {
     "challenge_name": "Variety's Overrated",
@@ -971,7 +971,7 @@
       "Xayah",
       "Zeri"
     ],
-    "qte": "5"
+    "qte": 5
   },
   {
     "challenge_name": "Variety's Overrated",
@@ -1014,6 +1014,6 @@
       "Zoe",
       "Zyra"
     ],
-    "qte": "5"
+    "qte": 5
   }
 ]

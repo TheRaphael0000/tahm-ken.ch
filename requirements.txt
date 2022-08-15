@@ -2,6 +2,7 @@ flask
 gunicorn
 jupyter
 numpy
+matplotlib
 riotwatcher
 fabric
 click
