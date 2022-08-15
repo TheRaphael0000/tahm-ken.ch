@@ -159,7 +159,7 @@ def route_compositions(challenge):
 
 
 @app.route("/custom_compositions/<region>/<summoners_names>")
-@limiter.limit("3/minutes")
+@limiter.limit("1/minutes")
 def route_custom_compositions(region, summoners_names):
     try:
         summoners_names = summoners_names.split(",")
