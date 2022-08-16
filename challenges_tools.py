@@ -39,6 +39,7 @@ for challenge in challenges:
 champions = json.load(
     open("static/datadragon_cache/champion.json", "rb"))["data"]
 champions_keys = sorted(champions, key=lambda c: champions[c]["name"])
+champions_by_keys = {int(champion["key"]):champion for _, champion in champions.items()}
 
 try:
     lol_watcher = None

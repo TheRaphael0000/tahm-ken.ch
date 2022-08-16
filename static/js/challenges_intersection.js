@@ -127,7 +127,7 @@ function getSelectedChampionsName(id) {
     let selectedChampions = getSelectedChampions()
     let selectedChampionName = []
     for (let s of selectedChampions)
-        if(id == true)
+        if (id == true)
             selectedChampionName.push(s.dataset.champion_name)
         else
             selectedChampionName.push(s.dataset.champion_display_name)
@@ -219,8 +219,8 @@ new Tablesort(document.getElementById('table_challenges'), { descending: true })
 
 // search summmoner logic
 function search_summoner() {
-    if(summoner.value.length > 0) {
-    window.location.href = "/tool/" + region.value + "/" + summoner.value
+    if (summoner.value.length > 0) {
+        window.location.href = "/tool/" + region.value + "/" + summoner.value
     }
 }
 

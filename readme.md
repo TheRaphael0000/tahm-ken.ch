@@ -7,6 +7,7 @@ still wip, you can pr if you want.
 or use it on https://tahm-ken.ch/
 
 ## todo
+- [ ] use role identifications for ordering the champions in the optimized compositions
 - [ ] show points on harmony and the other challenge in the nav bar
 - [ ] move the "how to use" on the corresponding pages (modal dialog)
 - [ ] add more filters for optimized compositions (for champions role for example)
