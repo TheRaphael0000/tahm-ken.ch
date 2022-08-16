@@ -14,6 +14,16 @@ footer {
     text-align: center;
 }
 
+.link {
+    text-decoration: none;
+    color: #05B0D9;
+}
+
+.link:hover,
+.link:focus {
+    text-decoration: underline;
+}
+
 .bg_img {
     background-image: url("/static/img/Tahm_Kench_OriginalSkin.jpg");
     position: fixed;

@@ -210,6 +210,14 @@ def route_faq():
         "layout": layout,
     }
     return render_template("faq.html", **args)
+    
+    
+@app.route("/communities")
+def route_communities():
+    args = {
+        "layout": layout,
+    }
+    return render_template("communities.html", **args)
 
 
 @app.errorhandler(404)
