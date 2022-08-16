@@ -210,12 +210,26 @@ def route_faq():
         "layout": layout,
     }
     return render_template("faq.html", **args)
-    
-    
+
+
 @app.route("/communities")
 def route_communities():
     args = {
         "layout": layout,
+        "communities": [
+            {
+                "image": "https://cdn.discordapp.com/icons/982390963303510016/739aba5489d4189eadb05aee1ac68312.webp?size=64",
+                "name": "High Mastery Discord",
+                "message": "High Mastery is a discord focused primarily on farming challenges in the most efficient way possible with tons of community resources to aid you in your goals",
+                "link": "https://discord.gg/zASN5E6RCv",
+            },
+            {
+                "image": "https://cdn.discordapp.com/icons/983967240812625921/7fbd84e048373dea20cb599a9995f241.webp?size=64",
+                "name": "League Challenges Discord",
+                "message": "League discord to group up with players to complete challenges and discuss everything about League.",
+                "link": "https://discord.gg/FJXAvqxw6T",
+            }
+        ]
     }
     return render_template("communities.html", **args)
 
