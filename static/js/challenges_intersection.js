@@ -219,7 +219,9 @@ new Tablesort(document.getElementById('table_challenges'), { descending: true })
 
 // search summmoner logic
 function search_summoner() {
+    if(summoner.value.length > 0) {
     window.location.href = "/tool/" + region.value + "/" + summoner.value
+    }
 }
 
 summoner.addEventListener("keydown", (event) => {

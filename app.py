@@ -18,6 +18,7 @@ from constants import ranks
 from constants import roles
 from constants import default_region
 from challenges_tools import get_custom_optimized_compositions
+from challenges_tools import get_summoner_challenges_infos
 from challenges_tools import challenges
 from challenges_tools import champions
 from challenges_tools import champions_keys
@@ -26,6 +27,7 @@ from tk_quotes import RandomQuotes
 
 # create the flask app
 app = Flask(__name__, static_url_path="/static")
+app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 60 * 60
 # create the request limiter
 limiter = Limiter(app, key_func=get_remote_address)
 
@@ -75,47 +77,10 @@ def route_challenges_intersection():
 def route_challenges_intersection_summoner(region, summoner):
     args = get_args_challenges_intersection(region, summoner)
     try:
-        if region and summoner and lol_watcher:
-            summoner = lol_watcher.summoner.by_name(region, summoner)
-            summoner_challenges_infos = lol_watcher.challenges.by_puuid(
-                region, summoner['puuid'])
-
-            summoner_challenges_by_id = {
-                c["challengeId"]: c for c in summoner_challenges_infos["challenges"]}
-
-            challenges_for_this_summoner = {}
-            for c in challenges:
-                id_ = c["riot_id"]
-
-                challenge_for_this_summoner = {
-                    "level": "unranked",
-                    "value": 0,
-                }
-
-                if id_ in summoner_challenges_by_id:
-                    challenge_for_this_summoner = {
-                        "level": summoner_challenges_by_id[id_]["level"].lower(),
-                        "value": int(summoner_challenges_by_id[id_]["value"]),
-                    }
-
-                # get the next threshold to upgrade the challenge
-                thresholds = list(c["config"]["thresholds"].items())
-                thresholds.sort(key=lambda l: l[-1])
-                next_threshold = None
-                if challenge_for_this_summoner["level"] not in ["MASTER", "GRANDMASTER", "CHALLENGER"]:
-                    for _, threshold in thresholds:
-                        if threshold > challenge_for_this_summoner["value"]:
-                            next_threshold = str(int(threshold))
-                            break
-
-                challenge_for_this_summoner["next_threshold"] = next_threshold
-
-                challenges_for_this_summoner[id_] = challenge_for_this_summoner
-
-            args["summoner_progress"] = challenges_for_this_summoner
+        args["summoner_progress"], args["total_points"] = get_summoner_challenges_infos(
+            region, summoner)
     except Exception as e:
-        pass
-
+        args["error"] = "Couldn't find the summoner"
     return render_template("challenges_intersection.html", **args)
 
 

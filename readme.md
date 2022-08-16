@@ -1,17 +1,16 @@
 # challenges intersection league
 
-trying to create a gui which help to optimize the new teamwork challenges in league of legends by finding compositions that contain the most challenges.
+trying to create an app which help to optimize the new teamwork challenges in league of legends by finding compositions that contain the most challenges.
 
 still wip, you can pr if you want.
 
 or use it on https://tahm-ken.ch/
 
 ## todo
-- [ ] add a Q&A
-- [ ] add summoners icon and challenge progression when searching for summoner
+- [ ] show points on harmony and the other challenge in the nav bar
+- [ ] move the "how to use" on the corresponding pages (modal dialog)
 - [ ] add more filters for optimized compositions (for champions role for example)
 - [ ] show challenges for each champions when hovering them
-- [ ] block api route when too many request from same client (look into the flask_limiter package)
 - [ ] responsiveness for mobile
 - [ ] update table sorting and add visual clue of the current sort
 - [ ] add a caching system for the API calls, see if its better to use cassiopeia instead of riotwatcher
@@ -40,6 +39,10 @@ or use it on https://tahm-ken.ch/
 - [x] recompute the optimized composition for "Variety's Overrated", idea from Konstamonsta on Reddit
 - [x] replace the space in the name of the compositions by underscores or dashes
 - [x] use cdragon icon for the challenge
+- [x] add a Q&A
+- [x] add summoners icon and challenge progression when searching for summoner
+- [x] block api route when too many request from same client (look into the flask_limiter package)
+- [x] custom compositions (algo that find good comps depending on the masteries)
 
 
 ## install
@@ -70,4 +73,6 @@ people who directly helped the project (more than feedbacks):
 
 people who gave feedback that were implemented/bug fixed:
 
-- 
+- u/PureImplosion
+- u/DOOGLAK
+- u/Konstamonsta

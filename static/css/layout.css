@@ -10,6 +10,11 @@ h5 {
     margin-top: 20px !important;
 }
 
+nav {
+    height: 60px;
+    overflow: hidden;
+}
+
 footer {
     text-align: center;
 }

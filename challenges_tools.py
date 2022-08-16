@@ -178,3 +178,48 @@ def get_custom_optimized_compositions(region, summoners_names, power=1.3, max_de
             comps_.append((comp, list(comp_challenges)))
 
     return comps_
+
+def get_summoner_challenges_infos(region, summoner):
+    summoner = lol_watcher.summoner.by_name(region, summoner)
+    summoner_challenges_infos = lol_watcher.challenges.by_puuid(
+        region, summoner['puuid'])
+
+    summoner_challenges_by_id = {
+        c["challengeId"]: c for c in summoner_challenges_infos["challenges"]}
+
+    challenges_for_this_summoner = {}
+    for c in challenges:
+        id_ = c["riot_id"]
+
+        challenge_for_this_summoner = {
+            "level": "unranked",
+            "value": 0,
+        }
+
+        if id_ in summoner_challenges_by_id:
+            challenge_for_this_summoner = {
+                "level": summoner_challenges_by_id[id_]["level"].lower(),
+                "value": int(summoner_challenges_by_id[id_]["value"]),
+            }
+
+        # get the next threshold to upgrade the challenge
+        thresholds = list(c["config"]["thresholds"].items())
+        thresholds.sort(key=lambda l: l[-1])
+        next_threshold = None
+        if challenge_for_this_summoner["level"] not in ["MASTER", "GRANDMASTER", "CHALLENGER"]:
+            for _, threshold in thresholds:
+                if threshold > challenge_for_this_summoner["value"]:
+                    next_threshold = str(int(threshold))
+                    break
+
+        challenge_for_this_summoner["next_threshold"] = next_threshold
+
+        challenges_for_this_summoner[id_] = challenge_for_this_summoner
+    
+    total_points = summoner_challenges_infos["totalPoints"]
+    
+    # avoid having no crystal for 0 points accounts
+    if total_points["level"] == "NONE":
+        total_points["level"] = "IRON"
+
+    return challenges_for_this_summoner, total_points

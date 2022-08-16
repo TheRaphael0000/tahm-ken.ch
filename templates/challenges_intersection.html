@@ -3,7 +3,20 @@
 {% block title %}Challenge Intersections{% endblock %}
 {% block head %}<link rel="stylesheet" href="/static/css/challenges_intersection.css">{% endblock %}
 {% block navbar %}
-  <ul class="navbar-nav ms-auto">
+  <ul class="navbar-nav ms-auto mt-2"">
+    {% if total_points %}
+      <li class="nav-item">
+        <img height="45px"
+             src="/static/img/challengecrystal/{{ total_points['level'].lower()}}.ls_c2.png"
+             alt="{{ total_points['level'].lower()}}">
+      </li>
+      <li class="p-2">
+        <span class="badge rounded-pill text-bg-light">{{ total_points['current'] }} pts.</span>
+      </li>
+    {% endif %}
+    {% if error %}<li class="nav-item text-danger fw-bold">{{ error }}</li>{% endif %}
+  </ul>
+  <ul class="navbar-nav">
     <li class="nav-item mx-3">
       <input id="summoner"
              type="text"
