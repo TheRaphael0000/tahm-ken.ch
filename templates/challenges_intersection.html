@@ -3,10 +3,10 @@
 {% block title %}Challenge Intersections{% endblock %}
 {% block head %}<link rel="stylesheet" href="/static/css/challenges_intersection.css">{% endblock %}
 {% block navbar %}
-  <ul class="navbar-nav ms-auto mt-2"">
+  <ul class="navbar-nav ms-auto"">
     {% if total_points %}
       <li class="nav-item">
-        <img height="45px"
+        <img height="40px"
              src="/static/img/challengecrystal/{{ total_points['level'].lower()}}.ls_c2.png"
              alt="{{ total_points['level'].lower()}}">
       </li>
