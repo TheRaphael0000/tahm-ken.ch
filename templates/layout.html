@@ -1,16 +1,29 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
     <head>
+        {% set title_s %}{% block title %}{% endblock %}{% endset %}
+        {% set description_s %}Find optimal composition for teamwork challenges in League with this open source tool{% endset %}
+        {% set icon %}/static/img/favicon.png{% endset %}
+
         <!-- Meta tags -->
         <meta charset="UTF-8">
         <meta name="description"
-              content="Find optimal composition for teamwork challenges in League with this open source tool">
+              content="{{ description_s }}">
         <meta name="keywords"
               content="League of Legends, League, Challenges, Optimization">
         <meta name="author" content="TheRaphael0000">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{% block title %}{% endblock %} - Tahm-Ken.ch</title>
-        <link rel="icon" href="/static/img/favicon.png">
+        
+        <!-- Meta OG tags -->
+        <meta property="og:site_name" content="Tahm-Ken.ch">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://tahm-ken.ch">
+        <meta property="og:title" content="{{ title_s }}">
+        <meta property="og:description" content="{{ description_s }}">
+        <meta property="og:image" content="{{ icon }}">
+
+        <title>{{ title_s }} - Tahm-Ken.ch</title>
+        <link rel="icon" href="{{ icon }}">
         <!-- Custom CSS/JS -->
         <link rel="stylesheet" href="/static/css/layout.css">
         {% block head %}{% endblock %}
