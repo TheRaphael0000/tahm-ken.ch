@@ -4,30 +4,31 @@
 {% block head %}{% endblock %}
 {% block main %}
     <div class="container">
+        {% macro discord_community(community) %}
+            <li>
+                <img src="{{ community['image'] }}"
+                     class="rounded-circle"
+                     width="64"
+                     height="64">
+                <a href="{{ community['link'] }}">{{ community['name'] }}</a>
+                <p>
+                    <cite>
+                        {{ community['message'] }}
+                    </cite>
+                </p>
+            </li>
+        {% endmacro %}
         <h1>Tahm-Ken.ch</h1>
         <ul>
-            <li>
-                <img src="https://cdn.discordapp.com/icons/1008412579678400624/61130cfec5cff77e8b2588e8d199e408.webp?size=64"
-                     class="rounded-circle">
-                <a href="https://discord.gg/aHs3uDraNU" class="link">Tahm-Ken.ch Discord</a>
-                <p>The Tahm-Ken.ch official discord server.</p>
-            </li>
+            {{ discord_community(tahm_kench) }}
         </ul>
         <h1>Challenges communities</h1>
-        <p class="text-secondary" style="font-size:0.8em;">
+        <p>
             You can ask on the Tahm-Ken.ch Discord server if you want to add your community on the site (it doesn't need to be a Discord server). You must be admin of this community.
         </p>
         <ul>
             {% for community in communities %}
-                <li>
-                    <img src="{{ community['image'] }}" class="rounded-circle">
-                    <a href="{{ community['link'] }}" class="link">{{ community['name'] }}</a>
-                    <p>
-                        <cite>
-                            {{ community['message'] }}
-                        </cite>
-                    </p>
-                </li>
+            {{ discord_community(community) }}
             {% endfor %}
         </ul>
     </div>

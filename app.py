@@ -1,6 +1,10 @@
 import json
 import random
 from collections import defaultdict
+import urllib.request
+import threading
+
+import bs4
 
 from flask import Flask
 from flask import abort
@@ -196,14 +200,6 @@ def route_champions_selected(champions=""):
     return json.dumps(valid_challenges)
 
 
-@app.route("/how_to_use")
-def route_how_to_use():
-    args = {
-        "layout": layout,
-    }
-    return render_template("how_to_use.html", **args)
-
-
 @app.route("/faq")
 def route_faq():
     args = {
@@ -212,25 +208,48 @@ def route_faq():
     return render_template("faq.html", **args)
 
 
+def scrap_discord_server_information(community):
+    opener = urllib.request.build_opener()
+    opener.addheaders = [('User-Agent', 'Mozilla/5.0')]
+
+    with opener.open(community["link"]) as f:
+        html_doc = f.read()
+        soup = bs4.BeautifulSoup(html_doc, "html.parser")
+
+        community["name"] = soup.find("title").text
+        community["image"] = soup.find("meta", property="og:image")["content"]
+
+
 @app.route("/communities")
 def route_communities():
     args = {
         "layout": layout,
+        "tahm_kench": {
+            "message": "The Tahm-Ken.ch official discord server.",
+            "link": "https://discord.gg/aHs3uDraNU",
+        },
         "communities": [
             {
-                "image": "https://cdn.discordapp.com/icons/982390963303510016/739aba5489d4189eadb05aee1ac68312.webp?size=64",
-                "name": "High Mastery Discord",
                 "message": "High Mastery is a discord focused primarily on farming challenges in the most efficient way possible with tons of community resources to aid you in your goals",
                 "link": "https://discord.gg/zASN5E6RCv",
             },
             {
-                "image": "https://cdn.discordapp.com/icons/983967240812625921/7fbd84e048373dea20cb599a9995f241.webp?size=64",
-                "name": "League Challenges Discord",
                 "message": "League discord to group up with players to complete challenges and discuss everything about League.",
                 "link": "https://discord.gg/FJXAvqxw6T",
             }
         ]
     }
+
+    processes = []
+    for community in args["communities"] + [args["tahm_kench"]]:
+        process = threading.Thread(
+            target=scrap_discord_server_information, args=[community])
+        process.start()
+        processes.append(process)
+
+    for process in processes:
+        process.join()
+
     return render_template("communities.html", **args)
 
 

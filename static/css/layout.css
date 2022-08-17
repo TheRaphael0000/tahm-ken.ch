@@ -2,27 +2,6 @@ body {
     font-size: 0.95em !important;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5 {
-    margin-top: 20px !important;
-}
-
-footer {
-    text-align: center;
-}
-
-.link {
-    text-decoration: none;
-    color: #05B0D9;
-}
-
-.link:hover,
-.link:focus {
-    text-decoration: underline;
-}
 
 .bg_img {
     background-image: url("/static/img/Tahm_Kench_OriginalSkin.jpg");
@@ -31,8 +10,8 @@ footer {
     background-size: cover;
     width: 100%;
     height: 100%;
-    filter: blur(10px);
-    transform: scale(1.05);
+    filter: blur(4px) saturate(125%);
+    transform: scale(1.20);
     opacity: 0.3;
     z-index: -1;
 }

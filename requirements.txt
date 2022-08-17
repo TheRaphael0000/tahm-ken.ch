@@ -7,3 +7,4 @@ riotwatcher
 fabric
 click
 flask-limiter
+bs4

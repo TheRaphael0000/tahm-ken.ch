@@ -74,9 +74,6 @@
                         <a class="nav-link {% if active_page == 'custom_compositions' %}active{% endif %}" href="/custom_compositions">Custom compositions <span class="badge rounded-pill text-bg-info">BETA</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if active_page == 'how_to_use' %}active{% endif %}" href="/how_to_use">How to use</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link {% if active_page == 'communities' %}active{% endif %}" href="/communities">Communities</a>
                     </li>
                     <li class="nav-item">
@@ -90,7 +87,7 @@
             <div class="bg_img"></div>
             {% block main %}{% endblock %}
         </main>
-        <footer>
+        <footer class="text-center">
             <i>{{ layout.quote.random }}</i> - The River King
             <br>
             <p class="text-secondary" style="font-size:0.8em;">
@@ -99,7 +96,7 @@
                 Riot Games, and all associated properties are trademarks or registered trademarks of Riot Games, Inc.
             </p>
         </footer>
-        <div class="socials">
+        <div class="socials m-2">
             <a class="discord" href="https://discord.gg/aHs3uDraNU" target="_blank"><i class="fa-brands fa-discord" style="color: #7289da;"></i></a>
             <a class="github"
                href="https://github.com/TheRaphael0000/challenges_intersection_league/"
