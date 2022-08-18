@@ -4,14 +4,11 @@
 {% block head %}{% endblock %}
 {% block main %}
     <div class="container">
-        {% if error %}
-        <div class="text-danger">{{ error }}</div>
-        {% endif %}
-
+        {% if error %}<div class="text-danger">{{ error }}</div>{% endif %}
         <h1>Custom compositions</h1>
-
-        <p>Our algorithm will try to find good composition with multiple challenge with champions that you usually play (based on your masteries).</p>
-
+        <p>
+            Our algorithm will try to find good composition with multiple challenge with champions that you usually play (based on your masteries).
+        </p>
         <form id="custom_compositions_form">
             <div class="form-group py-3">
                 <label for="region">Region :</label>
@@ -31,8 +28,12 @@
             </div>
             {% for i, role in roles %}
                 <div class="form-group py-3">
-                    <label for="summoner-{{i}}">{{ role }} :</label>
-                    <input type="text" class="form-control summoners" id="summoner-{{i}}" placeholder="Summoners name" required>
+                    <label for="summoner-{{i}}">{{ role.capitalize() }} :</label>
+                    <input type="text"
+                           class="form-control summoners"
+                           id="summoner-{{i}}"
+                           placeholder="Summoners name"
+                           required>
                 </div>
             {% endfor %}
             <div class="py-3">

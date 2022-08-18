@@ -26,11 +26,11 @@ ranks = {
 }
 
 roles = [
-    "Top",
-    "Jungle",
-    "Mid",
-    "Bottom",
-    "Support",
+    "top",
+    "jungle",
+    "mid",
+    "bottom",
+    "support",
 ]
 
 default_region = "EUW1"

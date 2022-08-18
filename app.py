@@ -14,11 +14,7 @@ from flask import redirect
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 
-from riotwatcher import LolWatcher
-from riotwatcher import ApiError
-
 from constants import regions
-from constants import ranks
 from constants import roles
 from constants import default_region
 from challenges_tools import get_custom_optimized_compositions
@@ -26,7 +22,6 @@ from challenges_tools import get_summoner_challenges_infos
 from challenges_tools import challenges
 from challenges_tools import champions
 from challenges_tools import champions_keys
-from challenges_tools import lol_watcher
 from tk_quotes import RandomQuotes
 
 # create the flask app
@@ -41,7 +36,7 @@ compositions = json.load(open("static/compositions.json", "r"))
 # variables which are required for the layout
 layout = {
     "quote": RandomQuotes(),
-    "compositions": [(c, c.replace(" ", "_")) for c in compositions.keys()],
+    "compositions": sorted([(c, c.replace(" ", "_")) for c in compositions.keys()]),
 }
 
 
@@ -92,7 +87,6 @@ def comps_processing(comps):
     # limit large challenges
     by_number = defaultdict(list)
     limit = 8000
-    comps.sort(key=lambda c: -len(c[-1]))
     if len(comps) > limit:
         random.shuffle(comps)
         comps = comps[0:limit]
@@ -100,11 +94,16 @@ def comps_processing(comps):
                  for comp, comp_challenge in comps]
         comps.sort()
     champions_available = set()
-    for comp, chall in comps:
-        by_number[len(chall)].append((comp, chall))
+    for comp, challenges, stupidity_level in comps:
+        comp = [comp[role] for role in roles]
+        by_number[len(challenges)].append((comp, challenges, stupidity_level))
         champions_available |= set(comp)
     champions_ = {c: d for c, d in champions.items()
                   if c in champions_available}
+
+    by_number = list(by_number.items())
+    by_number.sort(key=lambda l: -l[0])
+    by_number = dict(by_number)
 
     args = {
         "by_number": by_number,

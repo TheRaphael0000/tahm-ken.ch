@@ -10,6 +10,11 @@ from riotwatcher import ApiError
 
 from config import config
 from constants import default_region
+from constants import roles
+
+from champions_roles import best_fit_roles
+from champions_roles import champions
+from champions_roles import champions_by_roles
 
 challenges = json.load(open("static/challenges.json"))
 for c in challenges:
@@ -36,10 +41,9 @@ for challenge in challenges:
 
 
 # load champions data
-champions = json.load(
-    open("static/datadragon_cache/champion.json", "rb"))["data"]
 champions_keys = sorted(champions, key=lambda c: champions[c]["name"])
-champions_by_keys = {int(champion["key"]):champion for _, champion in champions.items()}
+champions_by_keys = {
+    int(champion["key"]): champion for _, champion in champions.items()}
 
 try:
     lol_watcher = None
@@ -97,10 +101,11 @@ def find_comp_randomly_team(data, max_depth=1e8):
             champions_copy = list(champions_)
             pi_copy = np.array(pi)
             for c in comp:
-                i = champions_copy.index(c)
-                pi_copy = np.delete(pi_copy, i)
-                champions_copy.remove(c)
-                pi_copy /= pi_copy.sum()
+                if c in champions_copy:
+                    i = champions_copy.index(c)
+                    pi_copy = np.delete(pi_copy, i)
+                    champions_copy.remove(c)
+                    pi_copy /= pi_copy.sum()
 
             ids = np.array(range(len(champions_copy)))
             id_ = np.random.choice(ids, p=pi_copy)
@@ -146,11 +151,12 @@ def get_custom_optimized_compositions(region, summoners_names, power=1.3, max_de
                 raise Exception("Unhandled error")
 
     data = []
-    for summoner in summoners:
+    for summoner, role in zip(summoners, roles):
         summoner_masteries = lol_watcher.champion_mastery.by_summoner(
             region=region, encrypted_summoner_id=summoner["id"])
 
-        masteries_by_id = {mastery["championId"]                           : mastery for mastery in summoner_masteries}
+        masteries_by_id = {mastery["championId"]
+            : mastery for mastery in summoner_masteries}
         champion_masteries = {}
 
         for champion_id, champion in champions.items():
@@ -160,8 +166,13 @@ def get_custom_optimized_compositions(region, summoners_names, power=1.3, max_de
             else:
                 champion_masteries[champion_id] = masteries_by_id[champion_key]["championPoints"] ** power
 
-        champions_ = list(champion_masteries.keys())
-        p = np.array(list(champion_masteries.values()))
+        filter_champion_by_role = {}
+        for k, v in champion_masteries.items():
+            if k in champions_by_roles[role]:
+                filter_champion_by_role[k] = v
+
+        champions_ = list(filter_champion_by_role.keys())
+        p = np.array(list(filter_champion_by_role.values()))
         p = p/p.sum()
 
         data.append((champions_, p))
@@ -173,12 +184,15 @@ def get_custom_optimized_compositions(region, summoners_names, power=1.3, max_de
         if len(comp_challenges) < 3:
             continue
 
+        comp_roles, stupidity_level = best_fit_roles(comp)
+
         comp_str = str(sorted(list(comp)))
         if comp_str not in comp_found:
             comp_found.add(comp_str)
-            comps_.append((comp, list(comp_challenges)))
+            comps_.append((comp_roles, list(comp_challenges), stupidity_level))
 
     return comps_
+
 
 def get_summoner_challenges_infos(region, summoner):
     summoner = lol_watcher.summoner.by_name(region, summoner)
@@ -216,9 +230,9 @@ def get_summoner_challenges_infos(region, summoner):
         challenge_for_this_summoner["next_threshold"] = next_threshold
 
         challenges_for_this_summoner[id_] = challenge_for_this_summoner
-    
+
     total_points = summoner_challenges_infos["totalPoints"]
-    
+
     # avoid having no crystal for 0 points accounts
     if total_points["level"] == "NONE":
         total_points["level"] = "IRON"

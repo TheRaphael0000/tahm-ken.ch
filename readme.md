@@ -7,10 +7,7 @@ still wip, you can pr if you want.
 or use it on https://tahm-ken.ch/
 
 ## todo
-- [ ] use role identifications for ordering the champions in the optimized compositions
 - [ ] show points on harmony and the other challenge in the nav bar
-- [ ] move the "how to use" on the corresponding pages (modal dialog)
-- [ ] add more filters for optimized compositions (for champions role for example)
 - [ ] show challenges for each champions when hovering them
 - [ ] responsiveness for mobile
 - [ ] update table sorting and add visual clue of the current sort
@@ -44,7 +41,9 @@ or use it on https://tahm-ken.ch/
 - [x] add summoners icon and challenge progression when searching for summoner
 - [x] block api route when too many request from same client (look into the flask_limiter package)
 - [x] custom compositions (algo that find good comps depending on the masteries)
-
+- [x] use role identifications for ordering the champions in the optimized compositions
+- [x] move the "how to use" on the corresponding pages (modal dialog)
+- [x] add more filters for optimized compositions (for champions role for example) -> became the stupidity level metric
 
 ## install
 you need python

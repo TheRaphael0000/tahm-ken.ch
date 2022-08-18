@@ -7,8 +7,15 @@
 }
 
 .challenges {
+    position:fixed;
     display: none;
+    background-color: rgba(20, 20, 20, 0.85);
+    pointer-events: none;
+    padding: 8px;
+    border-radius: 6px;
+    z-index: 1;
 }
+
 
 .composition:hover .challenges {
     display: block;
