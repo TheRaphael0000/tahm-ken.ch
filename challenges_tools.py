@@ -16,6 +16,7 @@ from champions_roles import best_fit_roles
 from champions_roles import champions
 from champions_roles import champions_by_roles
 
+additional_challenges = [{"id": 303400}, {"id": 303500}]
 challenges = json.load(open("static/challenges.json"))
 for c in challenges:
     c["champions_l"] = len(c["champions"])
@@ -53,7 +54,9 @@ try:
     challenges_config = {c["id"]: c for c in challenges_config}
     # add the challenges data from the riot api to the json data
     for challenge in challenges:
-        challenge["config"] = challenges_config[challenge["riot_id"]]
+        challenge["config"] = challenges_config[challenge["id"]]
+    for challenge in additional_challenges:
+        challenge["config"] = challenges_config[challenge["id"]]
 except ValueError:
     print("No Riot API key provided")
 except ApiError:
@@ -155,8 +158,7 @@ def get_custom_optimized_compositions(region, summoners_names, power=1.3, max_de
         summoner_masteries = lol_watcher.champion_mastery.by_summoner(
             region=region, encrypted_summoner_id=summoner["id"])
 
-        masteries_by_id = {mastery["championId"]
-            : mastery for mastery in summoner_masteries}
+        masteries_by_id = {mastery["championId"]: mastery for mastery in summoner_masteries}
         champion_masteries = {}
 
         for champion_id, champion in champions.items():
@@ -202,39 +204,50 @@ def get_summoner_challenges_infos(region, summoner):
     summoner_challenges_by_id = {
         c["challengeId"]: c for c in summoner_challenges_infos["challenges"]}
 
-    challenges_for_this_summoner = {}
-    for c in challenges:
-        id_ = c["riot_id"]
+    def find_next_threshold(thresholds, challenge_for_this_summoner):
+        if challenge_for_this_summoner["level"] in ["master", "grandmaster", "challenger"]:
+            return None
 
-        challenge_for_this_summoner = {
-            "level": "unranked",
-            "value": 0,
-        }
+        thresholds = list(thresholds.items())
+        thresholds.sort(key=lambda l: l[-1])
+
+        for _, threshold in thresholds:
+            if threshold > challenge_for_this_summoner["value"]:
+                return str(int(threshold))
+
+    def create_summoner_challenge(challenge):
+        id_ = challenge["id"]
 
         if id_ in summoner_challenges_by_id:
             challenge_for_this_summoner = {
                 "level": summoner_challenges_by_id[id_]["level"].lower(),
                 "value": int(summoner_challenges_by_id[id_]["value"]),
             }
+        else:
+            challenge_for_this_summoner = {
+                "level": "unranked",
+                "value": 0,
+            }
 
-        # get the next threshold to upgrade the challenge
-        thresholds = list(c["config"]["thresholds"].items())
-        thresholds.sort(key=lambda l: l[-1])
-        next_threshold = None
-        if challenge_for_this_summoner["level"] not in ["MASTER", "GRANDMASTER", "CHALLENGER"]:
-            for _, threshold in thresholds:
-                if threshold > challenge_for_this_summoner["value"]:
-                    next_threshold = str(int(threshold))
-                    break
+        challenge_for_this_summoner["next_threshold"] = find_next_threshold(
+            challenge["config"]["thresholds"], challenge_for_this_summoner)
+        return challenge_for_this_summoner
 
-        challenge_for_this_summoner["next_threshold"] = next_threshold
+    summoner_challenges = {
+        challenge["id"]: create_summoner_challenge(challenge)
+        for challenge in challenges
+    }
 
-        challenges_for_this_summoner[id_] = challenge_for_this_summoner
+    additional_summoner_challenges = {
+        challenge["id"]: create_summoner_challenge(challenge)
+        for challenge in additional_challenges
+    }
 
     total_points = summoner_challenges_infos["totalPoints"]
+    total_points["level"] = total_points["level"].lower()
 
     # avoid having no crystal for 0 points accounts
-    if total_points["level"] == "NONE":
-        total_points["level"] = "IRON"
+    if total_points["level"] == "none":
+        total_points["level"] = "iron"
 
-    return challenges_for_this_summoner, total_points
+    return summoner_challenges, total_points, additional_summoner_challenges

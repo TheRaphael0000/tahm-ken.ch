@@ -20,6 +20,7 @@ from constants import default_region
 from challenges_tools import get_custom_optimized_compositions
 from challenges_tools import get_summoner_challenges_infos
 from challenges_tools import challenges
+from challenges_tools import additional_challenges
 from challenges_tools import champions
 from challenges_tools import champions_keys
 from tk_quotes import RandomQuotes
@@ -76,10 +77,16 @@ def route_challenges_intersection():
 def route_challenges_intersection_summoner(region, summoner):
     args = get_args_challenges_intersection(region, summoner)
     try:
-        args["summoner_progress"], args["total_points"] = get_summoner_challenges_infos(
-            region, summoner)
+        infos = get_summoner_challenges_infos(region, summoner)
+        args |= {
+            "summoner_challenges": infos[0],
+            "total_points": infos[1],
+            "additional_summoner_challenges": infos[2],
+            "additional_challenges": enumerate(additional_challenges),
+        }
     except Exception as e:
-        args["error"] = "Couldn't find the summoner"
+        args["error"] = f"Couldn't find the summoner {e}"
+        raise Exception(e)
     return render_template("challenges_intersection.html", **args)
 
 

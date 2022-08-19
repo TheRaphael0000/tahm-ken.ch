@@ -7,7 +7,7 @@
     {% if total_points %}
       <li class="nav-item">
         <img height="40px"
-             src="/static/img/challengecrystal/{{ total_points['level'].lower()}}.ls_c2.png"
+             src="/static/img/challengecrystal/{{ total_points['level'] }}.ls_c2.png"
              alt="{{ total_points['level'].lower()}}">
       </li>
       <li class="p-2">
@@ -66,6 +66,7 @@
           </tr>
         </thead>
         {% for i, challenge in challenges %}
+          {% set challenge_progress = summoner_challenges[challenge['id']] %}
           <tr id="challenge_tr_{{i}}" class="challenge_tr checked">
             <td>
               <input id="challenge_cb_{{i}}"
@@ -104,10 +105,10 @@
             <td class="less_pad">
               <span id="challenge_requirement_{{ i }}">{{ challenge['qte'] }}</span>
             </td>
-            {% if summoner_progress %}
-              <td data-sort="{{ summoner_progress[challenge['riot_id']]['value'] }}">
-                {% if summoner_progress[challenge['riot_id']]['level'] != "unranked" %}
-                  <img src="https://raw.communitydragon.org/latest/game/assets/challenges/config/{{ challenge['riot_id'] }}/tokens/{{ summoner_progress[challenge['riot_id']]['level'] }}.png"
+            {% if summoner_challenges %}
+              <td data-sort="{{ challenge_progress['value'] }}">
+                {% if challenge_progress['level'] != "unranked" %}
+                  <img src="https://raw.communitydragon.org/latest/game/assets/challenges/config/{{ challenge['id'] }}/tokens/{{ challenge_progress['level'] }}.png"
                        height="21px">
                 {% else %}
                   <svg height="21px" width="21px">
@@ -115,12 +116,12 @@
                   </svg>
                 {% endif %}
               </td>
-              <td data-sort="{{ summoner_progress[challenge['riot_id']]['value'] }}"
+              <td data-sort="{{ challenge_progress['value'] }}"
                   class="text-center less_pad">
                 <span>
-                  {{ summoner_progress[challenge['riot_id']]['value'] }}
-                  {% if summoner_progress[challenge['riot_id']]['next_threshold'] %}
-                    / {{ summoner_progress[challenge['riot_id']]['next_threshold'] }}
+                  {{ challenge_progress['value'] }}
+                  {% if challenge_progress['next_threshold'] %}
+                    / {{ challenge_progress['next_threshold'] }}
                   {% endif %}
                 </span>
               </td>
@@ -128,6 +129,15 @@
           </tr>
         {% endfor %}
       </table>
+      <div>
+        {% for i, challenge in additional_challenges %}
+          {% set challenge_progress = additional_summoner_challenges[challenge['id']] %}
+        {{challenge["config"]["localizedNames"]["en_US"]["name"] }}
+        <img src="https://raw.communitydragon.org/latest/game/assets/challenges/config/{{ challenge['id'] }}/tokens/{{ challenge_progress['level'] }}.png"
+                       height="21px">
+        
+        {% endfor %}
+      </div>
     </div>
     <div>
       <button id="btn_reset_filters"
