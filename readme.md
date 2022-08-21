@@ -12,7 +12,6 @@ or use it on https://tahm-ken.ch/
 - [ ] responsiveness for mobile
 - [ ] update table sorting and add visual clue of the current sort
 - [ ] add a caching system for the API calls, see if its better to use cassiopeia instead of riotwatcher
-- [ ] use genetic algorithms to find the best compositions to try to avoid having always the same champs in the best compositions
 - [ ] User eXperience (help needed)
 - [ ] multi-language
 
@@ -44,6 +43,7 @@ or use it on https://tahm-ken.ch/
 - [x] use role identifications for ordering the champions in the optimized compositions
 - [x] move the "how to use" on the corresponding pages (modal dialog)
 - [x] add more filters for optimized compositions (for champions role for example) -> became the stupidity level metric
+- [x] select the 'correct' server by default depending on the ip address
 
 ## install
 you need python
