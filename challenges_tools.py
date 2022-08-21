@@ -16,12 +16,48 @@ from champions_roles import best_fit_roles
 from champions_roles import champions
 from champions_roles import champions_by_roles
 
-additional_challenges = [{"id": 303400}, {"id": 303500}]
+challenges_groups = [
+    {
+        "parent": 303400,
+        "children": [
+            303401,
+            303402,
+            303403,
+            303404,
+            303405,
+            303406,
+            303407,
+            303408,
+            303409,
+            303410,
+            303411,
+            303412,
+        ],
+    },
+    {
+        "parent": 303500,
+        "children": [
+            303501,
+            303502,
+            303503,
+            303504,
+            303505,
+            303506,
+            303507,
+            303508,
+            303509,
+            303510,
+            303511,
+            303512,
+            303513,
+        ],
+    },
+]
+
+
 challenges = json.load(open("static/challenges.json"))
 for c in challenges:
     c["champions_l"] = len(c["champions"])
-challenges.sort(key=lambda l: -l["champions_l"])
-challenges.sort(key=lambda l: l["qte"])
 
 for c in challenges:
     c["champions"] = set(c["champions"])
@@ -31,20 +67,20 @@ for c in challenges:
 challenges_by_champions = defaultdict(list)
 for challenge in challenges:
     for champion in challenge["champions"]:
-        challenges_by_champions[champion].append(challenge["challenge_name"])
+        challenges_by_champions[champion].append(challenge["id"])
 challenges_by_champions = dict(challenges_by_champions)
 
-champions_by_challenge = {}
-for challenge in challenges:
-    champions_by_challenge[
-        challenge["challenge_name"]
-    ] = challenge["champions"]
-
+champions_by_challenge = {
+    challenge["id"]: challenge["champions"]
+    for challenge in challenges
+}
 
 # load champions data
-champions_keys = sorted(champions, key=lambda c: champions[c]["name"])
+champions_alphabetical = sorted(champions, key=lambda c: champions[c]["name"])
 champions_by_keys = {
-    int(champion["key"]): champion for _, champion in champions.items()}
+    int(champion["key"]): champion
+    for _, champion in champions.items()
+}
 
 try:
     lol_watcher = None
@@ -52,11 +88,6 @@ try:
     lol_watcher = LolWatcher(config["riot_api_key"])
     challenges_config = lol_watcher.challenges.config(default_region)
     challenges_config = {c["id"]: c for c in challenges_config}
-    # add the challenges data from the riot api to the json data
-    for challenge in challenges:
-        challenge["config"] = challenges_config[challenge["id"]]
-    for challenge in additional_challenges:
-        challenge["config"] = challenges_config[challenge["id"]]
 except ValueError:
     print("No Riot API key provided")
 except ApiError:
@@ -158,7 +189,7 @@ def get_custom_optimized_compositions(region, summoners_names, power=1.3, max_de
         summoner_masteries = lol_watcher.champion_mastery.by_summoner(
             region=region, encrypted_summoner_id=summoner["id"])
 
-        masteries_by_id = {mastery["championId"]: mastery for mastery in summoner_masteries}
+        masteries_by_id = {mastery["championId"]                           : mastery for mastery in summoner_masteries}
         champion_masteries = {}
 
         for champion_id, champion in champions.items():
@@ -215,13 +246,11 @@ def get_summoner_challenges_infos(region, summoner):
             if threshold > challenge_for_this_summoner["value"]:
                 return str(int(threshold))
 
-    def create_summoner_challenge(challenge):
-        id_ = challenge["id"]
-
-        if id_ in summoner_challenges_by_id:
+    def create_summoner_challenge(challenge_id):
+        if challenge_id in summoner_challenges_by_id:
             challenge_for_this_summoner = {
-                "level": summoner_challenges_by_id[id_]["level"].lower(),
-                "value": int(summoner_challenges_by_id[id_]["value"]),
+                "level": summoner_challenges_by_id[challenge_id]["level"].lower(),
+                "value": int(summoner_challenges_by_id[challenge_id]["value"]),
             }
         else:
             challenge_for_this_summoner = {
@@ -230,17 +259,12 @@ def get_summoner_challenges_infos(region, summoner):
             }
 
         challenge_for_this_summoner["next_threshold"] = find_next_threshold(
-            challenge["config"]["thresholds"], challenge_for_this_summoner)
+            challenges_config[challenge_id]["thresholds"], challenge_for_this_summoner)
         return challenge_for_this_summoner
 
     summoner_challenges = {
-        challenge["id"]: create_summoner_challenge(challenge)
+        challenge["id"]: create_summoner_challenge(challenge["id"])
         for challenge in challenges
-    }
-
-    additional_summoner_challenges = {
-        challenge["id"]: create_summoner_challenge(challenge)
-        for challenge in additional_challenges
     }
 
     total_points = summoner_challenges_infos["totalPoints"]
@@ -250,4 +274,4 @@ def get_summoner_challenges_infos(region, summoner):
     if total_points["level"] == "none":
         total_points["level"] = "iron"
 
-    return summoner_challenges, total_points, additional_summoner_challenges
+    return summoner_challenges, total_points

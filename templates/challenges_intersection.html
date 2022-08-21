@@ -65,50 +65,52 @@
             <th role="columnheader" data-sort-default colspan="2" class="text-left">Progress</th>
           </tr>
         </thead>
-        {% for i, challenge in challenges %}
-          {% set challenge_progress = summoner_challenges[challenge['id']] %}
-          <tr id="challenge_tr_{{i}}" class="challenge_tr checked">
+        {% for challenge_internal_id, challenge in challenges %}
+          {% set challenge_config = challenges_config[challenge['id']] %}
+          <tr id="challenge_tr_{{ challenge_internal_id }}"
+              class="challenge_tr checked">
             <td>
-              <input id="challenge_cb_{{i}}"
+              <input id="challenge_cb_{{ challenge_internal_id }}"
                      class="challenge_cb"
                      type="checkbox"
-                     data-id="{{i}}"
+                     data-id="{{ challenge_internal_id }}"
                      data-qte="{{ challenge['qte'] }}">
             </td>
             <!-- fixed width to avoid column resized on change -->
             <td class="text-end" width="38px">
-              <span id="challenge_qte_{{ i }}"
+              <span id="challenge_qte_{{ challenge_internal_id }}"
                     class="challenge_qte"
                     data-maxqte="{{ challenge['champions_l'] }}">
                 {{ challenge['champions_l'] }}
               </span>
             </td>
             <td>
-              <label id="challenge_label_{{i}}"
+              <label id="challenge_label_{{ challenge_internal_id }}"
                      class="challenge_label"
-                     for="challenge_cb_{{ i }}">
-                {{ challenge['challenge_name'] }}
+                     for="challenge_cb_{{ challenge_internal_id }}">
+                {{ challenge_config["localizedNames"][layout["language"]]["name"] }}
               </label>
             </td>
             <td>
               <span class="tooltip_">?
-                <span class="tooltip_text">{{ challenge["config"]["localizedNames"]["en_US"]["description"] }}</span>
+                <span class="tooltip_text">{{ challenge_config["localizedNames"][layout["language"]]["description"] }}</span>
               </span>
             </td>
             <td>
               {% if 'label' in challenge %}{{ challenge['label'] }}{% endif %}
             </td>
             <td class="less_pad">
-              <span id="challenge_current_selection_{{i}}">0</span>
+              <span id="challenge_current_selection_{{ challenge_internal_id }}">0</span>
             </td>
             <td class="less_pad">/</td>
             <td class="less_pad">
-              <span id="challenge_requirement_{{ i }}">{{ challenge['qte'] }}</span>
+              <span id="challenge_requirement_{{ challenge_internal_id }}">{{ challenge['qte'] }}</span>
             </td>
             {% if summoner_challenges %}
-              <td data-sort="{{ challenge_progress['value'] }}">
-                {% if challenge_progress['level'] != "unranked" %}
-                  <img src="https://raw.communitydragon.org/latest/game/assets/challenges/config/{{ challenge['id'] }}/tokens/{{ challenge_progress['level'] }}.png"
+              {% set summoner_challenge = summoner_challenges[challenge['id']] %}
+              <td data-sort="{{ summoner_challenge['value'] }}">
+                {% if summoner_challenge['level'] != "unranked" %}
+                  <img src="https://raw.communitydragon.org/latest/game/assets/challenges/config/{{ challenge['id'] }}/tokens/{{ summoner_challenge['level'] }}.png"
                        height="21px">
                 {% else %}
                   <svg height="21px" width="21px">
@@ -116,28 +118,25 @@
                   </svg>
                 {% endif %}
               </td>
-              <td data-sort="{{ challenge_progress['value'] }}"
+              <td data-sort="{{ summoner_challenge['value'] }}"
                   class="text-center less_pad">
                 <span>
-                  {{ challenge_progress['value'] }}
-                  {% if challenge_progress['next_threshold'] %}
-                    / {{ challenge_progress['next_threshold'] }}
-                  {% endif %}
+                  {{ summoner_challenge['value'] }}
+                  {% if summoner_challenge['next_threshold'] %}/ {{ summoner_challenge['next_threshold'] }}{% endif %}
                 </span>
               </td>
             {% endif %}
           </tr>
         {% endfor %}
       </table>
-      <div>
-        {% for i, challenge in additional_challenges %}
-          {% set challenge_progress = additional_summoner_challenges[challenge['id']] %}
-        {{challenge["config"]["localizedNames"]["en_US"]["name"] }}
-        <img src="https://raw.communitydragon.org/latest/game/assets/challenges/config/{{ challenge['id'] }}/tokens/{{ challenge_progress['level'] }}.png"
-                       height="21px">
-        
+      {# <div>
+        {% for challenge in additional_challenges %}
+          {% set challenge_progress = additional_summoner_challenges[challenge_internal_id] %}
+          {{ challenge_config["localizedNames"][layout["language"]]["name"] }}
+          <img src="https://raw.communitydragon.org/latest/game/assets/challenges/config/{{ challenge_internal_id }}/tokens/{{ challenge_progress['level'] }}.png"
+               height="21px">
         {% endfor %}
-      </div>
+      </div> #}
     </div>
     <div>
       <button id="btn_reset_filters"
@@ -147,7 +146,7 @@
       </button>
     </div>
     <div id="champions_pool">
-      {% for i, champion in champions_keys %}
+      {% for champion in champions_alphabetical %}
         <img id="champion_{{ champion }}"
              class="champion_img"
              src="/static/datadragon_cache/champions_img/{{ champion }}.png"

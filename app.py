@@ -1,6 +1,6 @@
+from collections import defaultdict
 import json
 import random
-from collections import defaultdict
 import urllib.request
 import threading
 
@@ -17,12 +17,15 @@ from flask_limiter.util import get_remote_address
 from constants import regions
 from constants import roles
 from constants import default_region
+
 from challenges_tools import get_custom_optimized_compositions
 from challenges_tools import get_summoner_challenges_infos
 from challenges_tools import challenges
-from challenges_tools import additional_challenges
+from challenges_tools import challenges_groups
+from challenges_tools import challenges_config
 from challenges_tools import champions
-from challenges_tools import champions_keys
+from challenges_tools import champions_alphabetical
+
 from tk_quotes import RandomQuotes
 
 # create the flask app
@@ -38,6 +41,7 @@ compositions = json.load(open("static/compositions.json", "r"))
 layout = {
     "quote": RandomQuotes(),
     "compositions": sorted([(c, c.replace(" ", "_")) for c in compositions.keys()]),
+    "language": "en_US",
 }
 
 
@@ -46,22 +50,16 @@ def main():
     return redirect("/challenges_intersection")
 
 
-# temporary redirection for old route
-@app.route('/tool/', defaults={'path': ''})
-@app.route('/tool/<path:path>')
-def route_tool(path):
-    return redirect("/".join(["/challenges_intersection", path]))
-
-
 def get_args_challenges_intersection(region, summoner):
     return {
         "champions": champions,
-        "champions_keys": enumerate(champions_keys),
+        "champions_alphabetical": champions_alphabetical,
         "challenges": enumerate(challenges),
+        "challenges_config": challenges_config,
         "regions": regions,
         "region": region,
         "summoner": summoner,
-        "summoner_progress": None,
+        "summoner_challenges": None,
         "layout": layout,
     }
 
@@ -77,12 +75,11 @@ def route_challenges_intersection():
 def route_challenges_intersection_summoner(region, summoner):
     args = get_args_challenges_intersection(region, summoner)
     try:
-        infos = get_summoner_challenges_infos(region, summoner)
+        summoner_challenges, total_points = get_summoner_challenges_infos(
+            region, summoner)
         args |= {
-            "summoner_challenges": infos[0],
-            "total_points": infos[1],
-            "additional_summoner_challenges": infos[2],
-            "additional_challenges": enumerate(additional_challenges),
+            "summoner_challenges": summoner_challenges,
+            "total_points": total_points,
         }
     except Exception as e:
         args["error"] = f"Couldn't find the summoner {e}"
@@ -260,7 +257,7 @@ def route_communities():
 
 
 @app.errorhandler(404)
-def route_page_not_found(e):
+def route_page_not_found():
     args = {
         "layout": layout,
     }
