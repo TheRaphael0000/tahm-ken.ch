@@ -89,10 +89,13 @@ regions = [
         "country_codes": ["KR"],
     },
 ]
+regions.sort(key=lambda r: r["abbreviation"])
 
 default_region = "EUW1"
 
 regions_by_id = {region["id"]: region for region in regions}
+regions_by_abbreviation = {
+    region["abbreviation"]: region for region in regions}
 regions_by_country_code = {
     country_code: region
     for region in regions
@@ -124,6 +127,6 @@ if __name__ == "__main__":
     print(get_region_from_ip("200.52.196.125"))
     # Arnet DNS IP
     print(get_region_from_ip("200.45.191.35"))
-    
+
     # Etisalat Egypt DNS IP (non covered country)
     print(get_region_from_ip("41.65.236.37"))

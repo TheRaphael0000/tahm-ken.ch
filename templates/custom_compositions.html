@@ -14,13 +14,13 @@
                 <label for="region">Region :</label>
                 <select class="form-control" id="region">
                     {% for region_ in regions %}
-                        {% if region and region_.lower() == region.lower() %}
-                            <option name="{{ region }}" selected="selected">
-                                {{ region_ }}
+                        {% if region and region_["id"] == region["id"] %}
+                            <option name="{{ region_['id'] }}" selected="selected">
+                                {{ region_["abbreviation"] }}
                             </option>
                         {% else %}
-                            <option name="{{ region }}">
-                                {{ region_ }}
+                            <option name="{{ region_['id'] }}">
+                                {{ region_["abbreviation"] }}
                             </option>
                         {% endif %}
                     {% endfor %}

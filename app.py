@@ -19,7 +19,7 @@ from flask_limiter.util import get_remote_address
 from config import config
 
 from regions import regions
-from regions import default_region
+from regions import regions_by_abbreviation
 from regions import get_region_from_ip
 
 from constants import roles
@@ -64,19 +64,23 @@ layout = {
 }
 
 
+def get_default_region():
+    # store the region in the session
+    # to avoid having to lookup multiple times
+    if "default_region" in session:
+        default_region = session["default_region"]
+    else:
+        default_region = get_region_from_ip(request.remote_addr)
+        session["default_region"] = default_region
+    return default_region
+
+
 @app.route("/")
 def main():
     return redirect("/challenges_intersection")
 
 
-def get_args_challenges_intersection(region, summoner):
-    # store the region in the session
-    # to avoid having to lookup multiple times
-    if "region" in session:
-        region = session["region"]
-    else:
-        region = get_region_from_ip(request.remote_addr)
-        session["region"] = region
+def args_challenges_intersection(region, summoner):
     return {
         "champions": champions,
         "champions_alphabetical": champions_alphabetical,
@@ -92,17 +96,21 @@ def get_args_challenges_intersection(region, summoner):
 
 @app.route("/challenges_intersection")
 def route_challenges_intersection():
-    args = get_args_challenges_intersection("EUW1", "")
+    args = args_challenges_intersection(get_default_region(), "")
     return render_template("challenges_intersection.html", **args)
 
 
 @app.route("/challenges_intersection/<region>/<summoner>")
 @limiter.limit("6/minutes")
 def route_challenges_intersection_summoner(region, summoner):
-    args = get_args_challenges_intersection(region, summoner)
+    try:
+        region = regions_by_abbreviation[region]
+    except:
+        return redirect("/challenges_intersection")
+    args = args_challenges_intersection(region, summoner)
     try:
         summoner_challenges, total_points = get_summoner_challenges_infos(
-            region, summoner)
+            region["id"], summoner)
         args |= {
             "summoner_challenges": summoner_challenges,
             "total_points": total_points,
@@ -154,21 +162,31 @@ def route_compositions(route):
     return render_template("compositions.html", **args)
 
 
+def args_custom_compositions():
+    return {
+        "roles": enumerate(roles),
+        "regions": regions,
+        "region": get_default_region(),
+        "layout": layout,
+    }
+
+
 @app.route("/custom_compositions/<region>/<summoners_names>")
 @limiter.limit("2/minutes")
 def route_custom_compositions(region, summoners_names):
     try:
+        region = regions_by_abbreviation[region]
+    except:
+        return redirect("/custom_compositions")
+
+    try:
         summoners_names = summoners_names.split(",")
         if len({name for name in summoners_names if len(name) >= 2}) != 5:
             raise Exception(f"Require five valid distinct summoners name.")
-        comps = get_custom_optimized_compositions(region, summoners_names)
+        comps = get_custom_optimized_compositions(region["id"], summoners_names)
     except Exception as e:
-        args = {
-            "roles": enumerate(roles),
-            "regions": regions,
-            "region": default_region,
+        args = args_custom_compositions() | {
             "error": e,
-            "layout": layout,
         }
         return render_template("custom_compositions.html", **args)
 
@@ -179,12 +197,7 @@ def route_custom_compositions(region, summoners_names):
 
 @app.route("/custom_compositions")
 def route_custom_compositions_wizard():
-    args = {
-        "roles": enumerate(roles),
-        "regions": regions,
-        "region": default_region,
-        "layout": layout,
-    }
+    args = args_custom_compositions()
     return render_template("custom_compositions.html", **args)
 
 
@@ -266,7 +279,7 @@ def route_communities():
             }
         ]
     }
-
+    # TODO: replace the bs scraping with discord API call
     processes = []
     for community in args["communities"] + [args["tahm_kench"]]:
         process = threading.Thread(
