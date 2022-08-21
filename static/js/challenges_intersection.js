@@ -220,7 +220,7 @@ new Tablesort(document.getElementById('table_challenges'), { descending: true })
 // search summmoner logic
 function search_summoner() {
     if (summoner.value.length > 0) {
-        window.location.href = "/tool/" + region.value + "/" + summoner.value
+        window.location.href = "/challenges_intersection/" + region.value + "/" + summoner.value
     }
 }
 

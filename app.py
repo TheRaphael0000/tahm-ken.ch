@@ -10,13 +10,19 @@ from flask import Flask
 from flask import abort
 from flask import render_template
 from flask import redirect
+from flask import request
+from flask import session
 
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 
-from constants import regions
+from config import config
+
+from regions import regions
+from regions import default_region
+from regions import get_region_from_ip
+
 from constants import roles
-from constants import default_region
 
 from challenges_tools import get_custom_optimized_compositions
 from challenges_tools import get_summoner_challenges_infos
@@ -31,17 +37,30 @@ from tk_quotes import RandomQuotes
 # create the flask app
 app = Flask(__name__, static_url_path="/static")
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 60 * 60
+app.secret_key = config["app_secret_key"]
+
 # create the request limiter
 limiter = Limiter(app, key_func=get_remote_address)
+
+language = "en_US"
 
 # load the pre-calculated compositions
 compositions = json.load(open("static/compositions.json", "r"))
 
+compositions_names_routes = {}
+for key in compositions.keys():
+    try:
+        name = challenges_config[int(key)]["localizedNames"][language]["name"]
+    except:
+        name = key
+    url = name.replace(" ", "_")
+    compositions_names_routes[url] = (name, key)
+
 # variables which are required for the layout
 layout = {
     "quote": RandomQuotes(),
-    "compositions": sorted([(c, c.replace(" ", "_")) for c in compositions.keys()]),
-    "language": "en_US",
+    "compositions": compositions_names_routes,
+    "language": language,
 }
 
 
@@ -51,6 +70,13 @@ def main():
 
 
 def get_args_challenges_intersection(region, summoner):
+    # store the region in the session
+    # to avoid having to lookup multiple times
+    if "region" in session:
+        region = session["region"]
+    else:
+        region = get_region_from_ip(request.remote_addr)
+        session["region"] = region
     return {
         "champions": champions,
         "champions_alphabetical": champions_alphabetical,
@@ -90,13 +116,10 @@ def route_challenges_intersection_summoner(region, summoner):
 def comps_processing(comps):
     # limit large challenges
     by_number = defaultdict(list)
-    limit = 8000
+    limit = 5000
     if len(comps) > limit:
         random.shuffle(comps)
         comps = comps[0:limit]
-        comps = [(sorted(comp), comp_challenge)
-                 for comp, comp_challenge in comps]
-        comps.sort()
     champions_available = set()
     for comp, challenges, stupidity_level in comps:
         comp = [comp[role] for role in roles]
@@ -110,6 +133,7 @@ def comps_processing(comps):
     by_number = dict(by_number)
 
     args = {
+        "challenges_config": challenges_config,
         "by_number": by_number,
         "champions": champions_,
         "layout": layout,
@@ -117,16 +141,16 @@ def comps_processing(comps):
     return args
 
 
-@app.route("/compositions/<challenge>")
-def route_compositions(challenge):
-    challenge = challenge.replace("_", " ")
+@app.route("/compositions/<route>")
+def route_compositions(route):
     try:
-        comps = compositions[challenge]
+        name, key = compositions_names_routes[route]
+        comps = compositions[key]
     except:
         return abort(404)
 
     args = comps_processing(comps)
-    args["challenge_name"] = challenge
+    args["challenge_name"] = name
     return render_template("compositions.html", **args)
 
 
@@ -257,7 +281,7 @@ def route_communities():
 
 
 @app.errorhandler(404)
-def route_page_not_found():
+def route_page_not_found(e):
     args = {
         "layout": layout,
     }

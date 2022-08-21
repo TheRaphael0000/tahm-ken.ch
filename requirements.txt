@@ -8,3 +8,4 @@ fabric
 click
 flask-limiter
 bs4
+ipinfo

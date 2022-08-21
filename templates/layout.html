@@ -45,7 +45,7 @@
         <script src="/static/js/analytics.js"></script>
     </head>
     <body class="bg-dark text-white">
-        <header class="broder border-bottom px-3">
+        <header class="px-3">
             <nav class="navbar navbar-expand navbar-dark">
                 <a class="navbar-brand" href="/">Tahm-Ken.ch</a>
                 <ul class="navbar-nav">
@@ -63,9 +63,9 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-dark"
                             aria-labelledby="navbarDropdown">
-                            {% for composition, url in layout.compositions %}
+                            {% for url, (name, key) in layout.compositions.items() %}
                                 <li>
-                                    <a class="dropdown-item" href="/compositions/{{ url }}">{{ composition }}</a>
+                                    <a class="dropdown-item" href="/compositions/{{ url }}">{{ name }}</a>
                                 </li>
                             {% endfor %}
                         </ul>

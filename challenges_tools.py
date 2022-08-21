@@ -9,7 +9,7 @@ from riotwatcher import LolWatcher
 from riotwatcher import ApiError
 
 from config import config
-from constants import default_region
+from regions import default_region
 from constants import roles
 
 from champions_roles import best_fit_roles
@@ -86,6 +86,7 @@ try:
     lol_watcher = None
     challenges_config = None
     lol_watcher = LolWatcher(config["riot_api_key"])
+    # the region doesn't matter
     challenges_config = lol_watcher.challenges.config(default_region)
     challenges_config = {c["id"]: c for c in challenges_config}
 except ValueError:
@@ -98,7 +99,7 @@ def find_challenges(comp):
     challenges_achieved = set()
     for c in challenges:
         if len(c["champions"].intersection(comp)) >= c["qte"]:
-            challenges_achieved.add(c["challenge_name"])
+            challenges_achieved.add(c["id"])
     return challenges_achieved
 
 
@@ -189,7 +190,7 @@ def get_custom_optimized_compositions(region, summoners_names, power=1.3, max_de
         summoner_masteries = lol_watcher.champion_mastery.by_summoner(
             region=region, encrypted_summoner_id=summoner["id"])
 
-        masteries_by_id = {mastery["championId"]                           : mastery for mastery in summoner_masteries}
+        masteries_by_id = {mastery["championId"]: mastery for mastery in summoner_masteries}
         champion_masteries = {}
 
         for champion_id, champion in champions.items():

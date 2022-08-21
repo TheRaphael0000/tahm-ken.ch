@@ -28,13 +28,13 @@
     <li class="nav-item mx-2">
       <select id="region" class="form-select form-control-dark text-bg-dark">
         {% for region_ in regions %}
-          {% if region and region_.lower() == region.lower() %}
+          {% if region and region_["id"] == region["id"] %}
             <option name="{{ region }}" selected="selected">
-              {{ region_ }}
+              {{ region_["abbreviation"] }}
             </option>
           {% else %}
             <option name="{{ region }}">
-              {{ region_ }}
+              {{ region_["abbreviation"] }}
             </option>
           {% endif %}
         {% endfor %}

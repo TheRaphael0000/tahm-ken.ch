@@ -1,3 +1,5 @@
 {
-    "riot_api_key": ""
+    "app_secret_key": "",
+    "riot_api_key": "",
+    "ipinfo_token": ""
 }

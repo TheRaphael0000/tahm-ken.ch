@@ -24,7 +24,7 @@
     {% for number, comps in by_number.items() %}
         <h2>{{ number }} challenges</h2>
         <div class="compositions">
-            {% for champions_, challenges, stupidty_level in comps %}
+            {% for champions_, challenges_ids, stupidty_level in comps %}
                 <div class="composition"
                      style="display: block;"
                      data-stupidity_level="{{ stupidty_level }}">
@@ -36,7 +36,10 @@
                     {% endfor %}
                     <div class="challenges">
                         <ul>
-                            {% for challenge in challenges %}<li>{{ challenge }}</li>{% endfor %}
+                            {% for challenge_id in challenges_ids %}
+                            {% set challenge_config = challenges_config[challenge_id] %}
+                            <li>{{ challenge_config["localizedNames"][layout["language"]]["name"] }}</li>
+                            {% endfor %}
                         </ul>
                     </div>
                 </div>

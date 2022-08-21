@@ -2,7 +2,6 @@ body {
     font-size: 0.95em !important;
 }
 
-
 .bg_img {
     background-image: url("/static/img/Tahm_Kench_OriginalSkin.jpg");
     position: fixed;
@@ -14,6 +13,10 @@ body {
     transform: scale(1.20);
     opacity: 0.3;
     z-index: -1;
+}
+
+.active {
+    border-bottom: 1px rgba(255,255,255,0.5) solid;
 }
 
 .socials {
