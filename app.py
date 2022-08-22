@@ -32,6 +32,8 @@ from challenges_tools import challenges_config
 from challenges_tools import champions
 from challenges_tools import champions_alphabetical
 
+from champions_roles import best_fit_roles
+
 from tk_quotes import RandomQuotes
 
 # create the flask app
@@ -238,6 +240,17 @@ def route_champions_selected(champions=""):
         return abort(404)
 
     return json.dumps(valid_challenges)
+
+
+@app.route("/best_fit_roles/<champions>")
+def route_best_fit_roles(champions=""):
+    try:
+        comp = set(champions.split(","))
+        roles = best_fit_roles(set(comp))
+    except:
+        return abort(404)
+
+    return json.dumps(roles)
 
 
 @app.route("/faq")

@@ -64,10 +64,17 @@
 
 .champion_img.checked {
     opacity: 1.0 !important;
-} 
+}
 
-#search_champion { 
-    position:absolute;
+.champion_role {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+#search_champion {
+    position: absolute;
     width: 30%;
     top: 40%;
     left: calc(50% - 15%);
@@ -92,5 +99,5 @@
 #search_champion::-webkit-search-cancel-button,
 #search_champion::-webkit-search-results-button,
 #search_champion::-webkit-search-results-decoration {
-  -webkit-appearance:none;
+    -webkit-appearance: none;
 }

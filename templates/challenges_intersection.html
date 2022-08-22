@@ -130,13 +130,13 @@
         {% endfor %}
       </table>
       {# <div>
-            {% for challenge in additional_challenges %}
-            {% set challenge_progress = additional_summoner_challenges[challenge_internal_id] %}
-            {{ challenge_config["localizedNames"][layout["language"]]["name"] }}
-            <img src="https://raw.communitydragon.org/latest/game/assets/challenges/config/{{ challenge_internal_id }}/tokens/{{ challenge_progress['level'] }}.png"
-                 height="21px">
-            {% endfor %}
-          </div> #}
+                              {% for challenge in additional_challenges %}
+                              {% set challenge_progress = additional_summoner_challenges[challenge_internal_id] %}
+                              {{ challenge_config["localizedNames"][layout["language"]]["name"] }}
+                              <img src="https://raw.communitydragon.org/latest/game/assets/challenges/config/{{ challenge_internal_id }}/tokens/{{ challenge_progress['level'] }}.png"
+                                   height="21px">
+                              {% endfor %}
+                      </div> #}
   </div>
   <div>
     <button id="btn_reset_filters"
@@ -147,12 +147,15 @@
   </div>
   <div id="champions_pool">
     {% for champion in champions_alphabetical %}
-      <img id="champion_{{ champion }}"
-           class="champion_img"
-           src="/static/datadragon_cache/champions_img/{{ champion }}.png"
-           alt="{{ champion }}"
-           data-champion_name="{{ champion }}"
-           data-champion_display_name="{{ champions[champion]["name"] }}">
+      <div style="position:relative">
+        <img id="champion_{{ champion }}"
+             class="champion_img"
+             src="/static/datadragon_cache/champions_img/{{ champion }}.png"
+             alt="{{ champion }}"
+             data-champion_name="{{ champion }}"
+             data-champion_display_name="{{ champions[champion]["name"] }}">
+        <img id="champion_role_{{ champion }}" src="" class="champion_role">
+      </div>
     {% endfor %}
   </div>
   <div class="text-center">

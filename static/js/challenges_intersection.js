@@ -2,6 +2,7 @@ let champion_img = document.querySelectorAll(".champion_img")
 let challenge_cb = document.querySelectorAll(".challenge_cb")
 let challenge_tr = document.querySelectorAll(".challenge_tr")
 let challenge_qte = document.querySelectorAll(".challenge_qte")
+let champion_role = document.querySelectorAll(".champion_role")
 let btn_reset_filters = document.querySelector("#btn_reset_filters")
 let btn_reset_selection = document.querySelector("#btn_reset_selection")
 let btn_search_champion = document.querySelector("#btn_search_champion")
@@ -10,6 +11,14 @@ let region = document.querySelector("#region")
 let summoner = document.querySelector("#summoner")
 let search = document.querySelector("#search")
 let search_champion = document.querySelector("#search_champion")
+
+let role_mapping = {
+    "top": "top",
+    "jungle": "jungle",
+    "mid": "middle",
+    "bottom": "bottom",
+    "support": "utility",
+}
 
 
 function updateChampionsStyle() {
@@ -25,6 +34,7 @@ function updateChampionsStyle() {
             img.classList.add("selected");
         }
         else {
+
             img.classList.remove("selected");
         }
     }
@@ -63,6 +73,13 @@ function resetSelection() {
     }
     setChampionsSelected("0")
     updateChampionsSelection()
+    resetRoles()
+}
+
+function resetRoles() {
+    for (let c of champion_role) {
+        c.src = ""
+    }
 }
 
 function reset() {
@@ -144,14 +161,20 @@ function selectChampion(e) {
         e.dataset.selected = "0"
         updateChampionsSelection()
         updateChampionsStyle()
+        resetRoles()
         return
     }
 
-    if (canSelectChampion())
+    if (canSelectChampion()) {
         e.dataset.selected = "1"
+        if (getSelectedChampions().length >= 5)
+            best_fit_roles()
+    }
 
     updateChampionsSelection()
     updateChampionsStyle()
+
+
 }
 
 function updateChampionsSelection() {
@@ -282,3 +305,23 @@ search_champion.addEventListener("keypress", function (e) {
         clear_out()
     }
 })
+
+function best_fit_roles() {
+    let selected_champions = getSelectedChampionsName(true)
+
+    selected_champions = selected_champions.join(",")
+    console.log(selected_champions)
+
+    fetch("/best_fit_roles/" + selected_champions)
+        .then((response) => {
+            return response.json()
+        })
+        .then((json) => {
+            let roles = json[0]
+            for (const [role, champion] of Object.entries(roles)) {
+                let champion_role = document.getElementById("champion_role_" + champion)
+                let role_ = role_mapping[role]
+                champion_role.src = "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/svg/position-" + role_ + ".svg"
+            }
+        })
+}
