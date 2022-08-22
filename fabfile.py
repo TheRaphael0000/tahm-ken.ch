@@ -7,12 +7,14 @@ import fabric
 def deploy(c):
     with c.cd("/var/www/tahm-ken.ch/www.tahm-ken.ch"):
         c.run("git status")
-        if not click.confirm("Stash and deploy to main ?", default=True):
+        stash = not click.confirm("Stash and deploy to main ?", default=True)
+        upgrade = click.confirm("Upgrade modules ?", default=False)
+        if stash:
             exit()
         c.run("git stash")
         c.run("git checkout main")
         c.run("git pull")
-        if click.confirm("Upgrade modules ?", default=False):
+        if upgrade:
             c.run("pip install -r requirements.txt --upgrade")
         c.run("systemctl restart www.tahm-ken.ch_gunicorn.service")
 
