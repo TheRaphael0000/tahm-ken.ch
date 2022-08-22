@@ -1,7 +1,9 @@
+from pprint import pprint
 from collections import defaultdict
 import random
 import json
-import re
+
+import numpy as np
 
 champions = json.load(
     open("static/datadragon_cache/champion.json", "rb"))["data"]
@@ -9,7 +11,7 @@ champions = json.load(
 
 filedata = open("static/txt/champions_roles.csv").read()
 
-champions_by_ig_name = {champion["name"]: champion for _, champion in champions.items()}
+champions_by_ig_name = {champion["name"]                        : champion for _, champion in champions.items()}
 
 lines = filedata.split("\n")
 
@@ -62,19 +64,33 @@ def best_fit_roles(comp):
         priority_queue = []
         for champion in comp_:
             role4champion = [
-                role for role in roles_by_champions[champion] if role in remaining_roles]
+                role for role in roles_by_champions[champion]
+                if role in remaining_roles
+            ]
             if len(role4champion) > 0:
                 priority_queue.append(
                     ("role4champion", role4champion, champion))
 
         for remaining_role in remaining_roles:
             champions4role = [
-                champion for champion in champions_by_roles[remaining_role] if champion in comp_]
+                champion for champion in champions_by_roles[remaining_role]
+                if champion in comp_
+            ]
             if len(champions4role) > 0:
                 priority_queue.append(
                     ("champion4role", champions4role, remaining_role))
 
-        priority_queue.sort(key=lambda l: len(l[1]))
+        def sort_key(l):
+            order, data1, data2 = l
+            s1 = len(l[1])
+            s2 = 9000
+            if order == "role4champion" and len(data1) == 1:
+                s2 = champions_by_roles[data1[0]].index(data2)
+            if order == "champion4role" and len(data1) == 1:
+                s2 = roles_by_champions[data1[0]].index(data2)
+            return s1, s2
+
+        priority_queue.sort(key=sort_key)
 
         return priority_queue
 
@@ -112,6 +128,8 @@ def best_fit_roles(comp):
 
 
 if __name__ == "__main__":
+    print(best_fit_roles(
+        ["Maokai", "Thresh", "Karthus", "Kalista", "Hecarim"]))
     print(best_fit_roles(["Singed", "Tristana", "Lux", "Zoe", "Poppy"]))
     print(best_fit_roles(["Pantheon", "Zac", "Lux", "Kaisa", "Urgot"]))
     print(best_fit_roles(
