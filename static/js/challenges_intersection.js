@@ -318,10 +318,16 @@ function best_fit_roles() {
         })
         .then((json) => {
             let roles = json[0]
+            let off_role = json[2]
+            console.log(off_role)
             for (const [role, champion] of Object.entries(roles)) {
                 let champion_role = document.getElementById("champion_role_" + champion)
                 let role_ = role_mapping[role]
-                champion_role.src = "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/svg/position-" + role_ + ".svg"
+                let color = ""
+                if (off_role.includes(champion))
+                    color = "-red"
+
+                champion_role.src = "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/svg/position-" + role_ + color + ".svg"
             }
         })
 }

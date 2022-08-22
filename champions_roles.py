@@ -45,7 +45,7 @@ for champion, role, pick_rate in champions_roles_pickrate:
 def best_fit_roles(comp):
     comp = list(comp)
     comp_roles = {}
-    stupidity_level = 0
+    off_role = []
 
     # input checks
     if len(set(comp)) != 5:
@@ -102,12 +102,13 @@ def best_fit_roles(comp):
     # complete the comp by adding randomly the champion at some role
     for role in roles:
         if role not in comp_roles:
-            stupidity_level += 1
             selected_champion = random.choice(comp)
             comp_roles[role] = selected_champion
+            off_role.append(selected_champion)
             comp.remove(selected_champion)
 
-    return comp_roles, stupidity_level
+    stupidity_level = len(off_role)
+    return comp_roles, stupidity_level, off_role
 
 
 if __name__ == "__main__":

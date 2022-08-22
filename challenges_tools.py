@@ -218,7 +218,7 @@ def get_custom_optimized_compositions(region, summoners_names, power=1.3, max_de
         if len(comp_challenges) < 3:
             continue
 
-        comp_roles, stupidity_level = best_fit_roles(comp)
+        comp_roles, stupidity_level, off_role = best_fit_roles(comp)
 
         comp_str = str(sorted(list(comp)))
         if comp_str not in comp_found:
