@@ -1,5 +1,6 @@
 {
     "app_secret_key": "",
     "riot_api_key": "",
-    "ipinfo_token": ""
+    "ipinfo_token": "",
+    "discord_bot_token": ""
 }

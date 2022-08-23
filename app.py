@@ -2,9 +2,8 @@ from collections import defaultdict
 import json
 import random
 import urllib.request
-import threading
-
-import bs4
+from urllib.request import Request
+import datetime
 
 from flask import Flask
 from flask import abort
@@ -64,6 +63,16 @@ layout = {
     "compositions": compositions_names_routes,
     "language": language,
 }
+
+discord_last_update = datetime.datetime(year=1, month=1, day=1)
+discord_update_delta = datetime.timedelta(hours=2)
+discord_communities = {
+    "aHs3uDraNU": {},
+    "zASN5E6RCv": {},
+    "FJXAvqxw6T": {},
+}
+
+discord_tahm_kench = "aHs3uDraNU"
 
 
 def get_default_region():
@@ -185,7 +194,8 @@ def route_custom_compositions(region, summoners_names):
         summoners_names = summoners_names.split(",")
         if len({name for name in summoners_names if len(name) >= 2}) != 5:
             raise Exception(f"Require five valid distinct summoners name.")
-        comps = get_custom_optimized_compositions(region["id"], summoners_names)
+        comps = get_custom_optimized_compositions(
+            region["id"], summoners_names)
     except Exception as e:
         args = args_custom_compositions() | {
             "error": e,
@@ -261,47 +271,39 @@ def route_faq():
     return render_template("faq.html", **args)
 
 
-def scrap_discord_server_information(community):
-    opener = urllib.request.build_opener()
-    opener.addheaders = [('User-Agent', 'Mozilla/5.0')]
+def update_discord_server_information(invite_id, discord_community):
+    try:
+        print(invite_id)
+        invite = f"https://discord.com/api/v10/invites/{invite_id}"
+        r = Request(invite)
+        r.add_header("Authorization", f"Bot {config['discord_bot_token']}")
+        r.add_header("User-Agent", "TKBOT (https://tahm-ken.ch, 1.0)")
+        r.add_header("Content-Type", "application/json")
+        response = urllib.request.urlopen(r)
+        data = response.read().decode("utf-8")
+        data = json.loads(data)
+        discord_community |= data
+    except Exception as e:
+        print(e.read())
 
-    with opener.open(community["link"]) as f:
-        html_doc = f.read()
-        soup = bs4.BeautifulSoup(html_doc, "html.parser")
 
-        community["name"] = soup.find("title").text
-        community["image"] = soup.find("meta", property="og:image")["content"]
+def update_discord():
+    for invite_id, discord_community in discord_communities.items():
+        update_discord_server_information(invite_id, discord_community)
 
 
 @app.route("/communities")
 def route_communities():
+    global discord_last_update
+    if discord_last_update + discord_update_delta < datetime.datetime.now():
+        update_discord()
+        discord_last_update = datetime.datetime.now()
+        
     args = {
         "layout": layout,
-        "tahm_kench": {
-            "message": "The Tahm-Ken.ch official discord server.",
-            "link": "https://discord.gg/aHs3uDraNU",
-        },
-        "communities": [
-            {
-                "message": "High Mastery is a discord focused primarily on farming challenges in the most efficient way possible with tons of community resources to aid you in your goals",
-                "link": "https://discord.gg/zASN5E6RCv",
-            },
-            {
-                "message": "League discord to group up with players to complete challenges and discuss everything about League.",
-                "link": "https://discord.gg/FJXAvqxw6T",
-            }
-        ]
+        "discord_communities": discord_communities,
+        "discord_tahm_kench": discord_tahm_kench,
     }
-    # TODO: replace the bs scraping with discord API call
-    processes = []
-    for community in args["communities"] + [args["tahm_kench"]]:
-        process = threading.Thread(
-            target=scrap_discord_server_information, args=[community])
-        process.start()
-        processes.append(process)
-
-    for process in processes:
-        process.join()
 
     return render_template("communities.html", **args)
 
