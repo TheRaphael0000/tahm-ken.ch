@@ -1,10 +1,8 @@
 # challenges intersection league
 
-trying to create an app which help to optimize the new teamwork challenges in league of legends by finding compositions that contain the most challenges.
+trying to create an app which help to optimize the teamwork challenges in league of legends by finding compositions that contain the most challenges.
 
 still wip, you can pr if you want.
-
-or use it on https://tahm-ken.ch/
 
 ## todo
 - [ ] show points on harmony and the other challenge in the nav bar
