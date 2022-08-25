@@ -70,6 +70,7 @@ discord_communities = {
     "aHs3uDraNU": {},
     "zASN5E6RCv": {},
     "FJXAvqxw6T": {},
+    "yapEVysv3b": {},
 }
 
 discord_tahm_kench = "aHs3uDraNU"
@@ -283,6 +284,8 @@ def update_discord_server_information(invite_id, discord_community):
         data = response.read().decode("utf-8")
         data = json.loads(data)
         discord_community |= data
+        from pprint import pprint
+        pprint(data)
     except Exception as e:
         print(e.read())
 
