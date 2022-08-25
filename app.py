@@ -1,9 +1,6 @@
 from collections import defaultdict
 import json
 import random
-import urllib.request
-from urllib.request import Request
-import datetime
 
 from flask import Flask
 from flask import abort
@@ -35,6 +32,8 @@ from champions_roles import best_fit_roles
 
 from tk_quotes import RandomQuotes
 
+from discord_communities import get_discord_communities
+
 # create the flask app
 app = Flask(__name__, static_url_path="/static")
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 60 * 60
@@ -63,17 +62,6 @@ layout = {
     "compositions": compositions_names_routes,
     "language": language,
 }
-
-discord_last_update = datetime.datetime(year=1, month=1, day=1)
-discord_update_delta = datetime.timedelta(hours=2)
-discord_communities = {
-    "aHs3uDraNU": {},
-    "zASN5E6RCv": {},
-    "FJXAvqxw6T": {},
-    "yapEVysv3b": {},
-}
-
-discord_tahm_kench = "aHs3uDraNU"
 
 
 def get_default_region():
@@ -272,36 +260,9 @@ def route_faq():
     return render_template("faq.html", **args)
 
 
-def update_discord_server_information(invite_id, discord_community):
-    try:
-        print(invite_id)
-        invite = f"https://discord.com/api/v10/invites/{invite_id}"
-        r = Request(invite)
-        r.add_header("Authorization", f"Bot {config['discord_bot_token']}")
-        r.add_header("User-Agent", "TKBOT (https://tahm-ken.ch, 1.0)")
-        r.add_header("Content-Type", "application/json")
-        response = urllib.request.urlopen(r)
-        data = response.read().decode("utf-8")
-        data = json.loads(data)
-        discord_community |= data
-        from pprint import pprint
-        pprint(data)
-    except Exception as e:
-        print(e.read())
-
-
-def update_discord():
-    for invite_id, discord_community in discord_communities.items():
-        update_discord_server_information(invite_id, discord_community)
-
-
 @app.route("/communities")
 def route_communities():
-    global discord_last_update
-    if discord_last_update + discord_update_delta < datetime.datetime.now():
-        update_discord()
-        discord_last_update = datetime.datetime.now()
-        
+    discord_communities, discord_tahm_kench = get_discord_communities()
     args = {
         "layout": layout,
         "discord_communities": discord_communities,
