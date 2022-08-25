@@ -44,17 +44,23 @@ still wip, you can pr if you want.
 - [x] select the 'correct' server by default depending on the ip address
 
 ## install
-you need python
+you need python 3
 
 ```
 make install
 ```
 
-you also need `compositions.json` which can be obtained by running `brute_force_compositions.ipynb` with jupyter
+the makefile will download the current `compositions.json` which can be obtained by running `compositions.ipynb` with jupyter.
 
-or
+create `config.json` from `config_sample.json` and fill it in.
 
-you can download the current version on https://tahm-ken.ch/static/compositions.json
+keys:
+- app_secret_key : `python -c "import secrets; print(secrets.token_hex(24))"`
+- riot_api_key : mandatory, for the League profiles inspections, https://developer.riotgames.com/
+- ipinfo_token : not mandatory, to select the default server, https://ipinfo.io/
+- discord_bot_token : not mandatory, for the discord communities, https://discord.com/developers/applications
+
+i'll try to make the riot api key not mandatory...
 
 ## run
 ```

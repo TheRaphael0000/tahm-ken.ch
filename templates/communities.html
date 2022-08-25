@@ -21,7 +21,9 @@
                 {% endif %}
             </li>
         {% endmacro %}
-        {% if "guild" in discord_communities[discord_tahm_kench] %}
+        {% if error %}
+            <p class="text-danger">{{error}}</p>
+        {% elif "guild" in discord_communities[discord_tahm_kench] %}
             <h1>Tahm-Ken.ch</h1>
             <ul>
                 {{ discord_community(discord_communities[discord_tahm_kench]) }}

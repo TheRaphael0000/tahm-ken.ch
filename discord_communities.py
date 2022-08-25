@@ -44,6 +44,9 @@ def _update_discord():
 
 
 def get_discord_communities():
+    if len(config['discord_bot_token']) <= 0:
+        raise ConnectionError("Discord token not set")
+
     global last_update
     if last_update + update_delta < datetime.datetime.now():
         _update_discord()

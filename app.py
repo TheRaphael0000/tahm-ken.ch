@@ -262,12 +262,19 @@ def route_faq():
 
 @app.route("/communities")
 def route_communities():
-    discord_communities, discord_tahm_kench = get_discord_communities()
     args = {
         "layout": layout,
-        "discord_communities": discord_communities,
-        "discord_tahm_kench": discord_tahm_kench,
     }
+    try:
+        discord_communities, discord_tahm_kench = get_discord_communities()
+        args |= {
+            "discord_communities": discord_communities,
+            "discord_tahm_kench": discord_tahm_kench,
+        }
+    except ConnectionError as e:
+        args |= {
+            "error": e
+        }
 
     return render_template("communities.html", **args)
 
