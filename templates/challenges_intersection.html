@@ -51,7 +51,7 @@
   <input id="search_champion" type="search" value="">
   <div id="tool_div" class="d-flex flex-nowrap">
     <div class="d-flex flex-column flex-shrink-0">
-      <table id="table_challenges" class="custom_table mb-1">
+      <table id="table_challenges" class="custom_table">
         <thead>
           <tr>
             <th role="columnheader" data-sort-method="none"></th>
@@ -85,9 +85,8 @@
               </span>
             </td>
             <td>
-              <label id="challenge_label_{{ challenge_internal_id }}"
-                     class="challenge_label"
-                     for="challenge_cb_{{ challenge_internal_id }}">
+              <label for="challenge_cb_{{ challenge_internal_id }}"
+                     class="challenge_label">
                 {{ challenge_config["localizedNames"][layout["language"]]["name"] }}
               </label>
             </td>
@@ -97,7 +96,10 @@
               </span>
             </td>
             <td>
-              {% if 'label' in challenge %}{{ challenge['label'] }}{% endif %}
+              {% if 'label' in challenge %}
+                <label for="challenge_cb_{{ challenge_internal_id }}"
+                       class="challenge_label">{{ challenge['label'] }}</label>
+              {% endif %}
             </td>
             <td class="less_pad">
               <span id="challenge_current_selection_{{ challenge_internal_id }}">0</span>

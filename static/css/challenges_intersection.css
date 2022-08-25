@@ -9,8 +9,13 @@
     padding: 1px 10px;
 }
 
+.custom_table thead tr>th {
+    padding-bottom: 5px;
+}
+
 .custom_table th {
     padding: 1px 10px;
+    cursor: pointer;
 }
 
 .custom_table td.less_pad {
@@ -29,6 +34,10 @@
     color: white;
     opacity: 0.3;
     transition: opacity 0.3s, color 0.3s;
+}
+
+.challenge_label:hover {
+    cursor: pointer;
 }
 
 .challenge_tr.selected {
@@ -56,6 +65,10 @@
     border: 3px solid transparent;
     opacity: 0.3;
     transition: opacity 0.3s, border 0.3s;
+}
+
+.champion_img:hover {
+    cursor: pointer;
 }
 
 .champion_img.selected {
