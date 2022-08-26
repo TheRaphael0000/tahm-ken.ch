@@ -1,8 +1,10 @@
+let table_challenges = document.querySelectorAll(".table_challenges")
 let champion_img = document.querySelectorAll(".champion_img")
 let challenge_cb = document.querySelectorAll(".challenge_cb")
 let challenge_tr = document.querySelectorAll(".challenge_tr")
-let challenge_qte = document.querySelectorAll(".challenge_qte")
+let challenge_no = document.querySelectorAll(".challenge_no")
 let champion_role = document.querySelectorAll(".champion_role")
+let challenges_select = document.querySelectorAll(".challenges_select")
 let btn_reset_filters = document.querySelector("#btn_reset_filters")
 let btn_reset_selection = document.querySelector("#btn_reset_selection")
 let btn_search_champion = document.querySelector("#btn_search_champion")
@@ -20,6 +22,9 @@ let role_mapping = {
     "support": "utility",
 }
 
+let table = new Tablesort(table_challenges[0], {
+    descending: true
+})
 
 function updateChampionsStyle() {
     for (let img of champion_img) {
@@ -55,12 +60,9 @@ function setChampionsSelected(value) {
 }
 
 function resetChallenge() {
-    setChampionsChecked("0")
+    fetch_intersection("none")
     for (let c of challenge_cb) {
         c.checked = false
-    }
-    for (let c of challenge_qte) {
-        c.innerHTML = c.dataset.maxqte
     }
     for (let c of challenge_tr) {
         c.classList.add("checked")
@@ -91,7 +93,13 @@ function challengeChanged(e) {
     let checked_challenges = document.querySelectorAll(".challenge_cb:checked")
     let ids = []
     for (let cc of checked_challenges) {
-        ids.push(cc.dataset.id)
+        let id_ = cc.dataset.id
+        let select = document.getElementById("challenge_select_" + id_)
+        if (select) {
+            id_ = id_ + ":" + select.selectedIndex
+        }
+
+        ids.push(id_)
     }
 
     if (ids.length <= 0) {
@@ -99,31 +107,45 @@ function challengeChanged(e) {
         return
     }
 
-    fetch("/challenge_intersection/" + ids)
+    fetch_intersection(ids)
+}
+
+function fetch_intersection(ids) {
+    fetch("/intersection/" + ids)
         .then((response) => {
             return response.json()
         })
         .then((json) => {
             setChampionsChecked("0")
-            if (json.intersection.length <= 0)
-                return
             for (let c of json.intersection) {
                 let img = document.getElementById("champion_" + c)
                 img.dataset.checked = "1"
             }
-            for (const [challenge, qte] of json.challenges_additional_intersection) {
-                let challenge_cb = document.querySelector("#challenge_cb_" + challenge)
-                let challenge_qte = document.querySelector("#challenge_qte_" + challenge)
-                let challenge_tr = document.querySelector("#challenge_tr_" + challenge)
-                challenge_qte.innerHTML = qte
-                if (qte < challenge_cb.dataset.qte)
-                    challenge_tr.classList.remove("checked")
-                else
-                    challenge_tr.classList.add("checked")
+
+            for (const [challenge, no] of json.challenges_additional_intersection) {
+                let challenge_split = challenge.split(":")
+                let id = challenge_split[0]
+                let subid = parseInt(challenge_split[1])
+
+                let select = document.getElementById("challenge_select_" + id)
+                if (select) {
+                    if (select.selectedIndex != subid) {
+                        continue
+                    }
+                }
+                let challenge_no = document.getElementById("challenge_no_" + id)
+
+                challenge_no.innerHTML = no
             }
+
             updateChampionsStyle()
+
+            if (table.current == document.querySelector("#column_qte")) {
+                table.refresh()
+            }
         })
 }
+
 
 function copyCurrentComp() {
     let selectedChampionName = getSelectedChampionsName(false)
@@ -195,14 +217,32 @@ function fetch_challenges(selectedChampionName) {
         })
         .then((json) => {
             for (const challenge in json) {
-                let qte = json[challenge]
+                let champions = json[challenge]
                 let challenge_tr = document.querySelector("#challenge_tr_" + challenge)
-                let challenge_qte = document.querySelector("#challenge_current_selection_" + challenge)
-                let challenge_requirement = parseInt(document.querySelector("#challenge_requirement_" + challenge).innerHTML)
+                let challenge_selection_l = document.querySelector("#challenge_selection_l_" + challenge)
+                let challenge_selection_r = document.querySelector("#challenge_selection_r_" + challenge)
 
-                challenge_qte.innerHTML = qte
+                let requirements = parseInt(challenge_tr.dataset.requirements)
+                let qte = champions.length
 
-                if (qte >= challenge_requirement)
+                challenge_selection_l.innerHTML = ""
+                challenge_selection_r.innerHTML = ""
+
+                challenge_selection_l.style.width = requirements * 21 + "px"
+                challenge_selection_r.style.width = (5 - requirements) * 21 + "px"
+
+                for (let i = 0; i < champions.length; i++) {
+                    let champion = champions[i]
+                    let img = document.createElement("img")
+                    img.src = "/static/datadragon_cache/champions_img/" + champion + ".png"
+                    img.classList.add("challenge_selection_img")
+                    if (i < requirements)
+                        challenge_selection_l.appendChild(img)
+                    else
+                        challenge_selection_r.appendChild(img)
+                }
+
+                if (qte >= requirements)
                     challenge_tr.classList.add("selected")
                 else
                     challenge_tr.classList.remove("selected")
@@ -221,6 +261,10 @@ for (let cbc of challenge_cb) {
     cbc.addEventListener('change', challengeChanged)
 }
 
+for (let s of challenges_select) {
+    s.addEventListener('change', challengeChanged)
+}
+
 btn_copy.addEventListener("click", copyCurrentComp)
 
 for (let c of champion_img) {
@@ -237,8 +281,6 @@ for (let c of champion_img) {
         updateChampionsStyle()
     })
 }
-
-new Tablesort(document.getElementById('table_challenges'), { descending: true });
 
 // search summmoner logic
 function search_summoner() {
@@ -310,7 +352,6 @@ function best_fit_roles() {
     let selected_champions = getSelectedChampionsName(true)
 
     selected_champions = selected_champions.join(",")
-    console.log(selected_champions)
 
     fetch("/best_fit_roles/" + selected_champions)
         .then((response) => {
@@ -319,7 +360,6 @@ function best_fit_roles() {
         .then((json) => {
             let roles = json[0]
             let off_role = json[2]
-            console.log(off_role)
             for (const [role, champion] of Object.entries(roles)) {
                 let champion_role = document.getElementById("champion_role_" + champion)
                 let role_ = role_mapping[role]

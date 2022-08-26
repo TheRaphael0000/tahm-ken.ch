@@ -1,9 +1,6 @@
-from pprint import pprint
 from collections import defaultdict
 import random
 import json
-
-import numpy as np
 
 champions = json.load(
     open("static/datadragon_cache/champion.json", "rb"))["data"]
@@ -11,7 +8,10 @@ champions = json.load(
 
 filedata = open("static/txt/champions_roles.csv").read()
 
-champions_by_ig_name = {champion["name"]                        : champion for _, champion in champions.items()}
+champions_by_ig_name = {
+    champion["name"]: champion
+    for _, champion in champions.items()
+}
 
 lines = filedata.split("\n")
 

@@ -2,6 +2,11 @@ body {
     font-size: 0.95em !important;
 }
 
+label:hover {
+    cursor: pointer;
+    display:inline;
+}
+
 .bg_img {
     background-image: url("/static/img/Tahm_Kench_OriginalSkin.jpg");
     position: fixed;
@@ -16,7 +21,7 @@ body {
 }
 
 .active {
-    border-bottom: 1px rgba(255,255,255,0.5) solid;
+    border-bottom: 1px rgba(255, 255, 255, 0.5) solid;
 }
 
 .socials {

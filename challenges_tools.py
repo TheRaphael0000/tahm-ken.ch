@@ -55,32 +55,25 @@ challenges_groups = [
 ]
 
 
-challenges = json.load(open("static/challenges.json"))
-for c in challenges:
-    c["champions_l"] = len(c["champions"])
-
-for c in challenges:
+challenges_data = json.load(open("static/challenges.json"))
+for c in challenges_data:
+    c["max"] = len(c["champions"])
     c["champions"] = set(c["champions"])
-    c["qte"] = c["qte"]
 
 
 challenges_by_champions = defaultdict(list)
-for challenge in challenges:
+for challenge in challenges_data:
     for champion in challenge["champions"]:
         challenges_by_champions[champion].append(challenge["id"])
 challenges_by_champions = dict(challenges_by_champions)
 
 champions_by_challenge = {
     challenge["id"]: challenge["champions"]
-    for challenge in challenges
+    for challenge in challenges_data
 }
 
 # load champions data
 champions_alphabetical = sorted(champions, key=lambda c: champions[c]["name"])
-champions_by_keys = {
-    int(champion["key"]): champion
-    for _, champion in champions.items()
-}
 
 try:
     lol_watcher = None
@@ -89,18 +82,39 @@ try:
     # the region doesn't matter
     challenges_config = lol_watcher.challenges.config(default_region)
     challenges_config = {c["id"]: c for c in challenges_config}
+    for c in challenges_data:
+        challenges_config[c['id']]["qte"] = c["qte"]
+        challenges_config[c['id']]["max"] = c["max"]
 except ValueError:
     print("No Riot API key provided")
 except ApiError:
     print("This Riot API key can't access the challenges scope")
 
 
+challenges_data_ = defaultdict(list)
+for c in challenges_data:
+    challenges_data_[c["id"]].append(c)
+challenges_data = challenges_data_
+
+
 def find_challenges(comp):
     challenges_achieved = set()
-    for c in challenges:
-        if len(c["champions"].intersection(comp)) >= c["qte"]:
-            challenges_achieved.add(c["id"])
+    for id_, challenge in challenges_data.items():
+        for c in challenge:
+            if len(c["champions"].intersection(comp)) >= c["qte"]:
+                challenges_achieved.add(c["id"])
     return challenges_achieved
+
+
+def find_challenges_details(comp):
+    challenges_details = {}
+    for id_, challenge in challenges_data.items():
+        for c in challenge:
+            current = list(set(comp).intersection(set(c["champions"])))
+            if id_ not in challenges_details or len(current) > len(challenges_details[id_]):
+                challenges_details[id_] = current
+    return challenges_details
+
 
 
 def find_comp(champions_, threshold_min=0, threshold_max=sys.maxsize, max_depth=1e7):
@@ -190,7 +204,8 @@ def get_custom_optimized_compositions(region, summoners_names, power=1.3, max_de
         summoner_masteries = lol_watcher.champion_mastery.by_summoner(
             region=region, encrypted_summoner_id=summoner["id"])
 
-        masteries_by_id = {mastery["championId"]: mastery for mastery in summoner_masteries}
+        masteries_by_id = {mastery["championId"]
+            : mastery for mastery in summoner_masteries}
         champion_masteries = {}
 
         for champion_id, champion in champions.items():
@@ -264,8 +279,8 @@ def get_summoner_challenges_infos(region, summoner):
         return challenge_for_this_summoner
 
     summoner_challenges = {
-        challenge["id"]: create_summoner_challenge(challenge["id"])
-        for challenge in challenges
+        challenge_id: create_summoner_challenge(challenge_id)
+        for challenge_id in challenges_data.keys()
     }
 
     total_points = summoner_challenges_infos["totalPoints"]

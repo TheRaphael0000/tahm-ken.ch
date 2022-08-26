@@ -22,9 +22,10 @@ from constants import roles
 
 from challenges_tools import get_custom_optimized_compositions
 from challenges_tools import get_summoner_challenges_infos
-from challenges_tools import challenges
 from challenges_tools import challenges_groups
+from challenges_tools import challenges_data
 from challenges_tools import challenges_config
+from challenges_tools import find_challenges_details
 from challenges_tools import champions
 from challenges_tools import champions_alphabetical
 
@@ -84,7 +85,8 @@ def args_challenges_intersection(region, summoner):
     return {
         "champions": champions,
         "champions_alphabetical": champions_alphabetical,
-        "challenges": enumerate(challenges),
+        "challenges_data": challenges_data,
+        "challenges_groups": challenges_groups,
         "challenges_config": challenges_config,
         "regions": regions,
         "region": region,
@@ -202,24 +204,48 @@ def route_custom_compositions_wizard():
     return render_template("custom_compositions.html", **args)
 
 
-@app.route("/challenge_intersection/<challenges_id>")
+@app.route("/intersection/<challenges_id>")
 def route_challenge_intersection(challenges_id):
+    if challenges_id == "none":
+        response = {
+            "intersection": [],
+            "challenges_additional_intersection": list()
+        }
+        for id_, c in challenges_data.items():
+            for i, ci in enumerate(c):
+                response["challenges_additional_intersection"].append(
+                    [f"{id_}:{i}", len(ci["champions"])])
+        return json.dumps(response)
+
     try:
-        challenges_id = [int(s) for s in challenges_id.split(",")]
-        challenges_champions = [set(challenges[ci]["champions"])
-                                for ci in challenges_id]
+        challenges_id = [s for s in challenges_id.split(",")]
+        challenges_champions = []
+        for ci in challenges_id:
+            split = ci.split(":")
+            if len(split) == 1:
+                id_, subid = split[0], 0
+            elif len(split) == 2:
+                id_, subid = split
+            id_, subid = int(id_), int(subid)
+            champions = challenges_data[id_][subid]["champions"]
+            challenges_champions.append(champions)
     except:
         return abort(404)
+
     u = set.intersection(*challenges_champions)
 
     response = {
         "intersection": list(u),
         "challenges_additional_intersection": list()
     }
-    for i, c in enumerate(challenges):
-        s = set(c["champions"])
-        uc = u.intersection(s)
-        response["challenges_additional_intersection"].append([i, len(uc)])
+
+    for id_, c in challenges_data.items():
+        for i, ci in enumerate(c):
+            s = set(ci["champions"])
+            uc = u.intersection(s)
+            l = len(uc)
+            response["challenges_additional_intersection"].append(
+                [f"{id_}:{i}", l])
 
     return json.dumps(response)
 
@@ -227,18 +253,12 @@ def route_challenge_intersection(challenges_id):
 @app.route("/champions_selected/<champions>")
 def route_champions_selected(champions=""):
     try:
-        champions = set(champions.split(","))
-
-        valid_challenges = {}
-
-        for i, c in enumerate(challenges):
-            set_champions = set(c["champions"])
-            current_selection = len(set_champions.intersection(champions))
-            valid_challenges[i] = current_selection
+        comp = set(champions.split(","))
+        challenges_info = find_challenges_details(comp)
     except:
         return abort(404)
 
-    return json.dumps(valid_challenges)
+    return json.dumps(challenges_info)
 
 
 @app.route("/best_fit_roles/<champions>")
