@@ -64,21 +64,18 @@
         class="challenge_no text-end"
         data-max="{{ challenge_config['max'] }}"></td>
     <td>
-      <label for="challenge_cb_{{ id }}">
-        {{ challenge_config["localizedNames"][layout["language"]]["name"] }}
-        {% if challenge_data|length > 1 %}
-          -
-          <select id="challenge_select_{{ id }}" class="challenges_select">
-            {% for c in challenge_data %}
-              <option>
-                {{ c["label"] }}
-              </option>
-            {% endfor %}
-          </select>
-        {% endif %}
-      </label>
+      <label for="challenge_cb_{{ id }}">{{ challenge_config["localizedNames"][layout["language"]]["name"] }}</label>
     </td>
     <td>
+      {% if challenge_data|length > 1 %}
+        <select id="challenge_select_{{ id }}" class="challenges_select w-100" style="border:0px">
+          {% for c in challenge_data %}
+            <option>
+              {{ c["label"] }}
+            </option>
+          {% endfor %}
+        </select>
+      {% endif %}
       {% if challenge_data|length == 1 %}
         <label for="challenge_cb_{{ id }}">{{ challenge_data[0]["label"] }}</label>
       {% endif %}
@@ -179,9 +176,7 @@
               class="btn btn btn-outline-light my-2">
         <i class="fa-solid fa-magnifying-glass"></i>
       </button>
-      <button id="btn_copy"
-              type="button"
-              class="btn btn btn-outline-light my-2">
+      <button id="btn_copy" type="button" class="btn btn btn-outline-light my-2">
         <i class="fa-solid fa-copy"></i>
       </button>
       <button id="btn_reset_selection"

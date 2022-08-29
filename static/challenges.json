@@ -39,7 +39,7 @@
   {
     "id": 303402,
     "_": "It Has \"Ultimate\" In the Name !",
-    "label": "Ultimate",
+    "label": "Ultimate AOE",
     "qte": 3,
     "champions": [
       "Amumu",
@@ -632,7 +632,7 @@
   {
     "id": 303409,
     "_": "Get Over Here",
-    "label": "Displacement",
+    "label": "Displacements",
     "qte": 3,
     "champions": [
       "Alistar",
