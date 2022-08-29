@@ -94,7 +94,7 @@ except ApiError:
 challenges_data_ = defaultdict(list)
 for c in challenges_data:
     challenges_data_[c["id"]].append(c)
-challenges_data = challenges_data_
+challenges_data = dict(challenges_data_)
 
 
 def find_challenges(comp):

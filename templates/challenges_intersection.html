@@ -78,39 +78,43 @@
         {% endif %}
       </label>
     </td>
-  </td>
-  <td>
-    <span class="tooltip_">? <span class="tooltip_text">{{ challenge_config["localizedNames"][layout["language"]]["description"] }}</span> </span>
-  </td>
-  <td class="less_pad">
-    {% if 'qte' in challenge_config %}
-      <div style="height:21px;overflow-y:hidden;">
-        <span id="challenge_selection_l_{{ id }}" style="display:inline-block;"></span>
-        <span style="border-left:1px solid white;"></span>
-        <span id="challenge_selection_r_{{ id }}" style="display:inline-block;"></span>
-      </div>
-    {% endif %}
-  </td>
-  {% if summoner_challenge %}
-    <td data-sort-default data-sort="{{ summoner_challenge['value'] }}">
-      {% if summoner_challenge['level'] != "unranked" %}
-        <img src="https://raw.communitydragon.org/latest/game/assets/challenges/config/{{ id }}/tokens/{{ summoner_challenge['level'] }}.png"
-             height="21px">
-      {% else %}
-        <svg height="21px" width="21px">
-          <circle cx="10" cy="10" r="9" stroke="white" fill="transparent" />
-        </svg>
+    <td>
+      {% if challenge_data|length == 1 %}
+        <label for="challenge_cb_{{ id }}">{{ challenge_data[0]["label"] }}</label>
       {% endif %}
     </td>
-    <td data-sort="{{ summoner_challenge['value'] }}"
-        class="text-center less_pad">
-      <span>
-        {{ summoner_challenge['value'] }}
-        {% if summoner_challenge['next_threshold'] %}/ {{ summoner_challenge['next_threshold'] }}{% endif %}
-      </span>
+    <td>
+      <span class="tooltip_">? <span class="tooltip_text">{{ challenge_config["localizedNames"][layout["language"]]["description"] }}</span> </span>
     </td>
-  {% endif %}
-</tr>
+    <td class="less_pad">
+      {% if 'qte' in challenge_config %}
+        <div style="height:21px;overflow-y:hidden;">
+          <span id="challenge_selection_l_{{ id }}" style="display:inline-block;"></span>
+          <span style="border-left:1px solid white;"></span>
+          <span id="challenge_selection_r_{{ id }}" style="display:inline-block;"></span>
+        </div>
+      {% endif %}
+    </td>
+    {% if summoner_challenge %}
+      <td data-sort-default data-sort="{{ summoner_challenge['value'] }}">
+        {% if summoner_challenge['level'] != "unranked" %}
+          <img src="https://raw.communitydragon.org/latest/game/assets/challenges/config/{{ id }}/tokens/{{ summoner_challenge['level'] }}.png"
+               height="21px">
+        {% else %}
+          <svg height="21px" width="21px">
+            <circle cx="10" cy="10" r="9" stroke="white" fill="transparent" />
+          </svg>
+        {% endif %}
+      </td>
+      <td data-sort="{{ summoner_challenge['value'] }}"
+          class="text-center less_pad">
+        <span>
+          {{ summoner_challenge['value'] }}
+          {% if summoner_challenge['next_threshold'] %}/ {{ summoner_challenge['next_threshold'] }}{% endif %}
+        </span>
+      </td>
+    {% endif %}
+  </tr>
 {% endmacro %}
 {% block main %}
   <input id="search_champion" type="search" value="">
@@ -121,6 +125,7 @@
           <th data-sort-method='none'></th>
           <th width="37px" id="column_qte">#</th>
           <th>Challenge</th>
+          <th>Label</th>
           <th data-sort-method='none'></th>
           <th data-sort-method='none'>Selection</th>
           {% if summoner_challenges %}<th colspan="2" data-sort-default>Progress</th>{% endif %}
@@ -128,11 +133,10 @@
         {% for challenges_group in challenges_groups %}
           {% set parent_id = challenges_group['parent'] %}
           {% set children = challenges_group['children'] %}
-          {% set challenge_data = challenges_data[parent_id] %}
           {% set challenge_config = challenges_config[parent_id] %}
           {% set summoner_challenge = summoner_challenges[parent_id] %}
           <thead>
-            {{ challenge_row(challenge_data, challenge_config, summoner_challenge, true) }}
+            {{ challenge_row({}, challenge_config, summoner_challenge, true) }}
           </thead>
           <tbody>
             {% for child_id in children %}
