@@ -219,30 +219,29 @@ function fetch_challenges(selectedChampionName) {
             for (const challenge in json) {
                 let champions = json[challenge]
                 let challenge_tr = document.querySelector("#challenge_tr_" + challenge)
-                let challenge_selection_l = document.querySelector("#challenge_selection_l_" + challenge)
-                let challenge_selection_r = document.querySelector("#challenge_selection_r_" + challenge)
+                let champion_selected = document.querySelector("#champion_selected_" + challenge)
+                let champion_placeholder = document.querySelector(".champion_placeholder")
 
+                champion_selected.innerHTML = ""
                 let requirements = parseInt(challenge_tr.dataset.requirements)
-                let qte = champions.length
 
-                challenge_selection_l.innerHTML = ""
-                challenge_selection_r.innerHTML = ""
-
-                challenge_selection_l.style.width = requirements * 21 + "px"
-                challenge_selection_r.style.width = (5 - requirements) * 21 + "px"
-
-                for (let i = 0; i < champions.length; i++) {
-                    let champion = champions[i]
-                    let img = document.createElement("img")
-                    img.src = "/static/datadragon_cache/champions_img/" + champion + ".png"
-                    img.classList.add("challenge_selection_img")
-                    if (i < requirements)
-                        challenge_selection_l.appendChild(img)
-                    else
-                        challenge_selection_r.appendChild(img)
+                for (let i = 0; i < 5; i++) {
+                    if (i < champions.length) {
+                        let champion = champions[i]
+                        let img = document.createElement("img")
+                        img.src = "/static/datadragon_cache/champions_img/" + champion + ".png"
+                        img.classList.add("challenge_selection_img")
+                        champion_selected.appendChild(img)
+                    } else {
+                        if (i >= requirements)
+                            break
+                        let svg = champion_placeholder.cloneNode(true)
+                        svg.style.display = "inline-block"
+                        champion_selected.appendChild(svg)
+                    }
                 }
 
-                if (qte >= requirements)
+                if (champions.length >= requirements)
                     challenge_tr.classList.add("selected")
                 else
                     challenge_tr.classList.remove("selected")
@@ -386,18 +385,18 @@ function set_champion_size() {
 
     let optimal_s = minImageSize
 
-    for(let s = maxImageSize; s > minImageSize; s--){
+    for (let s = maxImageSize; s > minImageSize; s--) {
         let c = w / s
         let r = Math.ceil(n / c) + 1
 
         rs = r * s
-        if(rs < h) {
+        if (rs < h) {
             optimal_s = s
             break
         }
     }
 
-    for(let champion of champions) {
+    for (let champion of champions) {
         champion.style.width = optimal_s + "px";
         champion.style.height = optimal_s + "px";
     }

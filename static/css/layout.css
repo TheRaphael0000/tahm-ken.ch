@@ -4,7 +4,7 @@ body {
 
 label:hover {
     cursor: pointer;
-    display:inline;
+    display: inline;
 }
 
 .bg_img {
@@ -52,6 +52,7 @@ label:hover {
 
 .tooltip_ .tooltip_text {
     visibility: hidden;
+    font-weight: normal;
     background-color: rgba(20, 20, 20, 0.85);
     width: 250px;
     color: #fff;

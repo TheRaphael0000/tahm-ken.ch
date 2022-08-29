@@ -68,7 +68,9 @@
     </td>
     <td>
       {% if challenge_data|length > 1 %}
-        <select id="challenge_select_{{ id }}" class="challenges_select w-100" style="border:0px">
+        <select id="challenge_select_{{ id }}"
+                class="challenges_select w-100"
+                style="border:0px">
           {% for c in challenge_data %}
             <option>
               {{ c["label"] }}
@@ -81,17 +83,18 @@
       {% endif %}
     </td>
     <td>
-      <span class="tooltip_">? <span class="tooltip_text">{{ challenge_config["localizedNames"][layout["language"]]["description"] }}</span> </span>
+      <span class="tooltip_">?<span class="tooltip_text">{{ challenge_config["localizedNames"][layout["language"]]["description"] }}</span></span>
     </td>
-    <td class="less_pad">
-      {% if 'qte' in challenge_config %}
-        <div style="height:21px;overflow-y:hidden;">
-          <span id="challenge_selection_l_{{ id }}" style="display:inline-block;"></span>
-          <span style="border-left:1px solid white;"></span>
-          <span id="challenge_selection_r_{{ id }}" style="display:inline-block;"></span>
-        </div>
-      {% endif %}
-    </td>
+    <svg class="champion_placeholder"
+         style="display:none;"
+         height="21px"
+         width="21px">
+      <circle cx="10" cy="10" r="6" fill="rgba(255,255,255,0.3)" />
+    </svg>
+    <td id="champion_selected_{{ id }}"
+        class="less_pad"
+        style="height:21px;
+               overflow-y:hidden;"></td>
     {% if summoner_challenge %}
       <td data-sort-default data-sort="{{ summoner_challenge['value'] }}">
         {% if summoner_challenge['level'] != "unranked" %}
@@ -124,7 +127,9 @@
           <th>Challenge</th>
           <th>Label</th>
           <th data-sort-method='none'></th>
-          <th data-sort-method='none'>Selection</th>
+          <th data-sort-method='none'>
+            Selection <span class="tooltip_">?<span class="tooltip_text">You can click on the champion on the right to prepare your composition.</span></span>
+          </th>
           {% if summoner_challenges %}<th colspan="2" data-sort-default>Progress</th>{% endif %}
         </thead>
         {% for challenges_group in challenges_groups %}
