@@ -2,6 +2,7 @@
   {
     "id": 303401,
     "_": "Nowhere to Hide",
+    "label": "Global",
     "qte": 3,
     "champions": [
       "Akshan",
@@ -38,6 +39,7 @@
   {
     "id": 303402,
     "_": "It Has \"Ultimate\" In the Name !",
+    "label": "Ultimate",
     "qte": 3,
     "champions": [
       "Amumu",
@@ -120,6 +122,7 @@
   {
     "id": 303403,
     "_": "We Protec",
+    "label": "Ally Shield/Heal",
     "qte": 3,
     "champions": [
       "Alistar",
@@ -158,6 +161,7 @@
   {
     "id": 303404,
     "_": "They Just... Don't... DIE!",
+    "label": "Revive/Immunity",
     "qte": 3,
     "champions": [
       "Akshan",
@@ -203,6 +207,7 @@
   {
     "id": 303405,
     "_": "Where'd They Go ?",
+    "label": "Stealth",
     "qte": 3,
     "champions": [
       "Akali",
@@ -228,6 +233,7 @@
   {
     "id": 303406,
     "_": "We're Good Over Here",
+    "label": "Poke",
     "qte": 3,
     "champions": [
       "Akshan",
@@ -271,6 +277,7 @@
   {
     "id": 303407,
     "_": "Summoners on the Rift",
+    "label": "Summoner",
     "qte": 5,
     "champions": [
       "Annie",
@@ -625,6 +632,7 @@
   {
     "id": 303409,
     "_": "Get Over Here",
+    "label": "Displacement",
     "qte": 3,
     "champions": [
       "Alistar",
@@ -666,6 +674,7 @@
   {
     "id": 303410,
     "_": "It's a Trap!",
+    "label": "Trap",
     "qte": 3,
     "champions": [
       "Caitlyn",
@@ -683,6 +692,7 @@
   {
     "id": 303411,
     "_": "I'm Helping",
+    "label": "Terrain",
     "qte": 3,
     "champions": [
       "Anivia",
@@ -700,6 +710,7 @@
   {
     "id": 303412,
     "_": "Hold That Pose",
+    "label": "Crowd Controls",
     "qte": 3,
     "champions": [
       "Aatrox",

@@ -156,7 +156,7 @@
     </div>
     <div id="champions_pool">
       {% for champion in champions_alphabetical %}
-        <div style="position:relative">
+        <div class="champion">
           <img id="champion_{{ champion }}"
                class="champion_img"
                src="/static/datadragon_cache/champions_img/{{ champion }}.png"
@@ -167,26 +167,26 @@
         </div>
       {% endfor %}
     </div>
-    <div class="text-center">
+    <div class="d-flex flex-column flex-shrink-0">
       <button type="button"
-              class="btn btn btn-outline-light w-100 mb-2"
+              class="btn btn btn-outline-light mb-2"
               data-bs-toggle="modal"
               data-bs-target="#team_builder_modal">
         <i class="fa-solid fa-question"></i>
       </button>
       <button id="btn_search_champion"
               type="button"
-              class="btn btn btn-outline-light w-100 my-2">
+              class="btn btn btn-outline-light my-2">
         <i class="fa-solid fa-magnifying-glass"></i>
       </button>
       <button id="btn_copy"
               type="button"
-              class="btn btn btn-outline-light w-100 my-2">
+              class="btn btn btn-outline-light my-2">
         <i class="fa-solid fa-copy"></i>
       </button>
       <button id="btn_reset_selection"
               type="button"
-              class="btn btn btn-outline-light w-100 my-2">
+              class="btn btn btn-outline-light my-2">
         <i class="fa-solid fa-trash"></i>
       </button>
     </div>

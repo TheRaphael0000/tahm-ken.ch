@@ -47,7 +47,7 @@
 #champions_pool {
     margin: 0px auto;
     display: flex;
-    height: 100%;
+    width: 100%;
     align-content: stretch;
     flex-wrap: wrap;
     align-items: stretch;
@@ -55,9 +55,14 @@
     user-select: none;
 }
 
+.champion {
+    position:relative;
+    width: 1px;
+}
+
 .champion_img {
-    width: 77px;
-    height: auto;
+    width: 100%;
+    height: 100%;
     border: 3px solid transparent;
     opacity: 0.3;
     transition: opacity 0.3s, border 0.3s;

@@ -371,3 +371,37 @@ function best_fit_roles() {
             }
         })
 }
+
+function set_champion_size() {
+    let minPoolHeight = 770
+    let maxImageSize = 200
+    let minImageSize = 60
+
+    let pool = document.querySelector("#champions_pool")
+    let w = pool.offsetWidth
+    let h = Math.min(pool.offsetHeight, minPoolHeight)
+    let champions = document.querySelectorAll(".champion")
+
+    let n = champions.length
+
+    let optimal_s = minImageSize
+
+    for(let s = maxImageSize; s > minImageSize; s--){
+        let c = w / s
+        let r = Math.ceil(n / c) + 1
+
+        rs = r * s
+        if(rs < h) {
+            optimal_s = s
+            break
+        }
+    }
+
+    for(let champion of champions) {
+        champion.style.width = optimal_s + "px";
+        champion.style.height = optimal_s + "px";
+    }
+}
+
+window.addEventListener("resize", set_champion_size)
+set_champion_size()
