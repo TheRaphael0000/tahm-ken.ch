@@ -4,14 +4,14 @@
 {% block head %}{% endblock %}
 {% block main %}
     <div class="container">
-        {% macro discord_community(community) %}
+        {% macro discord_community(community, invite_id) %}
             <li>
                 <img src="https://cdn.discordapp.com/icons/{{ community['guild']['id'] }}/{{ community['guild']['icon'] }}.jpg?size=256"
                      class="rounded-circle"
                      style="width:64px;
                             height: 64px;
                             object-fit: cover;">
-                <a href="https://discord.gg/{{ community['link_id'] }}">{{ community['guild']['name'] }}</a>
+                <a href="https://discord.gg/{{ invite_id }}">{{ community['guild']['name'] }}</a>
                 {% if community['guild']['description'] %}
                     <p>
                         <cite>
@@ -34,7 +34,7 @@
             </p>
             <ul>
                 {% for invite_id, community in discord_communities.items() %}
-                    {% if invite_id != discord_tahm_kench %}{{ discord_community(community) }}{% endif %}
+                    {% if invite_id != discord_tahm_kench %}{{ discord_community(community, invite_id) }}{% endif %}
                 {% endfor %}
             </ul>
         {% else %}
