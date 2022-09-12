@@ -109,6 +109,7 @@ def route_challenges_intersection_summoner(region, summoner):
         region = regions_by_abbreviation[region]
     except:
         return redirect("/challenges_intersection")
+    summoner = summoner.replace("_", " ")
     args = args_challenges_intersection(region, summoner)
     try:
         summoner_challenges, total_points = get_summoner_challenges_infos(
@@ -118,8 +119,7 @@ def route_challenges_intersection_summoner(region, summoner):
             "total_points": total_points,
         }
     except Exception as e:
-        args["error"] = f"Couldn't find the summoner {e}"
-        raise Exception(e)
+        args["error"] = f"Couldn't find '{summoner}' on {region['abbreviation']}"
     return render_template("challenges_intersection.html", **args)
 
 
