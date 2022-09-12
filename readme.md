@@ -5,8 +5,8 @@ trying to create an app which help to optimize the teamwork challenges in league
 still wip, you can pr if you want.
 
 ## todo
+- [ ] (bugfix) show points for harmony and globetrotter
 - [ ] have a multisearch feature like op.gg
-- [ ] show points on harmony and the other challenge in the nav bar
 - [ ] show challenges for each champions when hovering them (act like you added them)
 - [ ] responsiveness for mobile
 - [ ] update table sorting and add visual clue of the current sort
