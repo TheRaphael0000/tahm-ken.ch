@@ -11,6 +11,7 @@ still wip, you can pr if you want.
 - [ ] responsiveness for mobile
 - [ ] update table sorting and add visual clue of the current sort
 - [ ] add a caching system for the API calls, see if its better to use cassiopeia instead of riotwatcher
+- [ ] create a batch file for windows install
 - [ ] User eXperience (help needed)
 - [ ] multi-language
 
