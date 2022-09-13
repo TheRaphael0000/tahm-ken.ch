@@ -1,4 +1,6 @@
 {% extends "layout.html" %}
+{% from "tools.html" import region_select with context %}
+
 {% set active_page = "custom_compositions" %}
 {% block title %}Custom compositions{% endblock %}
 {% block head %}{% endblock %}
@@ -13,17 +15,7 @@
             <div class="form-group py-3">
                 <label for="region">Region :</label>
                 <select class="form-control" id="region">
-                    {% for region_ in regions %}
-                        {% if region and region_["id"] == region["id"] %}
-                            <option name="{{ region_['id'] }}" selected="selected">
-                                {{ region_["abbreviation"] }}
-                            </option>
-                        {% else %}
-                            <option name="{{ region_['id'] }}">
-                                {{ region_["abbreviation"] }}
-                            </option>
-                        {% endif %}
-                    {% endfor %}
+                    {{ region_select(regions, region) }}
                 </select>
             </div>
             {% for i, role in roles %}

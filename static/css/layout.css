@@ -4,7 +4,6 @@ body {
 
 label:hover {
     cursor: pointer;
-    display: inline;
 }
 
 .bg_img {

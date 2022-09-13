@@ -116,7 +116,6 @@ def find_challenges_details(comp):
     return challenges_details
 
 
-
 def find_comp(champions_, threshold_min=0, threshold_max=sys.maxsize, max_depth=1e7):
     # sort them by number of challenges to find good match first
     champions_ = list(champions_)
@@ -204,8 +203,7 @@ def get_custom_optimized_compositions(region, summoners_names, power=1.3, max_de
         summoner_masteries = lol_watcher.champion_mastery.by_summoner(
             region=region, encrypted_summoner_id=summoner["id"])
 
-        masteries_by_id = {mastery["championId"]
-            : mastery for mastery in summoner_masteries}
+        masteries_by_id = {mastery["championId"]: mastery for mastery in summoner_masteries}
         champion_masteries = {}
 
         for champion_id, champion in champions.items():
@@ -243,8 +241,11 @@ def get_custom_optimized_compositions(region, summoners_names, power=1.3, max_de
     return comps_
 
 
-def get_summoner_challenges_infos(region, summoner):
-    summoner = lol_watcher.summoner.by_name(region, summoner)
+def get_summoner_challenges_info(region, summoner):
+    try:
+        summoner = lol_watcher.summoner.by_name(region, summoner)
+    except:
+        raise Exception(f"{summoner} not found on {region}")
     summoner_challenges_infos = lol_watcher.challenges.by_puuid(
         region, summoner['puuid'])
 
@@ -270,7 +271,7 @@ def get_summoner_challenges_infos(region, summoner):
             }
         else:
             challenge_for_this_summoner = {
-                "level": "unranked",
+                "level": "iron",
                 "value": 0,
             }
 
@@ -290,4 +291,4 @@ def get_summoner_challenges_infos(region, summoner):
     if total_points["level"] == "none":
         total_points["level"] = "iron"
 
-    return summoner_challenges, total_points
+    return {"summoner": summoner, "summoner_challenges": summoner_challenges, "total_points": total_points}

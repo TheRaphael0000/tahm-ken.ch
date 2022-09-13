@@ -1,4 +1,6 @@
 {% extends "layout.html" %}
+{% from "tools.html" import region_select with context %}
+
 {% set active_page = "challenges_intersection" %}
 {% block title %}Challenge Intersections{% endblock %}
 {% block head %}<link rel="stylesheet" href="/static/css/challenges_intersection.css">{% endblock %}
@@ -27,17 +29,7 @@
     </li>
     <li class="nav-item mx-2">
       <select id="region" class="form-select form-control-dark text-bg-dark">
-        {% for region_ in regions %}
-          {% if region and region_["id"] == region["id"] %}
-            <option name="{{ region_['id'] }}" selected="selected">
-              {{ region_["abbreviation"] }}
-            </option>
-          {% else %}
-            <option name="{{ region_['id'] }}">
-              {{ region_["abbreviation"] }}
-            </option>
-          {% endif %}
-        {% endfor %}
+        {{ region_select(regions, region) }}
       </select>
     </li>
     <li class="nav-item ms-2">
@@ -97,14 +89,8 @@
                overflow-y:hidden;"></td>
     {% if summoner_challenge %}
       <td data-sort-default data-sort="{{ summoner_challenge['value'] }}">
-        {% if summoner_challenge['level'] != "unranked" %}
-          <img src="https://raw.communitydragon.org/latest/game/assets/challenges/config/{{ id }}/tokens/{{ summoner_challenge['level'] }}.png"
-               height="21px">
-        {% else %}
-          <svg height="21px" width="21px">
-            <circle cx="10" cy="10" r="9" stroke="white" fill="transparent" />
-          </svg>
-        {% endif %}
+        <img src="https://raw.communitydragon.org/latest/game/assets/challenges/config/{{ id }}/tokens/{{ summoner_challenge['level'] }}.png"
+              height="21px">
       </td>
       <td data-sort="{{ summoner_challenge['value'] }}"
           class="text-center less_pad">

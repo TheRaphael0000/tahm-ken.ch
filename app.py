@@ -21,7 +21,7 @@ from regions import get_region_from_ip
 from constants import roles
 
 from challenges_tools import get_custom_optimized_compositions
-from challenges_tools import get_summoner_challenges_infos
+from challenges_tools import get_summoner_challenges_info
 from challenges_tools import challenges_groups
 from challenges_tools import challenges_data
 from challenges_tools import challenges_config
@@ -44,6 +44,7 @@ app.secret_key = config["app_secret_key"]
 limiter = Limiter(app, key_func=get_remote_address)
 
 language = "en_US"
+multisearch_max_size = 8
 
 # load the pre-calculated compositions
 compositions = json.load(open("static/compositions.json", "r"))
@@ -112,12 +113,8 @@ def route_challenges_intersection_summoner(region, summoner):
     summoner = summoner.replace("_", " ")
     args = args_challenges_intersection(region, summoner)
     try:
-        summoner_challenges, total_points = get_summoner_challenges_infos(
-            region["id"], summoner)
-        args |= {
-            "summoner_challenges": summoner_challenges,
-            "total_points": total_points,
-        }
+        challenges_info = get_summoner_challenges_info(region["id"], summoner)
+        args |= challenges_info
     except Exception as e:
         args["error"] = f"Couldn't find '{summoner}' on {region['abbreviation']}"
     return render_template("challenges_intersection.html", **args)
@@ -202,6 +199,54 @@ def route_custom_compositions(region, summoners_names):
 def route_custom_compositions_wizard():
     args = args_custom_compositions()
     return render_template("custom_compositions.html", **args)
+
+
+def render_multisearch_search(additional_args={}):
+    args = {
+        "layout": layout,
+        "regions": regions,
+        "region": get_default_region()
+    } | additional_args
+    return render_template("multisearch.html", **args)
+
+
+@app.route("/multisearch")
+def route_multisearch():
+    return render_multisearch_search()
+
+
+@app.route("/multisearch/<region>/<summoners_names_text>")
+@limiter.limit("2/minutes")
+def route_multisearch_result(region, summoners_names_text):
+    try:
+        region = regions_by_abbreviation[region]
+    except:
+        return redirect("/multisearch")
+
+    args = {
+        "layout": layout,
+    }
+
+    summoner_names = list(dict.fromkeys(summoners_names_text.split(",")))
+
+    try:
+        if len(summoner_names) > multisearch_max_size:
+            raise Exception(
+                f"Too many summoner names (max: {multisearch_max_size})")
+
+        summoners_challenges_info = {}
+        for summoner in summoner_names:
+            info = get_summoner_challenges_info(region['id'], summoner)
+            summoners_challenges_info[info["summoner"]["id"]] = info
+
+        args |= {
+            "summoners_challenges_info": summoners_challenges_info
+        }
+
+    except Exception as e:
+        return render_multisearch_search({"error": e, "summoners_names": "\n".join(summoner_names)})
+
+    return render_template("multisearch_result.html", **args)
 
 
 @app.route("/intersection/<challenges_id>")
