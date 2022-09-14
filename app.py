@@ -20,7 +20,7 @@ from regions import get_region_from_ip
 
 from constants import roles
 
-from challenges_tools import get_custom_optimized_compositions
+from challenges_tools import compute_challenges_priority_scores, get_custom_optimized_compositions
 from challenges_tools import get_summoner_challenges_info
 from challenges_tools import challenges_groups
 from challenges_tools import challenges_data
@@ -239,10 +239,14 @@ def route_multisearch_result(region, summoners_names_text):
             info = get_summoner_challenges_info(region['id'], summoner)
             summoners_challenges_info[info["summoner"]["id"]] = info
 
-        args |= {
-            "summoners_challenges_info": summoners_challenges_info
-        }
+        priority_scores = compute_challenges_priority_scores(
+            summoners_challenges_info)
 
+        args |= {
+            "summoners_challenges_info": summoners_challenges_info,
+            "priority_scores": priority_scores,
+            "challenges_config": challenges_config,
+        }
     except Exception as e:
         return render_multisearch_search({"error": e, "summoners_names": "\n".join(summoner_names)})
 

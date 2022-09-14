@@ -42,14 +42,19 @@ label:hover {
 
 
 /* tooltip mainly from https://www.w3schools.com/css/tryit.asp?filename=trycss_tooltip */
-.tooltip_ {
+.tooltip_,
+.tooltip_simple {
     position: relative;
     display: inline-block;
+}
+
+.tooltip_ {
     font-style: italic;
     border-bottom: 1px dotted white;
 }
 
-.tooltip_ .tooltip_text {
+.tooltip_text {
+    pointer-events: none;
     visibility: hidden;
     font-weight: normal;
     background-color: rgba(20, 20, 20, 0.85);
@@ -59,11 +64,15 @@ label:hover {
     border-radius: 6px;
     padding: 5px;
     position: absolute;
-    left: 20px;
+    left: 50px;
     top: calc(-50%);
     z-index: 1;
 }
 
 .tooltip_:hover .tooltip_text {
+    visibility: visible;
+}
+
+.tooltip_simple:hover .tooltip_text {
     visibility: visible;
 }

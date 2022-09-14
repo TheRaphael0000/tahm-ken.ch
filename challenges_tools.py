@@ -203,7 +203,7 @@ def get_custom_optimized_compositions(region, summoners_names, power=1.3, max_de
         summoner_masteries = lol_watcher.champion_mastery.by_summoner(
             region=region, encrypted_summoner_id=summoner["id"])
 
-        masteries_by_id = {mastery["championId"]: mastery for mastery in summoner_masteries}
+        masteries_by_id = {mastery["championId"]                           : mastery for mastery in summoner_masteries}
         champion_masteries = {}
 
         for champion_id, champion in champions.items():
@@ -292,3 +292,34 @@ def get_summoner_challenges_info(region, summoner):
         total_points["level"] = "iron"
 
     return {"summoner": summoner, "summoner_challenges": summoner_challenges, "total_points": total_points}
+
+
+def compute_challenges_priority_scores(challenges_info):
+    priority_scores = defaultdict(lambda: 1)
+    # compute geometric mean
+    for sid_, s in challenges_info.items():
+        for id_, challenge in s["summoner_challenges"].items():
+            # +1: avoid having to multiply by 0
+            # min: avoid having too high progress having too much influence
+            # +5: more margin for the min
+            priority_scores[id_] *= min(challenge["value"] + 1,
+                                        challenges_config[id_]["thresholds"]["MASTER"] + 5)
+
+    N = len(challenges_info)
+    # take the square root
+    for id_ in priority_scores:
+        priority_scores[id_] **= 1/N
+
+    # range the values
+    min_, max_ = min(priority_scores.values()), max(priority_scores.values())
+    min_range, max_range = 1, 100
+    for id_, score in priority_scores.items():
+        score = (score - min_) / (max_ - min_)
+        score = score * (max_range - min_range) + min_range
+        priority_scores[id_] = score
+
+    # sort the array
+    priority_scores = list(priority_scores.items())
+    priority_scores.sort(key=lambda l: l[-1])
+
+    return priority_scores

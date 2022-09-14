@@ -12,7 +12,7 @@
             </tr>
             {% for id, summoner_challenges_info in summoners_challenges_info.items() %}
                 <tr>
-                    <td>{{ summoner_challenges_info['summoner']['name'] }}</td>
+                    <td class="pe-3">{{ summoner_challenges_info['summoner']['name'] }}</td>
                     <td>
                         <img height="50px"
                              src="https://raw.communitydragon.org/latest/game/assets/ux/summonericons/profileicon{{ summoner_challenges_info['summoner']['profileIconId'] }}.png">
@@ -22,15 +22,33 @@
                              src="/static/img/challengecrystal/{{ summoner_challenges_info['total_points']['level'] }}.ls_c2.png"
                              alt="{{ summoner_challenges_info['total_points']['level'].lower()}}">
                     </td>
-                    {% for challenge_id, challenge in summoner_challenges_info["summoner_challenges"].items() %}
+                    {% for id_, score in priority_scores %}
                         <td>
-                            <img src="https://raw.communitydragon.org/latest/game/assets/challenges/config/{{ challenge_id }}/tokens/{{ challenge['level'] }}.png"
-                                 height="40px">
+                            <span class="tooltip_simple">
+                                <img src="https://raw.communitydragon.org/latest/game/assets/challenges/config/{{ id_ }}/tokens/{{ summoner_challenges_info['summoner_challenges'][id_]['level'] }}.png"
+                                     height="40px">
+                                <span class="tooltip_text">
+                                    <p>
+                                        <b>{{ challenges_config[id_]["localizedNames"][layout.language]["name"] }}</b>
+                                    </p>
+                                    <p>Progress : {{ summoner_challenges_info['summoner_challenges'][id_]['value'] }}</p>
+                                </span>
+                            </span>
                         </td>
                     {% endfor %}
                 </tr>
             {% endfor %}
+            <tr class="border-top">
+                <td colspan="3" class="pt-3">
+                    <i>Priority</i> <span class="tooltip_">?<span class="tooltip_text">Geometric mean of the challenge progression between all players, ranged between 1 and 100.</span>
+                </td>
+                {% for id_, score in priority_scores %}
+                    <td class="text-center">
+                        <i>{{ score|round|int }}</i>
+                    </td>
+                {% endfor %}
+            </tr>
         </table>
-        <p class="mt-3 text-info">Recommendations: coming soon!</p>
+        <p class="mt-3 text-info">Compositions recommendations: coming soon!</p>
     </div>
 {% endblock %}
