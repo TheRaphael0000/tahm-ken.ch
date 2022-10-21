@@ -13,7 +13,7 @@ communities = {
     "https://challenges.darkintaqt.com/": {
         "title": "Challenge Tracker",
         "img": "/static/img/challenges_darkintaqt_com.png",
-        "text": "League of Legends Challenge Progress Tracker By DarkIntaqt.com",
+        "text": "League of Legends Challenge Tracker & Leaderboards by DarkIntaqt.com",
         "url": "https://challenges.darkintaqt.com/",
         "type": "Website",
     },
