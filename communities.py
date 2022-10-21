@@ -20,6 +20,7 @@ communities = {
     "zASN5E6RCv": {},
     "FJXAvqxw6T": {},
     "yapEVysv3b": {},
+    "SnqzHyJWUR": {},
 }
 
 
