@@ -33,7 +33,7 @@ from champions_roles import best_fit_roles
 
 from tk_quotes import RandomQuotes
 
-from discord_communities import get_discord_communities
+from communities import get_communities
 
 # create the flask app
 app = Flask(__name__, static_url_path="/static")
@@ -335,10 +335,9 @@ def route_communities():
         "layout": layout,
     }
     try:
-        discord_communities, discord_tahm_kench = get_discord_communities()
+        communities = get_communities()
         args |= {
-            "discord_communities": discord_communities,
-            "discord_tahm_kench": discord_tahm_kench,
+            "communities": communities,
         }
     except ConnectionError as e:
         args |= {

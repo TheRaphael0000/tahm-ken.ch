@@ -8,9 +8,15 @@ from config import config
 last_update = datetime.datetime(year=1, month=1, day=1)
 update_delta = datetime.timedelta(hours=2)
 
-tahm_kench = "aHs3uDraNU"
 communities = {
-    tahm_kench: {},
+    "aHs3uDraNU": {},
+    "https://challenges.darkintaqt.com/": {
+        "title": "Challenge Tracker",
+        "img": "/static/img/challenges_darkintaqt_com.png",
+        "text": "League of Legends Challenge Progress Tracker By DarkIntaqt.com",
+        "url": "https://challenges.darkintaqt.com/",
+        "type": "Website",
+    },
     "zASN5E6RCv": {},
     "FJXAvqxw6T": {},
     "yapEVysv3b": {},
@@ -26,24 +32,30 @@ def _discord_api_request(url):
     return request, response
 
 
-def _update_discord_server_information(invite_id, discord_community):
+def _update_discord_server_information(invite_id, community):
     try:
         invite_url = f"https://discord.com/api/v10/invites/{invite_id}"
         _, response = _discord_api_request(invite_url)
         data = response.read().decode("utf-8")
         data = json.loads(data)
-        discord_community |= data
+        community['title'] = data['guild']['name']
+        community['img'] = f"https://cdn.discordapp.com/icons/{ data['guild']['id'] }/{ data['guild']['icon'] }.jpg?size=256"
+        community['text'] = data['guild']['description']
+        community['url'] = f"https://discord.gg/{ invite_id }"
+        community['type'] = "Discord"
+
     except Exception as e:
         print(e)
         print(e.read())
 
 
 def _update_discord():
-    for invite_id, discord_community in communities.items():
-        _update_discord_server_information(invite_id, discord_community)
+    for key, community in communities.items():
+        if len(key) == 10:
+            _update_discord_server_information(key, community)
 
 
-def get_discord_communities():
+def get_communities():
     if len(config['discord_bot_token']) <= 0:
         raise ConnectionError("Discord token not set")
 
@@ -51,4 +63,4 @@ def get_discord_communities():
     if last_update + update_delta < datetime.datetime.now():
         _update_discord()
         last_update = datetime.datetime.now()
-    return communities, tahm_kench
+    return communities

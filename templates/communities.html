@@ -4,41 +4,34 @@
 {% block head %}{% endblock %}
 {% block main %}
     <div class="container">
-        {% macro discord_community(community, invite_id) %}
+        {% macro show_community(community) %}
             <li>
-                <img src="https://cdn.discordapp.com/icons/{{ community['guild']['id'] }}/{{ community['guild']['icon'] }}.jpg?size=256"
-                     class="rounded-circle"
+                <img src="{{ community['img'] }}"
+                     class="rounded-circle m-2"
                      style="width:64px;
                             height: 64px;
                             object-fit: cover;">
-                <a href="https://discord.gg/{{ invite_id }}">{{ community['guild']['name'] }}</a>
-                {% if community['guild']['description'] %}
-                    <p>
-                        <cite>
-                            {{ community['guild']['description'] }}
-                        </cite>
-                    </p>
-                {% endif %}
+                <a href="{{ community['url'] }}" target="_blank">{{ community['title'] }}</a> ({{community['type']}})
+                <p>
+                    <cite>
+                        {{ community['text'] }}
+                    </cite>
+                </p>
             </li>
         {% endmacro %}
         {% if error %}
             <p class="text-danger">{{error}}</p>
-        {% elif "guild" in discord_communities[discord_tahm_kench] %}
-            <h1>Tahm-Ken.ch</h1>
-            <ul>
-                {{ discord_community(discord_communities[discord_tahm_kench]) }}
-            </ul>
+            The list is not available now....
+        {% else %}
             <h1>Challenges communities</h1>
             <p>
                 You can ask on the Tahm-Ken.ch Discord server if you want to add your community on the site (it doesn't need to be a Discord server). You must be admin of this community.
             </p>
             <ul>
-                {% for invite_id, community in discord_communities.items() %}
-                    {% if invite_id != discord_tahm_kench %}{{ discord_community(community, invite_id) }}{% endif %}
+                {% for community in communities.values() %}
+                    {{ show_community(community) }}
                 {% endfor %}
             </ul>
-        {% else %}
-            The list is not available now....
         {% endif %}
     </div>
 {% endblock %}
