@@ -17,10 +17,11 @@ champions_by_tag = dict(champions_by_tag)
 challenges = []
 for tag, champions in champions_by_tag.items():
     challenge = {
-        "challenge_name": f"Variety's Overrated",
+        "id": 303408,
+        "_": "Variety's Overrated",
+        "qte": 5,
         "label": tag,
         "champions": champions,
-        "qte": "5"
     }
     challenges.append(challenge)
 
