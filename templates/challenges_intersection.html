@@ -147,13 +147,11 @@
               class="btn btn btn-outline-light mb-2">
         <i class="fa-solid fa-fw fa-trash" width="42px"></i>
       </button>
-      {% if summoner_challenges %}
-        <button id="btn_toggle_completed_challenges"
-                type="button"
-                class="btn btn btn-outline-light my-2">
-          <i class="fa-solid fa-fw fa-eye"></i>
-        </button>
-      {% endif %}
+      <button id="btn_toggle_completed_challenges"
+              type="button"
+              class="btn btn btn-outline-light my-2 {% if not summoner_challenges %} disabled{% endif %}">
+        <i class="fa-solid fa-fw fa-eye"></i>
+      </button>
     </div>
     <div id="champions_pool">
       {% for champion in champions_alphabetical %}
