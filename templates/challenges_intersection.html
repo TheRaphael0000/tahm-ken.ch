@@ -1,16 +1,19 @@
 {% extends "layout.html" %}
 {% from "tools.html" import region_select with context %}
-
 {% set active_page = "challenges_intersection" %}
-{% block title %}Challenge Intersections{% endblock %}
-{% block head %}<link rel="stylesheet" href="/static/css/challenges_intersection.css">{% endblock %}
+{% block title %}
+  Challenge Intersections
+{% endblock title %}
+{% block head %}
+  <link rel="stylesheet" href="/static/css/challenges_intersection.css"/>
+{% endblock head %}
 {% block navbar %}
   <ul class="navbar-nav ms-auto"">
     {% if total_points %}
       <li class="nav-item">
         <img height="40px"
              src="/static/img/challengecrystal/{{ total_points['level'] }}.ls_c2.png"
-             alt="{{ total_points['level'].lower()}}">
+             alt="{{ total_points['level'].lower()}}"/>
       </li>
       <li class="p-2">
         <span class="badge rounded-pill text-bg-light">{{ total_points['current'] }} pts.</span>
@@ -25,7 +28,7 @@
              class="form-control form-control-dark text-bg-dark"
              placeholder="Summoner name..."
              aria-label="Search"
-             value="{{ summoner['name'] }}">
+             value="{{ summoner['name'] }}"/>
     </li>
     <li class="nav-item mx-2">
       <select id="region" class="form-select form-control-dark text-bg-dark">
@@ -38,7 +41,7 @@
       </button>
     </li>
   </ul>
-{% endblock %}
+{% endblock navbar %}
 {% macro challenge_row(challenge_data, challenge_config, summoner_challenge, parent) %}
   {% set id = challenge_config['id'] %}
   <tr id="challenge_tr_{{ id }}"
@@ -49,7 +52,7 @@
         <input id="challenge_cb_{{ id }}"
                class="challenge_cb"
                type="checkbox"
-               data-id="{{ id }}">
+               data-id="{{ id }}"/>
       {% endif %}
     </td>
     <td id="challenge_no_{{ id }}"
@@ -62,48 +65,48 @@
       {% if challenge_data|length > 1 %}
         <select id="challenge_select_{{ id }}"
                 class="challenges_select w-100"
-                style="border:0px">
-          {% for c in challenge_data %}
-            <option>
-              {{ c["label"] }}
-            </option>
-          {% endfor %}
-        </select>
-      {% endif %}
-      {% if challenge_data|length == 1 %}
-        <label for="challenge_cb_{{ id }}">{{ challenge_data[0]["label"] }}</label>
-      {% endif %}
-    </td>
-    <td>
-      <span class="tooltip_">?<span class="tooltip_text">{{ challenge_config["localizedNames"][layout["language"]]["description"] }}</span></span>
-    </td>
-    <svg class="champion_placeholder"
-         style="display:none;"
-         height="21px"
-         width="21px">
-      <circle cx="10" cy="10" r="6" fill="rgba(255,255,255,0.3)" />
-    </svg>
-    <td id="champion_selected_{{ id }}"
-        class="less_pad"
-        style="height:21px;
-               overflow-y:hidden;"></td>
-    {% if summoner_challenge %}
-      <td data-sort-default data-sort="{{ summoner_challenge['value'] }}">
-        <img src="https://raw.communitydragon.org/latest/game/assets/challenges/config/{{ id }}/tokens/{{ summoner_challenge['level'] }}.png"
-              height="21px">
-      </td>
-      <td data-sort="{{ summoner_challenge['value'] }}"
-          class="text-center less_pad">
-        <span>
-          {{ summoner_challenge['value'] }}
-          {% if summoner_challenge['next_threshold'] %}/ {{ summoner_challenge['next_threshold'] }}{% endif %}
-        </span>
-      </td>
+                style="border:0px"/>
+        {% for c in challenge_data %}
+          <option>
+            {{ c["label"] }}
+          </option>
+        {% endfor %}
+      </select>
     {% endif %}
-  </tr>
+    {% if challenge_data|length == 1 %}
+      <label for="challenge_cb_{{ id }}">{{ challenge_data[0]["label"] }}</label>
+    {% endif %}
+  </td>
+  <td>
+    <span class="tooltip_">?<span class="tooltip_text">{{ challenge_config["localizedNames"][layout["language"]]["description"] }}</span></span>
+  </td>
+  <svg class="champion_placeholder"
+       style="display:none"
+       height="21px"
+       width="21px">
+    <circle cx="10" cy="10" r="6" fill="rgba(255,255,255,0.3)" />
+  </svg>
+  <td id="champion_selected_{{ id }}"
+      class="less_pad"
+      style="height:21px;
+             overflow-y:hidden"></td>
+  {% if summoner_challenge %}
+    <td data-sort-default data-sort="{{ summoner_challenge['value'] }}">
+      <img src="https://raw.communitydragon.org/latest/game/assets/challenges/config/{{ id }}/tokens/{{ summoner_challenge['level'] }}.png"
+           height="21px"/>
+    </td>
+    <td data-sort="{{ summoner_challenge['value'] }}"
+        class="text-center less_pad">
+      <span>
+        {{ summoner_challenge['value'] }}
+        {% if summoner_challenge['next_threshold'] %}/ {{ summoner_challenge['next_threshold'] }}{% endif %}
+      </span>
+    </td>
+  {% endif %}
+</tr>
 {% endmacro %}
 {% block main %}
-  <input id="search_champion" type="search" value="">
+  <input id="search_champion" type="search" value=""/>
   <div id="tool_div" class="d-flex flex-nowrap">
     <div class="d-flex flex-column flex-shrink-0">
       <table class="table_challenges my-2">
@@ -150,8 +153,8 @@
                src="/static/datadragon_cache/champions_img/{{ champion }}.png"
                alt="{{ champion }}"
                data-champion_name="{{ champion }}"
-               data-champion_display_name="{{ champions[champion]["name"] }}">
-          <img id="champion_role_{{ champion }}" src="" class="champion_role">
+               data-champion_display_name="{{ champions[champion]["name"] }}"/>
+          <img id="champion_role_{{ champion }}" src="" class="champion_role"/>
         </div>
       {% endfor %}
     </div>
@@ -174,6 +177,11 @@
               type="button"
               class="btn btn btn-outline-light my-2">
         <i class="fa-solid fa-trash"></i>
+      </button>
+      <button id="btn_sort_mod"
+              type="button"
+              class="btn btn btn-outline-light my-2">
+        <i class="fa-solid fa-check"></i>
       </button>
     </div>
     <div id="team_builder_modal"
@@ -220,4 +228,4 @@
     </div>
   </div>
   <script src="/static/js/challenges_intersection.js"></script>
-{% endblock %}
+{% endblock main %}

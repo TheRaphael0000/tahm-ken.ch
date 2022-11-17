@@ -1,4 +1,5 @@
 let table_challenges = document.querySelectorAll(".table_challenges")
+let champions_pool = document.querySelector("#champions_pool")
 let champion_img = document.querySelectorAll(".champion_img")
 let challenge_cb = document.querySelectorAll(".challenge_cb")
 let challenge_tr = document.querySelectorAll(".challenge_tr")
@@ -8,11 +9,19 @@ let challenges_select = document.querySelectorAll(".challenges_select")
 let btn_reset_filters = document.querySelector("#btn_reset_filters")
 let btn_reset_selection = document.querySelector("#btn_reset_selection")
 let btn_search_champion = document.querySelector("#btn_search_champion")
+let btn_sort_mod = document.querySelector("#btn_sort_mod")
 let btn_copy = document.querySelector("#btn_copy")
 let region = document.querySelector("#region")
 let summoner = document.querySelector("#summoner")
 let search = document.querySelector("#search")
 let search_champion = document.querySelector("#search_champion")
+
+let sort_mods = {
+    "ck": "fa-check",
+    "az": "fa-arrow-down-a-z",
+    "za": "fa-arrow-down-z-a",
+}
+let sort_mod = "ck"
 
 let role_mapping = {
     "top": "top",
@@ -43,6 +52,7 @@ function updateChampionsStyle() {
             img.classList.remove("selected");
         }
     }
+    sort_champions()
 }
 
 function setChampionsChecked(value) {
@@ -125,11 +135,11 @@ function fetch_intersection(ids) {
             for (const [challenge, no] of json.challenges_additional_intersection) {
                 let challenge_split = challenge.split(":")
                 let id = challenge_split[0]
-                let subid = parseInt(challenge_split[1])
+                let sub_id = parseInt(challenge_split[1])
 
                 let select = document.getElementById("challenge_select_" + id)
                 if (select) {
-                    if (select.selectedIndex != subid) {
+                    if (select.selectedIndex != sub_id) {
                         continue
                     }
                 }
@@ -346,6 +356,50 @@ search_champion.addEventListener("keypress", function (e) {
         clear_out()
     }
 })
+
+
+btn_sort_mod.addEventListener("click", (e) => {
+    let keys = Object.keys(sort_mods)
+    let index = keys.indexOf(sort_mod)
+    let new_sort_mod = keys[(index + 1) % keys.length]
+
+    let el = btn_sort_mod.children[0]
+    el.classList.remove(sort_mods[sort_mod])
+    el.classList.add(sort_mods[new_sort_mod])
+
+    sort_mod = new_sort_mod
+    sort_champions()
+})
+
+function sort_champions() {
+    let els = Array.prototype.slice.call(champions_pool.children, 0)
+
+    els.sort((a, b) => {
+        let name = (x) => x.children[0].dataset.champion_display_name
+        let checked = (x) => x.children[0].dataset.checked
+
+        let a_name = name(a)
+        let b_name = name(b)
+        let az_compare = a_name.localeCompare(b_name)
+
+
+        if (sort_mod == "az")
+            return az_compare
+        if (sort_mod == "za")
+            return -az_compare
+
+        if (sort_mod == "ck") {
+            let a_checked = checked(a)
+            let b_checked = checked(b)
+            return 2 * (b_checked - a_checked) + az_compare
+        }
+    })
+
+    champions_pool.innerHTML = ""
+    for (let el of els) {
+        champions_pool.appendChild(el)
+    }
+}
 
 function best_fit_roles() {
     let selected_champions = getSelectedChampionsName(true)
