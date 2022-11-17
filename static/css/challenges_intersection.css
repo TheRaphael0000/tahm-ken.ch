@@ -53,6 +53,7 @@
     align-items: stretch;
     justify-content: center;
     user-select: none;
+    min-height: calc(100vh - 200px);
 }
 
 .champion {

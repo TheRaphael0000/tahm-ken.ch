@@ -7,6 +7,7 @@ let challenge_no = document.querySelectorAll(".challenge_no")
 let champion_role = document.querySelectorAll(".champion_role")
 let challenges_select = document.querySelectorAll(".challenges_select")
 let btn_reset_filters = document.querySelector("#btn_reset_filters")
+let btn_toggle_completed_challenges = document.querySelector("#btn_toggle_completed_challenges")
 let btn_reset_selection = document.querySelector("#btn_reset_selection")
 let btn_search_champion = document.querySelector("#btn_search_champion")
 let btn_sort_mod = document.querySelector("#btn_sort_mod")
@@ -22,6 +23,8 @@ let sort_mods = {
     "za": "fa-arrow-down-z-a",
 }
 let sort_mod = "ck"
+
+let completed_challenges = true
 
 let role_mapping = {
     "top": "top",
@@ -259,8 +262,40 @@ function fetch_challenges(selectedChampionName) {
         })
 }
 
+function toggle_completed_challenges() {
+    completed_challenges ^= true
+
+    //visual
+    let hide = "fa-eye-slash"
+    let show = "fa-eye"
+
+    let el = btn_toggle_completed_challenges.children[0]
+    if (completed_challenges) {
+        el.classList.add(show)
+        el.classList.remove(hide)
+    }
+    else {
+        el.classList.add(hide)
+        el.classList.remove(show)
+    }
+
+    update_challenges_visibility(completed_challenges)
+}
+
+function update_challenges_visibility(completed_challenges) {
+    for (challenge_tr_ of challenge_tr) {
+        let children = challenge_tr_.children
+        let next_threshold = children[children.length - 1].dataset.next_threshold
+        challenge_tr_.classList.remove("hide")
+
+        if (!completed_challenges && next_threshold == "None")
+            challenge_tr_.classList.add("hide")
+    }
+}
+
 
 btn_reset_filters.addEventListener("click", resetChallenge)
+btn_toggle_completed_challenges.addEventListener("click", toggle_completed_challenges)
 btn_reset_selection.addEventListener("click", resetSelection)
 btn_search_champion.addEventListener("click", e => search_champion.focus())
 

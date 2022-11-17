@@ -37,7 +37,7 @@
     </li>
     <li class="nav-item ms-2">
       <button id="search" type="button" class="btn btn-outline-light">
-        <i class="fa-solid fa-magnifying-glass"></i>
+        <i class="fa-solid fa-fw fa-magnifying-glass"></i>
       </button>
     </li>
   </ul>
@@ -96,6 +96,7 @@
            height="21px"/>
     </td>
     <td data-sort="{{ summoner_challenge['value'] }}"
+        data-next_threshold="{{ summoner_challenge['next_threshold'] }}"
         class="text-center less_pad">
       <span>
         {{ summoner_challenge['value'] }}
@@ -139,11 +140,20 @@
           </tbody>
         {% endfor %}
       </table>
+    </div>
+    <div class="d-flex flex-column flex-shrink-0">
       <button id="btn_reset_filters"
               type="button"
-              class="btn btn btn-outline-light ">
-        <i class="fa-solid fa-trash"></i>
+              class="btn btn btn-outline-light mb-2">
+        <i class="fa-solid fa-fw fa-trash" width="42px"></i>
       </button>
+      {% if summoner_challenges %}
+        <button id="btn_toggle_completed_challenges"
+                type="button"
+                class="btn btn btn-outline-light my-2">
+          <i class="fa-solid fa-fw fa-eye"></i>
+        </button>
+      {% endif %}
     </div>
     <div id="champions_pool">
       {% for champion in champions_alphabetical %}
@@ -159,29 +169,29 @@
       {% endfor %}
     </div>
     <div class="d-flex flex-column flex-shrink-0">
-      <button type="button"
-              class="btn btn btn-outline-light mb-2"
-              data-bs-toggle="modal"
-              data-bs-target="#team_builder_modal">
-        <i class="fa-solid fa-question"></i>
-      </button>
-      <button id="btn_search_champion"
-              type="button"
-              class="btn btn btn-outline-light my-2">
-        <i class="fa-solid fa-magnifying-glass"></i>
-      </button>
-      <button id="btn_copy" type="button" class="btn btn btn-outline-light my-2">
-        <i class="fa-solid fa-copy"></i>
-      </button>
       <button id="btn_reset_selection"
               type="button"
-              class="btn btn btn-outline-light my-2">
-        <i class="fa-solid fa-trash"></i>
+              class="btn btn btn-outline-light mb-2">
+        <i class="fa-solid fa-fw fa-trash"></i>
       </button>
       <button id="btn_sort_mod"
               type="button"
               class="btn btn btn-outline-light my-2">
-        <i class="fa-solid fa-check"></i>
+        <i class="fa-solid fa-fw fa-check"></i>
+      </button>
+      <button id="btn_copy" type="button" class="btn btn btn-outline-light my-2">
+        <i class="fa-solid fa-fw fa-copy"></i>
+      </button>
+      <button id="btn_search_champion"
+              type="button"
+              class="btn btn btn-outline-light my-2">
+        <i class="fa-solid fa-fw fa-magnifying-glass"></i>
+      </button>
+      <button type="button"
+              class="btn btn btn-outline-light my-2"
+              data-bs-toggle="modal"
+              data-bs-target="#team_builder_modal">
+        <i class="fa-solid fa-fw fa-question"></i>
       </button>
     </div>
     <div id="team_builder_modal"

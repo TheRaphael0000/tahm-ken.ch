@@ -19,6 +19,10 @@ label:hover {
     z-index: -1;
 }
 
+.hide {
+    display: none;
+}
+
 .active {
     border-bottom: 1px rgba(255, 255, 255, 0.5) solid;
 }
