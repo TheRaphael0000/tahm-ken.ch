@@ -3,6 +3,7 @@ import itertools
 import json
 import sys
 
+import scipy as sp
 import numpy as np
 import matplotlib.pyplot as plt
 from riotwatcher import LolWatcher
@@ -203,7 +204,7 @@ def get_custom_optimized_compositions(region, summoners_names, power=1.3, max_de
         summoner_masteries = lol_watcher.champion_mastery.by_summoner(
             region=region, encrypted_summoner_id=summoner["id"])
 
-        masteries_by_id = {mastery["championId"]                           : mastery for mastery in summoner_masteries}
+        masteries_by_id = {mastery["championId"]: mastery for mastery in summoner_masteries}
         champion_masteries = {}
 
         for champion_id, champion in champions.items():
@@ -323,3 +324,67 @@ def compute_challenges_priority_scores(challenges_info):
     priority_scores.sort(key=lambda l: l[-1])
 
     return priority_scores
+
+
+def complete_comp_(selected_champions, selected_challenges):
+    champions_ = [*challenges_by_champions]
+    challenges_ = [*champions_by_challenge]
+    comp_size = 5
+
+    if len(selected_champions) >= comp_size:
+        yield selected_champions
+
+    challenges_explore_size = []
+    total_missing = comp_size - len(selected_champions)
+    remaining_champions = set(champions_).difference(selected_champions)
+
+    # add the missing champions in case default
+    challenges_explore_size.append((
+        None,
+        total_missing,
+        len(remaining_champions),
+        sp.special.comb(len(remaining_champions), total_missing)
+    ))
+
+    # add each selected challenge exploration range
+    det = find_challenges_details(selected_champions)
+    for i in selected_challenges:
+        m = challenges_data[i][0]["qte"] - len(det[i])  # missing
+        s = len(challenges_data[i][0]["champions"])  # size
+        e = sp.special.comb(s, m)  # explore size
+        challenges_explore_size.append((i, m, s, e))
+
+    # pick the most easy to explore first
+    challenges_explore_size.sort(key=lambda l: l[-1])
+    challenge_to_explore, m, s, e = challenges_explore_size[0]
+
+    # this branch is impossible
+    if m > total_missing or s < total_missing:
+        yield None
+
+    if challenge_to_explore is None:
+        addable_champions = set(remaining_champions) - selected_champions
+    else:
+        addable_champions = champions_by_challenge[challenge_to_explore] - \
+            selected_champions
+
+    for additional_champions in itertools.combinations(addable_champions, m):
+        new_selected_champions = selected_champions | set(additional_champions)
+        if len(new_selected_champions) >= comp_size:
+            yield new_selected_champions
+            continue
+
+        for comp in complete_comp(new_selected_champions, selected_challenges - {challenge_to_explore}):
+            if comp is None:
+                break
+            else:
+                yield comp
+
+
+def complete_comp(selected_champions, selected_challenges, limit=1e5):
+    count = 0
+    for i in complete_comp_(selected_champions, selected_challenges):
+        if count >= limit:
+            break
+        count += 1
+        yield i
