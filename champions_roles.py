@@ -6,42 +6,19 @@ champions = json.load(
     open("static/datadragon_cache/champion.json", "rb"))["data"]
 
 
-filedata = open("static/txt/champions_roles.csv").read()
+champions_by_roles = json.load(open("static/champions_roles.json", "r"))
 
 champions_by_ig_name = {
     champion["name"]: champion
     for _, champion in champions.items()
 }
 
-lines = filedata.split("\n")
-
-roles = set()
-infos_by_champions = defaultdict(dict)
-
-for line in lines[1:]:
-    data = line.split(",")
-    if len(data) < 6:
-        continue
-    champion, role, _, _, pick_rate, _ = data[0:6]
-    champion = champions_by_ig_name[champion]["id"]
-    infos_by_champions[champion][role] = float(pick_rate[0:-1])
-    roles.add(role)
-
-
-champions_roles_pickrate = []
-for champion, roles_ in infos_by_champions.items():
-    for role in roles_:
-        pick_rate = infos_by_champions[champion][role]
-        champions_roles_pickrate.append((champion, role, pick_rate))
-champions_roles_pickrate.sort(key=lambda l: -l[-1])
-
-# create champion and role lookup from the pick rate
-# to priorities these champions for certain roles with the best fit
-champions_by_roles = defaultdict(list)
+roles = {*champions_by_roles}
 roles_by_champions = defaultdict(list)
-for champion, role, pick_rate in champions_roles_pickrate:
-    champions_by_roles[role].append(champion)
-    roles_by_champions[champion].append(role)
+for role, champions_ in champions_by_roles.items():
+    for champion in champions_:
+        roles_by_champions[champion].append(role)
+roles_by_champions = dict(roles_by_champions)
 
 
 def best_fit_roles(comp):
@@ -54,7 +31,7 @@ def best_fit_roles(comp):
         raise Exception("Need 5 distinct champions")
 
     for champion in comp:
-        if champion not in infos_by_champions:
+        if champion not in roles_by_champions:
             raise Exception(f"Invalid champion provided : {champion}")
 
     # create a priority queue with both direction
@@ -132,6 +109,7 @@ if __name__ == "__main__":
         ["Maokai", "Thresh", "Karthus", "Kalista", "Hecarim"]))
     print(best_fit_roles(["Singed", "Tristana", "Lux", "Zoe", "Poppy"]))
     print(best_fit_roles(["Pantheon", "Zac", "Lux", "Kaisa", "Urgot"]))
+    print(best_fit_roles(["Pantheon", "Zac", "Lux", "KSante", "Urgot"]))
     print(best_fit_roles(
         ["Pantheon", "Zac", "Singed", "Tryndamere", "Karthus"]))
     print(best_fit_roles(["Singed", "Lux", "Lux", "Zoe", "Poppy"]))

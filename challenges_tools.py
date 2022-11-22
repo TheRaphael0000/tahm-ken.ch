@@ -2,6 +2,7 @@ from collections import defaultdict
 import itertools
 import json
 import sys
+import random
 
 import scipy as sp
 import numpy as np
@@ -375,7 +376,10 @@ def complete_comp_(selected_champions, selected_challenges):
         # print("none", selected_champions, selected_challenges)
         yield None
 
-    for additional_champions in itertools.combinations(challenge_to_explore["addable_champions"], challenge_to_explore["missing"]):
+    addable_champions = list(challenge_to_explore["addable_champions"])
+    random.shuffle(addable_champions)
+
+    for additional_champions in itertools.combinations(addable_champions, challenge_to_explore["missing"]):
         new_selected_champions = selected_champions | set(additional_champions)
         remaining_challenges = selected_challenges - {challenge_to_explore["challenge_id"]}
         if len(new_selected_champions) >= comp_size and len(remaining_challenges) <= 0:
