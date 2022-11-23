@@ -28,6 +28,9 @@ from challenges_tools import challenges_config
 from challenges_tools import find_challenges_details
 from challenges_tools import champions
 from challenges_tools import champions_alphabetical
+from challenges_tools import complete_comp
+from challenges_tools import find_challenges
+from challenges_tools import get_challenge_from_id
 
 from champions_roles import best_fit_roles
 
@@ -120,20 +123,25 @@ def route_challenges_intersection_summoner(region, summoner):
     return render_template("challenges_intersection.html", **args)
 
 
+composition_limit = 1500
+
 def comps_processing(comps):
     # limit large challenges
     by_number = defaultdict(list)
-    limit = 5000
-    if len(comps) > limit:
-        random.shuffle(comps)
-        comps = comps[0:limit]
+
+    comps.sort(key=lambda l: (-len(l[1]), l[-1], "".join(l[0].values())))
+    comps = comps[0:composition_limit]
+
     champions_available = set()
     for comp, challenges, stupidity_level in comps:
         comp = [comp[role] for role in roles]
         by_number[len(challenges)].append((comp, challenges, stupidity_level))
         champions_available |= set(comp)
-    champions_ = {c: d for c, d in champions.items()
-                  if c in champions_available}
+
+    champions_ = {
+        c: d for c, d in champions.items()
+        if c in champions_available
+    }
 
     by_number = list(by_number.items())
     by_number.sort(key=lambda l: -l[0])
@@ -168,6 +176,46 @@ def args_custom_compositions():
         "region": get_default_region(),
         "layout": layout,
     }
+
+
+@app.route("/optimize/<route>")
+def route_optimize(route):
+    # route: id1,id2,id3|champion1,champion2
+    query_limit = int(2.5e4)
+    try:
+        challenges, champions = route.split("&")
+        challenges = set(challenges.split(",")) - {""}
+        champions = set(champions.split(",")) - {""}
+
+        if len(challenges) + len(champions) <= 0:
+            raise Exception("")
+
+        comps = []
+        for comp in complete_comp(champions, challenges, limit=query_limit):
+            challenges_ = find_challenges(comp)
+            roles = best_fit_roles(comp)
+            comps.append((roles[0], challenges_, roles[1]))
+    except Exception as e:
+        print(e)
+        return abort(404)
+
+    args = comps_processing(comps)
+    args["challenge_name"] = "Compositions optimization"
+    args["notices"] = []
+    if len(comps) > composition_limit:
+        args["notices"].append(f"Showing the best {composition_limit} compositions out of {len(comps)} computed.")
+    if len(comps) >= query_limit:
+        args["notices"].append(f"BEST EFFORT: The optimization stopped early, which means that the current result may be not optimal for the given constraints. To avoid this, be more specific and add more challenges or champions")
+    args["constraints"] = []
+
+    for challenge_id in challenges:
+        challenge = get_challenge_from_id(challenge_id)
+        challenge = challenges_config[challenge['id']]
+        args["constraints"].append(challenge["localizedNames"][language]["name"])
+    for champion in champions:
+        args["constraints"].append(champion)
+
+    return render_template("compositions.html", **args)
 
 
 @app.route("/custom_compositions/<region>/<summoners_names>")
@@ -270,13 +318,8 @@ def route_challenge_intersection(challenges_id):
         challenges_id = [s for s in challenges_id.split(",")]
         challenges_champions = []
         for ci in challenges_id:
-            split = ci.split(":")
-            if len(split) == 1:
-                id_, subid = split[0], 0
-            elif len(split) == 2:
-                id_, subid = split
-            id_, subid = int(id_), int(subid)
-            champions = challenges_data[id_][subid]["champions"]
+            challenge = get_challenge_from_id(ci)
+            champions = challenge["champions"]
             challenges_champions.append(champions)
     except:
         return abort(404)

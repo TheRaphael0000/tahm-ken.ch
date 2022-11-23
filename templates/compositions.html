@@ -4,6 +4,17 @@
 {% block head %}<link rel="stylesheet" href="/static/css/compositions.css">{% endblock %}
 {% block main %}
     <h1>{{ challenge_name }}</h1>
+    {% if constraints %}
+    Must have:
+    <ul>
+        {% for constraint in constraints %}
+        <li>{{ constraint }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% for notice in notices %}
+    <p class="text-danger">{{ notice }}</p>
+    {% endfor %}
     <div class="m-3 text-center">
         <span>Max. stupidity level
             <span class="tooltip_">?
@@ -26,7 +37,7 @@
         <div class="compositions">
             {% for champions_, challenges_ids, stupidty_level in comps %}
                 <div class="composition"
-                     style="display: block;"
+                     style="display: block"
                      data-stupidity_level="{{ stupidty_level }}">
                     {% for champion in champions_ %}
                         <img src="/static/datadragon_cache/champions_img/{{ champion }}.png"
@@ -37,8 +48,8 @@
                     <div class="challenges">
                         <ul>
                             {% for challenge_id in challenges_ids %}
-                            {% set challenge_config = challenges_config[challenge_id] %}
-                            <li>{{ challenge_config["localizedNames"][layout["language"]]["name"] }}</li>
+                                {% set challenge_config = challenges_config[challenge_id] %}
+                                <li>{{ challenge_config["localizedNames"][layout["language"]]["name"] }}</li>
                             {% endfor %}
                         </ul>
                     </div>

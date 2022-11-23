@@ -10,6 +10,7 @@ let btn_reset_filters = document.querySelector("#btn_reset_filters")
 let btn_toggle_completed_challenges = document.querySelector("#btn_toggle_completed_challenges")
 let btn_reset_selection = document.querySelector("#btn_reset_selection")
 let btn_search_champion = document.querySelector("#btn_search_champion")
+let btn_optimize_selection = document.querySelector("#btn_optimize_selection")
 let btn_sort_mod = document.querySelector("#btn_sort_mod")
 let btn_copy = document.querySelector("#btn_copy")
 let region = document.querySelector("#region")
@@ -102,7 +103,7 @@ function reset() {
     resetSelection()
 }
 
-function challengeChanged(e) {
+function getSelectedChallenges() {
     let checked_challenges = document.querySelectorAll(".challenge_cb:checked")
     let ids = []
     for (let cc of checked_challenges) {
@@ -114,6 +115,11 @@ function challengeChanged(e) {
 
         ids.push(id_)
     }
+    return ids
+}
+
+function challengeChanged(e) {
+    let ids = getSelectedChallenges()
 
     if (ids.length <= 0) {
         resetChallenge()
@@ -213,7 +219,7 @@ function selectChampion(e) {
 }
 
 function updateChampionsSelection() {
-    selectedChampionName = getSelectedChampionsName(true)
+    let selectedChampionName = getSelectedChampionsName(true)
     fetch_challenges(selectedChampionName)
 }
 
@@ -404,6 +410,19 @@ btn_sort_mod.addEventListener("click", (e) => {
 
     sort_mod = new_sort_mod
     sort_champions()
+})
+
+btn_optimize_selection.addEventListener("click", (e) => {
+    let champions = getSelectedChampionsName(true)
+    let challenges = getSelectedChallenges()
+
+    if (champions.length + challenges.length > 0) {
+        let parameters = challenges.join(",") + "&" + champions.join(",")
+        window.location.href = "/optimize/" + parameters;
+    }
+    else {
+        alert("Select at least 1 champion or 1 challenge to optimize.")
+    }
 })
 
 function sort_champions() {

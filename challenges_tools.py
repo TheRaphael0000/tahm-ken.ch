@@ -5,6 +5,7 @@ import sys
 import random
 
 import scipy as sp
+import scipy.special
 import numpy as np
 import matplotlib.pyplot as plt
 from riotwatcher import LolWatcher
@@ -327,14 +328,22 @@ def compute_challenges_priority_scores(challenges_info):
 
     return priority_scores
 
+def get_challenge_from_id(challenge_id):
+    challenge_id_split = challenge_id.split(":")
+    id_ = int(challenge_id_split[0])
+    try:
+        sub_id_ = int(challenge_id_split[1])
+    except:
+        sub_id_ = 0
+    challenge = challenges_data[id_][sub_id_]
+    return challenge
+    
 
 def complete_comp_(selected_champions, selected_challenges):
     champions_ = [*challenges_by_champions]
     comp_size = 5
-    # print("enter", selected_champions, selected_challenges)
 
     if len(selected_champions) >= comp_size and len(selected_challenges) <= 0:
-        # print("select", selected_champions)
         yield selected_champions
 
     challenges_to_explore = []
@@ -344,14 +353,14 @@ def complete_comp_(selected_champions, selected_challenges):
     # add each selected challenge exploration range
     det = find_challenges_details(selected_champions)
     for challenge_id in selected_challenges:
-        challenge = challenges_data[challenge_id][0]
+        challenge = get_challenge_from_id(challenge_id)
         l = {}
         l["challenge_id"] = challenge_id
         l["addable_champions"] = challenge["champions"] - selected_champions
-        l["missing"] = challenge["qte"] - len(det[challenge_id])
+        l["missing"] = challenge["qte"] - len(det[challenge["id"]])
         l["missing"] = max(l["missing"], 0)
         l["size"] = len(l["addable_champions"])
-        l["explore_size"] = sp.special.comb(l["size"], l["missing"])
+        l["explore_size"] = scipy.special.comb(l["size"], l["missing"])
         challenges_to_explore.append(l)
 
     challenges_to_explore.sort(key=lambda l: l["explore_size"])
@@ -369,16 +378,13 @@ def complete_comp_(selected_champions, selected_challenges):
     challenge_to_explore = challenges_to_explore[0]
     max_missing = max([i["missing"] for i in challenges_to_explore])
 
-    # print("explore", [(i["challenge_id"], i["missing"], i["size"], i["explore_size"]) for i in challenges_to_explore])
-
     # this branch is impossible
     if max_missing > total_missing or challenge_to_explore["size"] < total_missing:
-        # print("none", selected_champions, selected_challenges)
         yield None
 
     addable_champions = list(challenge_to_explore["addable_champions"])
-    random.shuffle(addable_champions)
-
+    addable_champions.sort(key=lambda l: (-len(challenges_by_champions[l]), l))
+   
     for additional_champions in itertools.combinations(addable_champions, challenge_to_explore["missing"]):
         new_selected_champions = selected_champions | set(additional_champions)
         remaining_challenges = selected_challenges - {challenge_to_explore["challenge_id"]}

@@ -44,6 +44,10 @@
     opacity: 1.0 !important;
 }
 
+#btn_optimize_selection {
+    text-align: center;
+}
+
 #champions_pool {
     margin: 0px auto;
     display: flex;
