@@ -72,7 +72,7 @@ def get_default_region():
     if "default_region" in session:
         default_region = session["default_region"]
     else:
-        default_region = get_region_from_ip(request.remote_addr)
+        default_region = get_region_from_ip(request.environ.get('HTTP_X_REAL_IP', request.remote_addr))
         session["default_region"] = default_region
     return default_region
 

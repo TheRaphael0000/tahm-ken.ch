@@ -109,7 +109,7 @@ def get_region_from_ip(ip_address):
         details = ipinfo_handler.getDetails(ip_address)
         country_code = details.country
         region = regions_by_country_code[country_code]
-    except AttributeError as e:
+    except (AttributeError, ValueError) as e:
         print(f"Couldn't fetch {ip_address} country.")
         region = regions_by_id[default_region]
     return region
