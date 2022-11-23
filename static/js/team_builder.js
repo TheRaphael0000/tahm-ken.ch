@@ -335,7 +335,7 @@ for (let c of champion_img) {
 // search summmoner logic
 function search_summoner() {
     if (summoner.value.length > 0) {
-        window.location.href = "/challenges_intersection/" + region.value + "/" + summoner.value
+        window.location.href = "/team_builder/" + region.value + "/" + summoner.value
     }
 }
 

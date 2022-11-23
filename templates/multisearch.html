@@ -11,8 +11,8 @@
             {{ region_select(regions, region) }}
         </select>
         <label class="mt-3">Summoners <span class="tooltip_">?<span class="tooltip_text">You can copy paste the lobby chat join messages (for the following languages: english, german, spanish, french, italian)</span></span> :</label>
-        <textarea id="text_area_lobby" class="form-control bg-dark text-white" rows="8" resi placeholder="Neeko Tesla joined the lobby&#10;Top Tipper1 joined the lobby&#10;Top Tipper2 joined the lobby&#10;Top Tipper3 joined the lobby&#10;Top Tipper4 joined the lobby">{% if summoners_names %}{{summoners_names}}{%endif%}</textarea>
-        <button id="btn_multisearch" type="button" class="mt-2 btn btn-dark">Search</button>
+        <textarea id="text_area_lobby" class="form-control bg-dark text-white" rows="8" resi placeholder="Summoner 1 joined the lobby&#10;Summoner 2 joined the lobby&#10;Summoner 3 joined the lobby&#10;Summoner 4 joined the lobby&#10;Summoner 5 joined the lobby">{% if summoners_names %}{{summoners_names}}{%endif%}</textarea>
+        <button id="btn_multisearch" type="button" class="mt-2 btn btn-outline-light">Search</button>
     </div>
     <script src="/static/js/multisearch.js"></script>
 {% endblock %}

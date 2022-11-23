@@ -1,6 +1,5 @@
 from collections import defaultdict
 import json
-import random
 
 from flask import Flask
 from flask import abort
@@ -20,7 +19,7 @@ from regions import get_region_from_ip
 
 from constants import roles
 
-from challenges_tools import compute_challenges_priority_scores, get_custom_optimized_compositions
+from challenges_tools import compute_challenges_priority_scores
 from challenges_tools import get_summoner_challenges_info
 from challenges_tools import challenges_groups
 from challenges_tools import challenges_data
@@ -49,17 +48,15 @@ limiter = Limiter(app, key_func=get_remote_address)
 language = "en_US"
 multisearch_max_size = 8
 
+composition_limit = 1500
+
 # load the pre-calculated compositions
 compositions = json.load(open("static/compositions.json", "r"))
 
 compositions_names_routes = {}
 for key in compositions.keys():
-    try:
-        name = challenges_config[int(key)]["localizedNames"][language]["name"]
-    except:
-        name = key
-    url = name.replace(" ", "_")
-    compositions_names_routes[url] = (name, key)
+    url = key.replace(" ", "_")
+    compositions_names_routes[url] = key
 
 # variables which are required for the layout
 layout = {
@@ -82,10 +79,18 @@ def get_default_region():
 
 @app.route("/")
 def main():
-    return redirect("/challenges_intersection")
+    return redirect("/team_builder")
+
+@app.route("/challenges_intersection")
+def redirect1():
+    return redirect("/team_builder")
+
+@app.route("/challenges_intersection/<region>/<summoner>")
+def redirect2(region, summoner):
+    return redirect(f"/team_builder/{region}/{summoner}")
 
 
-def args_challenges_intersection(region, summoner):
+def args_team_builder(region, summoner):
     return {
         "champions": champions,
         "champions_alphabetical": champions_alphabetical,
@@ -100,30 +105,27 @@ def args_challenges_intersection(region, summoner):
     }
 
 
-@app.route("/challenges_intersection")
-def route_challenges_intersection():
-    args = args_challenges_intersection(get_default_region(), "")
-    return render_template("challenges_intersection.html", **args)
+@app.route("/team_builder")
+def route_team_builder():
+    args = args_team_builder(get_default_region(), "")
+    return render_template("team_builder.html", **args)
 
 
-@app.route("/challenges_intersection/<region>/<summoner>")
+@app.route("/team_builder/<region>/<summoner>")
 @limiter.limit("6/minutes")
-def route_challenges_intersection_summoner(region, summoner):
+def route_team_builder_summoner(region, summoner):
     try:
         region = regions_by_abbreviation[region]
     except:
-        return redirect("/challenges_intersection")
+        return redirect("/team_builder")
     summoner = summoner.replace("_", " ")
-    args = args_challenges_intersection(region, summoner)
+    args = args_team_builder(region, summoner)
     try:
         challenges_info = get_summoner_challenges_info(region["id"], summoner)
         args |= challenges_info
     except Exception as e:
         args["error"] = f"Couldn't find '{summoner}' on {region['abbreviation']}"
-    return render_template("challenges_intersection.html", **args)
-
-
-composition_limit = 1500
+    return render_template("team_builder.html", **args)
 
 def comps_processing(comps):
     # limit large challenges
@@ -159,13 +161,13 @@ def comps_processing(comps):
 @app.route("/compositions/<route>")
 def route_compositions(route):
     try:
-        name, key = compositions_names_routes[route]
+        key = compositions_names_routes[route]
         comps = compositions[key]
-    except:
+    except Exception as e:
         return abort(404)
 
     args = comps_processing(comps)
-    args["challenge_name"] = name
+    args["challenge_name"] = key
     return render_template("compositions.html", **args)
 
 
@@ -196,7 +198,6 @@ def route_optimize(route):
             roles = best_fit_roles(comp)
             comps.append((roles[0], challenges_, roles[1]))
     except Exception as e:
-        print(e)
         return abort(404)
 
     args = comps_processing(comps)
@@ -216,37 +217,6 @@ def route_optimize(route):
         args["constraints"].append(champion)
 
     return render_template("compositions.html", **args)
-
-
-@app.route("/custom_compositions/<region>/<summoners_names>")
-@limiter.limit("2/minutes")
-def route_custom_compositions(region, summoners_names):
-    try:
-        region = regions_by_abbreviation[region]
-    except:
-        return redirect("/custom_compositions")
-
-    try:
-        summoners_names = summoners_names.split(",")
-        if len({name for name in summoners_names if len(name) >= 2}) != 5:
-            raise Exception(f"Require five valid distinct summoners name.")
-        comps = get_custom_optimized_compositions(
-            region["id"], summoners_names)
-    except Exception as e:
-        args = args_custom_compositions() | {
-            "error": e,
-        }
-        return render_template("custom_compositions.html", **args)
-
-    args = comps_processing(comps)
-    args["challenge_name"] = f"Custom composition for '{', '.join(summoners_names)}'"
-    return render_template("compositions.html", **args)
-
-
-@app.route("/custom_compositions")
-def route_custom_compositions_wizard():
-    args = args_custom_compositions()
-    return render_template("custom_compositions.html", **args)
 
 
 def render_multisearch_search(additional_args={}):

@@ -1,11 +1,11 @@
 {% extends "layout.html" %}
 {% from "tools.html" import region_select with context %}
-{% set active_page = "challenges_intersection" %}
+{% set active_page = "team_builder" %}
 {% block title %}
   Challenge Intersections
 {% endblock title %}
 {% block head %}
-  <link rel="stylesheet" href="/static/css/challenges_intersection.css"/>
+  <link rel="stylesheet" href="/static/css/team_builder.css"/>
 {% endblock head %}
 {% block navbar %}
   <ul class="navbar-nav ms-auto"">
@@ -242,5 +242,5 @@
       <i class="fa-solid fa-wand-magic-sparkles"></i> Optimize selection
     </button>
   </div>
-  <script src="/static/js/challenges_intersection.js"></script>
+  <script src="/static/js/team_builder.js"></script>
 {% endblock main %}
