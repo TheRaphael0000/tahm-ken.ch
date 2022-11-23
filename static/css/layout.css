@@ -7,15 +7,15 @@ label:hover {
 }
 
 .bg_img {
-    background-image: url("/static/img/Tahm_Kench_OriginalSkin.jpg");
+    background-image: url("/static/img/TahmKench_20.jpg");
     position: fixed;
     background-position: center;
     background-size: cover;
     width: 100%;
     height: 100%;
-    filter: blur(4px) saturate(125%);
-    transform: scale(1.20);
-    opacity: 0.3;
+    filter: blur(3px) saturate(150%);
+    transform: scale(1.20) scaleX(-1);
+    opacity: 0.4;
     z-index: -1;
 }
 
