@@ -6,8 +6,6 @@ still wip, you can pr if you want.
 
 ## todo
 - [ ] (bugfix) show points for harmony and globetrotter
-- [ ] have a multisearch feature like op.gg
-- [ ] show challenges for each champions when hovering them (act like you added them)
 - [ ] responsiveness for mobile
 - [ ] update table sorting and add visual clue of the current sort
 - [ ] add a caching system for the API calls, see if its better to use cassiopeia instead of riotwatcher
@@ -17,6 +15,8 @@ still wip, you can pr if you want.
 
 
 ## done
+- [x] show challenges for each champions when ~~hovering~~ selecting them (act like you added them)
+- [x] have a multisearch feature like op.gg
 - [x] collect the data
 - [x] parse the data
 - [x] create a basic ui
