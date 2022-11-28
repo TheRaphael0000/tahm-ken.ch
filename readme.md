@@ -82,3 +82,8 @@ people who gave feedback that were implemented/bug fixed:
 - u/PureImplosion
 - u/DOOGLAK
 - u/Konstamonsta
+- Scraf#2052
+- Amy#5664
+- NotDay#2927
+- (NA) Carbunkle#0740
+- DarkIntaqt#2858
