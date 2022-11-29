@@ -1,14 +1,12 @@
 {% extends "layout.html" %}
 {% from "tools.html" import region_select with context %}
 {% set active_page = "team_builder" %}
-{% block title %}
-  Challenge Intersections
-{% endblock title %}
+{% block title %}Challenge Intersections{% endblock title %}
 {% block head %}
   <link rel="stylesheet" href="/static/css/team_builder.css"/>
 {% endblock head %}
 {% block navbar %}
-  <ul class="navbar-nav ms-auto"">
+  <ul class="navbar-nav ms-auto">
     {% if total_points %}
       <li class="nav-item">
         <img height="40px"
@@ -200,7 +198,7 @@
       <div class="modal-dialog modal-lg">
         <div class="modal-content bg-dark">
           <div class="modal-header">
-            <h2 class="modal-title" id="informations_modal_label">How to use the Team Builder ?</h2>
+            <h2 class="modal-title" id="informations_modal_label">How to use the Team Builder</h2>
             <button type="button"
                     class="btn-close btn-close-white m-3"
                     data-bs-dismiss="modal"
@@ -222,7 +220,7 @@
               When a challenge requirements is met, the text color changes to yellow.
             </p>
             <p>
-              PRO-TIP: You can search for a specific champion by typing its name, if only one champion is shown and you press enter, it will select/unselect the champion. Type "Esc" to leave the search.
+              PRO-TIP: You can search for a specific champion by typing its name, if only one champion is shown and you press "Enter", it will select/unselect the champion. Type "Esc" to leave the search.
             </p>
             <h3>Show your current challenges</h3>
             <p>

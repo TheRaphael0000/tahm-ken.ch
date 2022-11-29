@@ -2,15 +2,15 @@
 <html lang="en" dir="ltr">
     <head>
         {% set title_s %}{% block title %}{% endblock %}{% endset %}
-        {% set description_s %}Find optimal composition for teamwork challenges in League with this open source tool{% endset %}
-        {% set icon %}/static/img/favicon.png{% endset %}
+        {% set description_s %}Find optimal composition for teamwork Challenges in League of Legends with this open source tool{% endset %}
+        {% set icon %}https://tahm-ken.ch/static/img/favicon.png{% endset %}
 
         <!-- Meta tags -->
         <meta charset="UTF-8"/>
         <meta name="description"
               content="{{ description_s }}"/>
         <meta name="keywords"
-              content="League of Legends, League, Challenges, Optimization"/>
+              content="league of legends, league, lol, challenges, optimization, compositions"/>
         <meta name="author" content="TheRaphael0000"/>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
         
@@ -21,6 +21,12 @@
         <meta property="og:title" content="{{ title_s }}"/>
         <meta property="og:description" content="{{ description_s }}"/>
         <meta property="og:image" content="{{ icon }}"/>
+        
+        <!-- Meta Twitter tags -->
+        <meta name="twitter:card" content="summary"/>
+        <meta name="twitter:description" content="{{ description_s }}"/>
+        <meta name="twitter:title" content="{{ title_s }}"/>
+        <meta name="twitter:image" content="{{ icon }}"/>
 
         <title>{{ title_s }} - Tahm-Ken.ch</title>
         <link rel="icon" href="{{ icon }}"/>
