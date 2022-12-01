@@ -3,59 +3,57 @@
 {% block title %}Composition - {{ challenge_name }}{% endblock %}
 {% block head %}<link rel="stylesheet" href="/static/css/compositions.css">{% endblock %}
 {% block main %}
-    <h1>{{ challenge_name }}</h1>
-    {% if constraints %}
-    Must have:
-    <ul>
-        {% for constraint in constraints %}
-        <li>{{ constraint }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
-    {% for notice in notices %}
-    <p class="text-danger">{{ notice }}</p>
-    {% endfor %}
-    <div class="m-3 text-center">
-        <span>Max. stupidity level
-            <span class="tooltip_">?
-                <span class="tooltip_text">Stupidity level : The number of champions that are off-meta for each role (the roles list come from op.gg/champions)</span>
-            </span> :
-        </span>
-        <select id="stupidity_level_select" class="m-2" style="width:100px;">
-        </select>
-        <br>
-        <span>Must include :</span>
-        <select id="include_select" class="m-2" style="width:100px;">
-        </select>
-        <span>Must exclude :</span>
-        <select id="exclude_select" class="m-2" style="width:100px;">
-        </select>
-        <div id="filters"></div>
-    </div>
-    {% for number, comps in by_number.items() %}
-        <h2>{{ number }} challenges</h2>
-        <div class="compositions">
-            {% for champions_, challenges_ids, stupidty_level in comps %}
-                <div class="composition"
-                     style="display: block"
-                     data-stupidity_level="{{ stupidty_level }}">
-                    {% for champion in champions_ %}
-                        <img src="/static/datadragon_cache/champions_img/{{ champion }}.png"
-                             alt="{{ champions[champion]["name"] }}"
-                             data-champion="{{ champion }}"
-                             width="65px">
-                    {% endfor %}
-                    <div class="challenges">
-                        <ul>
-                            {% for challenge_id in challenges_ids %}
-                                {% set challenge_config = challenges_config[challenge_id] %}
-                                <li>{{ challenge_config["localizedNames"][layout["language"]]["name"] }}</li>
-                            {% endfor %}
-                        </ul>
-                    </div>
-                </div>
-            {% endfor %}
+    <div class="container-fluid">
+        <h1>{{ challenge_name }}</h1>
+        {% if constraints %}
+            Must have:
+            <ul>
+                {% for constraint in constraints %}<li>{{ constraint }}</li>{% endfor %}
+            </ul>
+        {% endif %}
+        {% for notice in notices %}<p class="text-danger">{{ notice }}</p>{% endfor %}
+        <div class="m-3 text-center">
+            <span>Max. stupidity level
+                <span class="tooltip_">?
+                    <span class="tooltip_text">Stupidity level : The number of champions that are off-meta for each role (the roles list come from op.gg/champions)</span>
+                </span> :
+            </span>
+            <select id="stupidity_level_select" class="custom_control m-2">
+            </select>
+            <br>
+            <span>Must include :</span>
+            <select id="include_select" class=" custom_control m-2">
+            </select>
+            <span>Must exclude :</span>
+            <select id="exclude_select" class="custom_control m-2">
+            </select>
+            <div id="filters"></div>
         </div>
-    {% endfor %}
+        {% for number, comps in by_number.items() %}
+            <h2>{{ number }} challenges</h2>
+            <div class="compositions">
+                {% for champions_, challenges_ids, stupidty_level in comps %}
+                    <div class="composition"
+                         style="display: block"
+                         data-stupidity_level="{{ stupidty_level }}">
+                        {% for champion in champions_ %}
+                            <img src="/static/datadragon_cache/champions_img/{{ champion }}.png"
+                                 alt="{{ champions[champion]["name"] }}"
+                                 data-champion="{{ champion }}"
+                                 width="65px">
+                        {% endfor %}
+                        <div class="challenges">
+                            <ul>
+                                {% for challenge_id in challenges_ids %}
+                                    {% set challenge_config = challenges_config[challenge_id] %}
+                                    <li>{{ challenge_config["localizedNames"][layout["language"]]["name"] }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
     <script src="/static/js/compositions.js"></script>
 {% endblock %}

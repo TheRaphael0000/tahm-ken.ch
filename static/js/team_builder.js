@@ -6,24 +6,13 @@ let challenge_tr = document.querySelectorAll(".challenge_tr")
 let challenge_no = document.querySelectorAll(".challenge_no")
 let champion_role = document.querySelectorAll(".champion_role")
 let challenges_select = document.querySelectorAll(".challenges_select")
-let btn_reset_filters = document.querySelector("#btn_reset_filters")
+let btn_reset = document.querySelector("#btn_reset")
 let btn_toggle_completed_challenges = document.querySelector("#btn_toggle_completed_challenges")
-let btn_reset_selection = document.querySelector("#btn_reset_selection")
-let btn_search_champion = document.querySelector("#btn_search_champion")
 let btn_optimize_selection = document.querySelector("#btn_optimize_selection")
-let btn_sort_mod = document.querySelector("#btn_sort_mod")
-let btn_copy = document.querySelector("#btn_copy")
 let region = document.querySelector("#region")
 let summoner = document.querySelector("#summoner")
 let search = document.querySelector("#search")
 let search_champion = document.querySelector("#search_champion")
-
-let sort_mods = {
-    "ck": "fa-check",
-    "az": "fa-arrow-down-a-z",
-    "za": "fa-arrow-down-z-a",
-}
-let sort_mod = "ck"
 
 let completed_challenges = true
 
@@ -101,6 +90,7 @@ function resetRoles() {
 function reset() {
     resetChallenge()
     resetSelection()
+    search_champion.value = "";
 }
 
 function getSelectedChallenges() {
@@ -163,12 +153,6 @@ function fetch_intersection(ids) {
                 table.refresh()
             }
         })
-}
-
-
-function copyCurrentComp() {
-    let selectedChampionName = getSelectedChampionsName(false)
-    navigator.clipboard.writeText(selectedChampionName.join(", "))
 }
 
 function getSelectedChampions() {
@@ -299,11 +283,14 @@ function update_challenges_visibility(completed_challenges) {
     }
 }
 
+function reset() {
+    resetChallenge()
+    resetSelection()
+    search_clear()
+}
 
-btn_reset_filters.addEventListener("click", resetChallenge)
+btn_reset.addEventListener("click", reset)
 btn_toggle_completed_challenges.addEventListener("click", toggle_completed_challenges)
-btn_reset_selection.addEventListener("click", resetSelection)
-btn_search_champion.addEventListener("click", e => search_champion.focus())
 
 reset()
 
@@ -314,8 +301,6 @@ for (let cbc of challenge_cb) {
 for (let s of challenges_select) {
     s.addEventListener('change', challengeChanged)
 }
-
-btn_copy.addEventListener("click", copyCurrentComp)
 
 for (let c of champion_img) {
     c.addEventListener("click", function (e) {
@@ -347,12 +332,11 @@ summoner.addEventListener("keydown", (event) => {
 
 search.addEventListener("click", search_summoner)
 
-function clear_out() {
+function search_clear() {
     search_champion.value = ""
-    search_champion.blur()
 
     for (let c of champion_img) {
-        c.style.display = "block"
+        c.parentElement.style.display = "block"
     }
     return false
 }
@@ -365,21 +349,21 @@ document.addEventListener("keydown", function (e) {
         search_champion.focus()
     }
     if (["Escape"].includes(e.key)) {
-        clear_out()
+        search_clear()
     }
 })
 
 search_champion.addEventListener("input", function (e) {
     if (e.target.value.length <= 0) {
-        return clear_out()
+        return search_clear()
     }
 
     for (let c of champion_img) {
-        c.style.display = "none"
+        c.parentElement.style.display = "none"
     }
     for (let c of champion_img) {
         if (c.dataset.champion_display_name.toLowerCase().includes(e.target.value.toLowerCase()))
-            c.style.display = "block"
+            c.parentElement.style.display = "block"
     }
 })
 
@@ -387,29 +371,15 @@ search_champion.addEventListener("keypress", function (e) {
     if (e.key == "Enter") {
         let visible_champs = []
         for (let c of champion_img) {
-            if (c.style.display == "block") {
+            if (c.parentElement.style.display == "block") {
                 visible_champs.push(c)
             }
         }
         if (visible_champs.length == 1) {
             selectChampion(visible_champs[0])
         }
-        clear_out()
+        search_clear()
     }
-})
-
-
-btn_sort_mod.addEventListener("click", (e) => {
-    let keys = Object.keys(sort_mods)
-    let index = keys.indexOf(sort_mod)
-    let new_sort_mod = keys[(index + 1) % keys.length]
-
-    let el = btn_sort_mod.children[0]
-    el.classList.remove(sort_mods[sort_mod])
-    el.classList.add(sort_mods[new_sort_mod])
-
-    sort_mod = new_sort_mod
-    sort_champions()
 })
 
 btn_optimize_selection.addEventListener("click", (e) => {
@@ -436,17 +406,9 @@ function sort_champions() {
         let b_name = name(b)
         let az_compare = a_name.localeCompare(b_name)
 
-
-        if (sort_mod == "az")
-            return az_compare
-        if (sort_mod == "za")
-            return -az_compare
-
-        if (sort_mod == "ck") {
-            let a_checked = checked(a)
-            let b_checked = checked(b)
-            return 2 * (b_checked - a_checked) + az_compare
-        }
+        let a_checked = checked(a)
+        let b_checked = checked(b)
+        return 2 * (b_checked - a_checked) + az_compare
     })
 
     champions_pool.innerHTML = ""
@@ -480,28 +442,27 @@ function best_fit_roles() {
 }
 
 function set_champion_size() {
-    let minPoolHeight = 770
     let maxImageSize = 200
-    let minImageSize = 60
+    let minImageSize = 65
 
     let pool = document.querySelector("#champions_pool")
     let w = pool.offsetWidth
-    let h = Math.min(pool.offsetHeight, minPoolHeight)
+    let h = pool.offsetHeight
     let champions = document.querySelectorAll(".champion")
 
     let n = champions.length
 
     let optimal_s = minImageSize
-
+    
     for (let s = maxImageSize; s > minImageSize; s--) {
-        let c = w / s
-        let r = Math.ceil(n / c) + 1
-
-        rs = r * s
+        let c = Math.floor(w / s)
+        let r = Math.ceil(n / c)
+        // +1 since we want to stop before it overflows
+        rs = (r + 1) * s
         if (rs < h) {
-            optimal_s = s
             break
         }
+        optimal_s = s
     }
 
     for (let champion of champions) {

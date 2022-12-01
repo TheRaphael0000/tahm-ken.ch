@@ -1,9 +1,9 @@
-body {
-    font-size: 0.95em !important;
-}
-
 label:hover {
     cursor: pointer;
+}
+
+h2, h3, h4 {
+    padding-top: 30px;
 }
 
 .bg_img {
@@ -28,14 +28,8 @@ label:hover {
 }
 
 .socials {
-    position: fixed;
-    display: flex;
-    flex-direction: column;
-    bottom: 0;
-    right: 0;
-    text-align: right;
-    margin-bottom: 10px;
-    margin-right: 20px;
+    flex-direction: row;
+    text-align: center;
     font-size: 2em;
 }
 
@@ -79,4 +73,23 @@ label:hover {
 
 .tooltip_simple:hover .tooltip_text {
     visibility: visible;
+}
+
+.custom_control {
+    background-color: transparent !important;
+    color: white !important;
+}
+.custom_control * {
+    color: black !important;
+}
+
+.challenges_select {
+    color: white;
+
+    border: 1px solid #fff;
+    background-color: transparent;
+}
+
+.challenges_select * {
+    color:black;
 }

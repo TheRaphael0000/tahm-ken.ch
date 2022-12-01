@@ -52,12 +52,12 @@
     margin: 0px auto;
     display: flex;
     width: 100%;
-    align-content: stretch;
+    align-content: flex-start;
     flex-wrap: wrap;
-    align-items: stretch;
+    align-items: flex-start;
     justify-content: center;
     user-select: none;
-    min-height: calc(100vh - 200px);
+    height: 770px;
 }
 
 .champion {
@@ -96,33 +96,4 @@
 .challenge_selection_img {
     width: 21px;
     height: 21px;
-}
-
-#search_champion {
-    position: absolute;
-    width: 30%;
-    top: 40%;
-    left: calc(50% - 15%);
-    font-size: 4em;
-    text-align: center;
-    background-color: rgba(1, 1, 1, 0.8);
-    border-radius: 20px;
-    color: white;
-    border: 0;
-    pointer-events: none;
-    z-index: 100;
-    opacity: 0;
-}
-
-#search_champion:focus {
-    outline: none;
-    opacity: 1;
-}
-
-/* hide decorations */
-#search_champion::-webkit-search-decoration,
-#search_champion::-webkit-search-cancel-button,
-#search_champion::-webkit-search-results-button,
-#search_champion::-webkit-search-results-decoration {
-    -webkit-appearance: none;
 }
