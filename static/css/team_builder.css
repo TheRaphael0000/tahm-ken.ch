@@ -57,7 +57,7 @@
     align-items: flex-start;
     justify-content: center;
     user-select: none;
-    height: 770px;
+    min-height: 770px;
 }
 
 .champion {
