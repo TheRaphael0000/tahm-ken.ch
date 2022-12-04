@@ -11,18 +11,25 @@ let ignored_text = [
     /* it */ " si è unito alla lobby",
 ]
 
-text_area_multisearch.addEventListener("input", function (e) {
-    let lines = e.target.value.split("\n")
-    let cleared_lines = []
+text_area_multisearch.addEventListener("paste", e => {
+    e.preventDefault()
+    let paste = (e.clipboardData || window.clipboardData).getData('text');
+    let lines = paste.split("\n")
+
+    let current_summoners = e.target.value.split("\n").filter(i => i != "")
+    let summoners_names = new Set(current_summoners)
+
     for (let l of lines) {
         for (let j of ignored_text) {
             if (l.includes(j)) {
-                cleared_lines.push(l.replace(j, ""))
+                let name = l.replace(j, "").replace("\r", "").replace("\n", "")
+                summoners_names.add(name)
                 break
             }
         }
     }
-    e.target.value = cleared_lines.join("\n")
+
+    e.target.value = Array(...summoners_names).join("\n")
 })
 
 btn_multisearch.addEventListener("click", function () {
