@@ -15,17 +15,11 @@ text_area_multisearch.addEventListener("input", function (e) {
     let lines = e.target.value.split("\n")
     let cleared_lines = []
     for (let l of lines) {
-        let has = false
         for (let j of ignored_text) {
             if (l.includes(j)) {
-                has = true
                 cleared_lines.push(l.replace(j, ""))
                 break
             }
-        }
-        // push the uncleard
-        if (!has) {
-            cleared_lines.push(l)
         }
     }
     e.target.value = cleared_lines.join("\n")
