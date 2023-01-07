@@ -229,7 +229,8 @@
       "Teemo",
       "Twitch",
       "Vayne",
-      "Viego"
+      "Viego",
+      "MonkeyKing"
     ]
   },
   {
@@ -284,6 +285,7 @@
     "champions": [
       "Annie",
       "Azir",
+      "Belveth",
       "Elise",
       "Fiddlesticks",
       "Heimerdinger",
