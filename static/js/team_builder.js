@@ -500,7 +500,7 @@ function share() {
 
     console.log(window.location);
 
-    let shareURL = `${window.location.protocol}//${window.location.host}${window.location.pathname}${window.location.search}#${challengeString};${championString}`
+    let shareURL = `${window.location.protocol}//${window.location.host}${window.location.pathname}${window.location.search}#${challengeString}-${championString}`
 
 
     // SECURITY RISK MINIMATION: Instead of using outdated functions (execCommand(copy)), just throw the url as an alert to users who have old browser
@@ -532,7 +532,7 @@ function share() {
 function decodeShareURL(hash) {
     hash = hash.replace("#", "");
 
-    let hashes = hash.split(";");
+    let hashes = hash.split("-");
 
     if (hashes.length < 2) {
         return;
