@@ -142,6 +142,16 @@
           <i class="fa-solid fa-fw fa-trash"></i>
         </button>
       </div>
+      <div class="col-md-auto">
+        <button id="btn_share"
+                type="button"
+                class="btn btn-outline-light tooltip_"
+                title="Share selections"
+                style="font-style:normal;">
+                <span class="tooltip_text tooltip_below">Copy a link to your current selection to the clipboard</span>
+          <i class="fa-solid fa-arrow-up-from-bracket"></i>
+        </button>
+      </div>
     </div>
     <div id="tool_div" class="d-flex flex-nowrap">
       <div class="d-flex flex-column flex-shrink-0">
@@ -184,7 +194,8 @@
                  src="/static/datadragon_cache/champions_img/{{ champion }}.png"
                  alt="{{ champion }}"
                  data-champion_name="{{ champion }}"
-                 data-champion_display_name="{{ champions[champion]["name"] }}"/>
+                 data-champion_display_name="{{ champions[champion]["name"] }}"
+                 data-champion_id="{{ champions[champion]["key"]}}"/>
             <img id="champion_role_{{ champion }}" src="" class="champion_role"/>
           </div>
         {% endfor %}
