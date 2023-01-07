@@ -88,12 +88,6 @@ function resetRoles() {
     }
 }
 
-function reset() {
-    resetChallenge()
-    resetSelection()
-    search_champion.value = "";
-}
-
 function getSelectedChallenges() {
     let checked_challenges = document.querySelectorAll(".challenge_cb:checked")
     let ids = []
@@ -183,15 +177,12 @@ function canSelectChampion() {
 }
 
 function selectChampion(e) {
+    resetRoles()
+
     if (e.dataset.selected == "1") {
         e.dataset.selected = "0"
-        updateChampionsSelection()
-        updateChampionsStyle()
-        resetRoles()
-        return
     }
-
-    if (canSelectChampion()) {
+    else if (canSelectChampion()) {
         e.dataset.selected = "1"
         if (getSelectedChampions().length >= 5)
             best_fit_roles()
@@ -199,8 +190,6 @@ function selectChampion(e) {
 
     updateChampionsSelection()
     updateChampionsStyle()
-
-
 }
 
 function updateChampionsSelection() {
@@ -292,7 +281,6 @@ function reset() {
 
 btn_reset.addEventListener("click", reset)
 btn_toggle_completed_challenges.addEventListener("click", toggle_completed_challenges)
-
 reset()
 
 for (let cbc of challenge_cb) {
@@ -476,101 +464,69 @@ window.addEventListener("resize", set_champion_size)
 set_champion_size()
 
 
-
 // SHARE API
 btn_share.addEventListener("click", share)
 
-function share() {
+
+function encodeSelection() {
     // get selected champions with a query selector
-    let selectedChampions = document.querySelectorAll(".champion_img.selected");
+    let selectedChampions = document.querySelectorAll(".champion_img.selected")
 
     // map the champions to a string with their ids
     let championString = Array.from(selectedChampions).map((e) => {
-        return parseInt(e.getAttribute("data-champion_id")).toString(16);
-    }).toString();
+        return parseInt(e.dataset.champion_id).toString(36)
+    }).toString()
 
-
-    // get selected challenges with a query selected => search for all :checked checkboxes
-    let selectedChallenges = document.querySelectorAll("td > input.challenge_cb:checked");
-
-    // map the challenges to a string with their ids
-    let challengeString = Array.from(selectedChallenges).map((e) => {
-        return parseInt(e.getAttribute("data-id")).toString(16);
-    }).toString();
-
-    console.log(window.location);
-
-    let shareURL = `${window.location.protocol}//${window.location.host}${window.location.pathname}${window.location.search}#${challengeString}-${championString}`
-
-
-    // SECURITY RISK MINIMATION: Instead of using outdated functions (execCommand(copy)), just throw the url as an alert to users who have old browser
-    if (!navigator.clipboard) {
-        alert(shareURL);
-        return;
-    }
-
-    navigator.clipboard.writeText(shareURL).then(() => {
-        // copied url successfully
-        let oldHTML = btn_share.innerHTML;
-        btn_share.classList.add("btn-success");
-        btn_share.classList.remove("btn-outline-light");
-        btn_share.innerHTML = "<i class='fa-solid fa-check'></i>";
-
-        setTimeout(() => {
-            btn_share.classList.remove("btn-success");
-            btn_share.classList.add("btn-outline-light");
-            btn_share.innerHTML = oldHTML;
-        }, 1500);
-    }, (e) => {
-        console.warn(e);
-        // failed to copy url, show alert() as an fallback instead
-        alert(shareURL);
-    })
+    let code = btoa(championString)
+    return code
 }
 
+function decodeSelection(code) {
+    code = code.replace("#", "")
+    code = atob(code)
 
-function decodeShareURL(hash) {
-    hash = hash.replace("#", "");
-
-    let hashes = hash.split("-");
-
-    if (hashes.length < 2) {
-        return;
+    if (code.length < 2) {
+        return
         // that should not happen, the url was most likely modified by hand
     }
 
-    let challengesEncoded = hashes[0];
-    let championsEncoded = hashes[1];
-
-    let challenges = challengesEncoded.split(",").map((c) => {
-        return parseInt(c, 16);
+    let champions = code.split(",").map((c) => {
+        return parseInt(c, 36)
     })
-    let champions = championsEncoded.split(",").map((c) => {
-        return parseInt(c, 16);
-    })
-
-
-    for (let i = 0; i < challenge_cb.length; i++) {
-        const node = challenge_cb[i];
-        if (challenges.includes(parseInt(node.getAttribute("data-id")))) {
-            node.click();
-        }
-    }
-
 
     for (let i = 0; i < champion_img.length; i++) {
-        const node = champion_img[i];
-        if (champions.includes(parseInt(node.getAttribute("data-champion_id")))) {
-            node.click();
+        const node = champion_img[i]
+        if (champions.includes(parseInt(node.dataset.champion_id))) {
+            node.click()
         }
     }
+}
 
+function createShareURL() {
+    let code = encodeSelection()
+    let shareURL = `${window.location.protocol}//${window.location.host}${window.location.pathname}${window.location.search}#${code}`
+    return shareURL
+}
 
+function share() {
+    let shareURL = createShareURL()
+
+    // SECURITY RISK MINIMATION: Instead of using outdated functions (execCommand(copy)), just throw the url as an alert to users who have old browser
+    if (!navigator.clipboard) {
+        alert(shareURL)
+        return
+    }
+
+    navigator.clipboard.writeText(shareURL).then(() => {}, (e) => {
+        console.warn(e)
+        // failed to copy url, show alert() as an fallback instead
+        alert(shareURL)
+    })
 }
 
 // check for the hash
-let hash = document.location.hash;
+let hash = document.location.hash
 if (hash.length > 0) {
-    decodeShareURL(hash)
-    history.pushState("", document.title, window.location.pathname + window.location.search);
+    decodeSelection(hash)
+    history.pushState("", document.title, window.location.pathname + window.location.search)
 }
