@@ -7,6 +7,7 @@ let challenge_no = document.querySelectorAll(".challenge_no")
 let champion_role = document.querySelectorAll(".champion_role")
 let challenges_select = document.querySelectorAll(".challenges_select")
 let btn_reset = document.querySelector("#btn_reset")
+let btn_share = document.querySelector("#btn_share")
 let btn_toggle_completed_challenges = document.querySelector("#btn_toggle_completed_challenges")
 let btn_optimize_selection = document.querySelector("#btn_optimize_selection")
 let region = document.querySelector("#region")
@@ -23,6 +24,12 @@ let role_mapping = {
     "bottom": "bottom",
     "support": "utility",
 }
+
+// selection order for the URL selection bitfield
+// APPEND NEW CHALLEGNES ID AT THE END OF THIS LIST TO KEEP URL CONSISTENCY 
+let selection_order = [
+    303401, 303402, 303403, 303404, 303405, 303406, 303407, 3034080, 3034081, 3034082, 3034083, 3034084, 3034085, 303409, 303410, 303411, 303412, 303501, 303502, 303503, 303504, 303505, 303506, 303507, 303508, 303509, 303510, 303511, 303512, 303513
+]
 
 let table = new Tablesort(table_challenges[0], {
     descending: true
@@ -85,12 +92,6 @@ function resetRoles() {
     for (let c of champion_role) {
         c.src = ""
     }
-}
-
-function reset() {
-    resetChallenge()
-    resetSelection()
-    search_champion.value = "";
 }
 
 function getSelectedChallenges() {
@@ -182,15 +183,12 @@ function canSelectChampion() {
 }
 
 function selectChampion(e) {
+    resetRoles()
+
     if (e.dataset.selected == "1") {
         e.dataset.selected = "0"
-        updateChampionsSelection()
-        updateChampionsStyle()
-        resetRoles()
-        return
     }
-
-    if (canSelectChampion()) {
+    else if (canSelectChampion()) {
         e.dataset.selected = "1"
         if (getSelectedChampions().length >= 5)
             best_fit_roles()
@@ -198,8 +196,6 @@ function selectChampion(e) {
 
     updateChampionsSelection()
     updateChampionsStyle()
-
-
 }
 
 function updateChampionsSelection() {
@@ -291,7 +287,6 @@ function reset() {
 
 btn_reset.addEventListener("click", reset)
 btn_toggle_completed_challenges.addEventListener("click", toggle_completed_challenges)
-
 reset()
 
 for (let cbc of challenge_cb) {
@@ -453,7 +448,7 @@ function set_champion_size() {
     let n = champions.length
 
     let optimal_s = minImageSize
-    
+
     for (let s = maxImageSize; s > minImageSize; s--) {
         let c = Math.floor(w / s)
         let r = Math.ceil(n / c)
@@ -473,3 +468,116 @@ function set_champion_size() {
 
 window.addEventListener("resize", set_champion_size)
 set_champion_size()
+
+// SHARE API
+btn_share.addEventListener("click", share)
+
+function encodeSelection() {
+    let bitField = ""
+
+    // challenge selection order
+    for (let s of selection_order) {
+        let isSelected
+        if (typeof s == "number") {
+            s = s.toString()
+            isSelected = document.querySelector("#challenge_cb_" + s.substring(0, 6)).checked
+            if (s.length == 7) {
+                isSelected &= challenges_select[0].selectedIndex == s.substring(6, 7)
+            }
+        }
+        bitField += isSelected ? "1" : "0"
+    }
+    // pad with the start with a 1 for the encoding
+    let challengesCode = encodeURL("1" + bitField)
+
+    let selectedChampions = document.querySelectorAll(".champion_img.selected")
+    let championsCode = Array.from(selectedChampions).map((e) => {
+        return e.dataset.champion_name
+    }).toString();
+
+    let code = challengesCode + "-" + championsCode
+    return code
+}
+
+
+function decodeSelection(code) {
+    code = code.replace("#", "").split("-")
+
+    let challengesCode = code[0]
+
+    // ignore the first padded 1 used for the encoding
+    let bitField = decodeURL(challengesCode).substring(1)
+
+    for (let i = 0; i < selection_order.length; i++) {
+        let bit = bitField[i]
+
+        if (bit != "1")
+            continue
+
+        let s = selection_order[i]
+        let node
+
+        if (typeof s == "number") {
+            s = s.toString()
+            if (s.length == 7) {
+                challenges_select[0].selectedIndex = s.substring(6, 7)
+            }
+            node = document.querySelector("#challenge_cb_" + s.substring(0, 6))
+        }
+        else if (typeof s == "string") {
+            node = document.querySelector("#champion_" + s)
+        }
+
+        node.click()
+    }
+
+    let selectedChampions = code[1]
+    selectedChampions = selectedChampions.split(",")
+
+    for (let i = 0; i < champion_img.length; i++) {
+        let node = champion_img[i]
+        if (selectedChampions.includes(node.dataset.champion_name))
+            node.click()
+    }
+}
+
+function createShareURL() {
+    let code = encodeSelection()
+    let shareURL = `${window.location.protocol}//${window.location.host}${window.location.pathname}${window.location.search}?#${code}`
+    return shareURL
+}
+
+function share() {
+    let shareURL = createShareURL()
+
+    // SECURITY RISK MINIMATION: Instead of using outdated functions (execCommand(copy)), just throw the url as an alert to users who have old browser
+    if (!navigator.clipboard) {
+        alert(shareURL)
+        return
+    }
+
+    navigator.clipboard.writeText(shareURL).then(() => {
+        // copied url successfully
+        let oldHTML = btn_share.innerHTML;
+        btn_share.classList.add("btn-success");
+        btn_share.classList.remove("btn-outline-light");
+        btn_share.innerHTML = "<i class='fa-solid fa-check'></i>";
+
+        setTimeout(() => {
+            btn_share.classList.remove("btn-success");
+            btn_share.classList.add("btn-outline-light");
+            btn_share.innerHTML = oldHTML;
+        }, 750);
+    }, (e) => {
+        console.warn(e)
+        // failed to copy url, show alert() as an fallback instead
+        alert(shareURL)
+    })
+}
+
+// check for the hash
+let hash = document.location.hash
+if (hash.length > 0) {
+    decodeSelection(hash)
+    history.pushState("", document.title, window.location.pathname + window.location.search)
+}

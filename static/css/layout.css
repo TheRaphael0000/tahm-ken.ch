@@ -2,7 +2,9 @@ label:hover {
     cursor: pointer;
 }
 
-h2, h3, h4 {
+h2,
+h3,
+h4 {
     padding-top: 30px;
 }
 
@@ -49,6 +51,7 @@ h2, h3, h4 {
 .tooltip_ {
     font-style: italic;
     border-bottom: 1px dotted white;
+    position: relative;
 }
 
 .tooltip_text {
@@ -67,6 +70,11 @@ h2, h3, h4 {
     z-index: 1;
 }
 
+.tooltip_below {
+    left: calc(-125px + 50%);
+    top: calc(100% + 5px);
+}
+
 .tooltip_:hover .tooltip_text {
     visibility: visible;
 }
@@ -79,6 +87,7 @@ h2, h3, h4 {
     background-color: transparent !important;
     color: white !important;
 }
+
 .custom_control * {
     color: black !important;
 }
@@ -91,5 +100,5 @@ h2, h3, h4 {
 }
 
 .challenges_select * {
-    color:black;
+    color: black;
 }
