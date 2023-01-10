@@ -25,6 +25,12 @@ let role_mapping = {
     "support": "utility",
 }
 
+// selection order for the URL selection bitfield
+// APPEND NEW CHAMPIONS NAME (NOT DISPLAY NAME) AND NEW CHALLENGES ID AT THE END OF THIS LIST TO KEEP URL CONSISTENCY 
+let selection_order = [
+    303401, 303402, 303403, 303404, 303405, 303406, 303407, 3034080, 3034081, 3034082, 3034083, 3034084, 3034085, 303409, 303410, 303411, 303412, 303501, 303502, 303503, 303504, 303505, 303506, 303507, 303508, 303509, 303510, 303511, 303512, 303513, "Aatrox", "Ahri", "Akali", "Akshan", "Alistar", "Amumu", "Anivia", "Annie", "Aphelios", "Ashe", "AurelionSol", "Azir", "Bard", "Belveth", "Blitzcrank", "Brand", "Braum", "Caitlyn", "Camille", "Cassiopeia", "Chogath", "Corki", "Darius", "Diana", "Draven", "DrMundo", "Ekko", "Elise", "Evelynn", "Ezreal", "Fiddlesticks", "Fiora", "Fizz", "Galio", "Gangplank", "Garen", "Gnar", "Gragas", "Graves", "Gwen", "Hecarim", "Heimerdinger", "Illaoi", "Irelia", "Ivern", "Janna", "JarvanIV", "Jax", "Jayce", "Jhin", "Jinx", "Kaisa", "Kalista", "Karma", "Karthus", "Kassadin", "Katarina", "Kayle", "Kayn", "Kennen", "Khazix", "Kindred", "Kled", "KogMaw", "KSante", "Leblanc", "LeeSin", "Leona", "Lillia", "Lissandra", "Lucian", "Lulu", "Lux", "Malphite", "Malzahar", "Maokai", "MasterYi", "MissFortune", "MonkeyKing", "Mordekaiser", "Morgana", "Nami", "Nasus", "Nautilus", "Neeko", "Nidalee", "Nilah", "Nocturne", "Nunu", "Olaf", "Orianna", "Ornn", "Pantheon", "Poppy", "Pyke", "Qiyana", "Quinn", "Rakan", "Rammus", "RekSai", "Rell", "Renata", "Renekton", "Rengar", "Riven", "Rumble", "Ryze", "Samira", "Sejuani", "Senna", "Seraphine", "Sett", "Shaco", "Shen", "Shyvana", "Singed", "Sion", "Sivir", "Skarner", "Sona", "Soraka", "Swain", "Sylas", "Syndra", "TahmKench", "Taliyah", "Talon", "Taric", "Teemo", "Thresh", "Tristana", "Trundle", "Tryndamere", "TwistedFate", "Twitch", "Udyr", "Urgot", "Varus", "Vayne", "Veigar", "Velkoz", "Vex", "Vi", "Viego", "Viktor", "Vladimir", "Volibear", "Warwick", "Xayah", "Xerath", "XinZhao", "Yasuo", "Yone", "Yorick", "Yuumi", "Zac", "Zed", "Zeri", "Ziggs", "Zilean", "Zoe", "Zyra",
+]
+
 let table = new Tablesort(table_challenges[0], {
     descending: true
 })
@@ -463,48 +469,68 @@ function set_champion_size() {
 window.addEventListener("resize", set_champion_size)
 set_champion_size()
 
-
 // SHARE API
 btn_share.addEventListener("click", share)
 
-
 function encodeSelection() {
-    // get selected champions with a query selector
-    let selectedChampions = document.querySelectorAll(".champion_img.selected")
-
-    // map the champions to a string with their ids
-    let championString = Array.from(selectedChampions).map((e) => {
-        return parseInt(e.dataset.champion_id).toString(36)
-    }).toString()
-
-    let code = btoa(championString)
+    let bitfield = ""
+    for (let s of selection_order) {
+        // challenges
+        let isSelected
+        if (typeof s == "number") {
+            s = s.toString()
+            isSelected = document.querySelector("#challenge_cb_" + s.substring(0, 6)).checked
+            if(s.length == 7) {
+                isSelected = challenges_select[0].selectedIndex == s.substring(6, 7)
+            }
+        }
+        // champions
+        else if (typeof s == "string") {
+            isSelected = document.querySelector("#champion_" + s).dataset.selected == "1"
+        }
+        bitfield += isSelected ? "1" : "0"
+    }
+    // pad with the start with a 1 for the encoding
+    console.log(bitfield)
+    let code = encodeURL("1" + bitfield)
+    console.log(code)
     return code
 }
 
+
 function decodeSelection(code) {
     code = code.replace("#", "")
-    code = atob(code)
 
-    if (code.length < 2) {
-        return
-        // that should not happen, the url was most likely modified by hand
-    }
+    // ignore the first padded 1 used for the encoding
+    let bitfield = decodeURL(code).substring(1)
 
-    let champions = code.split(",").map((c) => {
-        return parseInt(c, 36)
-    })
+    for (let i = 0; i < selection_order.length; i++) {
+        let bit = bitfield[i]
 
-    for (let i = 0; i < champion_img.length; i++) {
-        const node = champion_img[i]
-        if (champions.includes(parseInt(node.dataset.champion_id))) {
-            node.click()
+        if (bit != "1")
+            continue
+
+        let s = selection_order[i]
+        let node
+
+        if (typeof s == "number") {
+            s = s.toString()
+            if(s.length == 7) {
+                challenges_select[0].selectedIndex = s.substring(6, 7)
+            }
+            node = document.querySelector("#challenge_cb_" + s.substring(0, 6))
         }
+        else if (typeof s == "string") {
+            node = document.querySelector("#champion_" + s)
+        }
+
+        node.click()
     }
 }
 
 function createShareURL() {
     let code = encodeSelection()
-    let shareURL = `${window.location.protocol}//${window.location.host}${window.location.pathname}${window.location.search}#${code}`
+    let shareURL = `${window.location.protocol}//${window.location.host}${window.location.pathname}${window.location.search}?#${code}`
     return shareURL
 }
 
@@ -517,7 +543,19 @@ function share() {
         return
     }
 
-    navigator.clipboard.writeText(shareURL).then(() => {}, (e) => {
+    navigator.clipboard.writeText(shareURL).then(() => {
+        // copied url successfully
+        let oldHTML = btn_share.innerHTML;
+        btn_share.classList.add("btn-success");
+        btn_share.classList.remove("btn-outline-light");
+        btn_share.innerHTML = "<i class='fa-solid fa-check'></i>";
+
+        setTimeout(() => {
+            btn_share.classList.remove("btn-success");
+            btn_share.classList.add("btn-outline-light");
+            btn_share.innerHTML = oldHTML;
+        }, 750);
+    }, (e) => {
         console.warn(e)
         // failed to copy url, show alert() as an fallback instead
         alert(shareURL)
