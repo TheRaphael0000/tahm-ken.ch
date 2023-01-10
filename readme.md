@@ -77,6 +77,7 @@ people who directly helped the project (more than feedbacks):
 - thanks to @Pomarine for reviewing and correcting the `challenges.json` file
 - thanks to @Naralas for fixing paths in `brute_force_compositions.ipynb`
 - thanks to @DarkIntaqt for fixing a few typos and adding better meta tags
+- thanks to @DarkIntaqt for adding the share composition feature
 
 people who gave feedback that were implemented/bug fixed:
 
