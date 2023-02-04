@@ -5,13 +5,14 @@ trying to create an app which help to optimize the teamwork challenges in league
 still wip, you can pr if you want.
 
 ## todo
+- [ ] allow to remove champions (right click), idea from BlackDizzle 
+- [ ] multi-language, adapt the code for this
 - [ ] (bugfix) show points for harmony and globetrotter
 - [ ] responsiveness for mobile
 - [ ] update table sorting and add visual clue of the current sort
 - [ ] add a caching system for the API calls, see if its better to use cassiopeia instead of riotwatcher
 - [ ] create a batch file for windows install
 - [ ] User eXperience (help needed)
-- [ ] multi-language
 
 
 ## done
