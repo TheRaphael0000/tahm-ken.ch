@@ -363,10 +363,13 @@ search_champion.addEventListener("input", function (e) {
          * By using the internal id, it is easier to search champions 
          * like Vel'Koz, as you don't have to add the apostrophe or space
          */
-        if (
-            c.dataset.champion_display_name.toLowerCase().includes(e.target.value.toLowerCase())
-            || c.dataset.champion_name.toLowerCase().includes(e.target.value.toLowerCase())
-        ) {
+        let query = e.target.value.toLowerCase()
+        let targets = [
+            c.dataset.champion_display_name,
+            c.dataset.champion_name,
+        ]
+
+        if (targets.some((e) => e.toLowerCase().includes(query))) {
             c.parentElement.style.display = "block"
         }
     }
