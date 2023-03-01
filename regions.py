@@ -65,16 +65,40 @@ regions = [
         "country_codes": ["AU", "NZ"],
     },
     {
+        "id": "PH2",
+        "name": "Philippines",
+        "abbreviation": "PH",
+        "country_codes": ["PH"]
+    },
+    {
         "id": "RU1",
         "name": "Russia",
         "abbreviation": "RU",
         "country_codes": ["RU"],
     },
     {
+        "id": "SG2",
+        "name": "Singapore",
+        "abbreviation": "SG",
+        "country_codes": ["SG"]
+    },
+    {
+        "id": "TH2",
+        "name": "Thailand",
+        "abbreviation": "TH",
+        "country_codes": ["TH"],
+    },
+    {
         "id": "TR1",
         "name": "Turkey",
         "abbreviation": "TR",
         "country_codes": ["TR"],
+    },
+    {
+        "id": "TW2",
+        "name": "Taiwan",
+        "abbreviation": "TW",
+        "country_codes": ["TW"],
     },
     {
         "id": "JP1",
@@ -87,6 +111,12 @@ regions = [
         "name": "Republic of Korea",
         "abbreviation": "KR",
         "country_codes": ["KR"],
+    },
+    {
+        "id": "VN2",
+        "name": "Vietnam",
+        "abbreviation": "VN",
+        "country_codes": ["VN"],
     },
 ]
 regions.sort(key=lambda r: r["abbreviation"])
