@@ -357,8 +357,18 @@ search_champion.addEventListener("input", function (e) {
         c.parentElement.style.display = "none"
     }
     for (let c of champion_img) {
-        if (c.dataset.champion_display_name.toLowerCase().includes(e.target.value.toLowerCase()))
+
+        /**
+         * Make a champion searchable by name or internal id
+         * By using the internal id, it is easier to search champions 
+         * like Vel'Koz, as you don't have to add the apostrophe or space
+         */
+        if (
+            c.dataset.champion_display_name.toLowerCase().includes(e.target.value.toLowerCase())
+            || c.dataset.champion_name.toLowerCase().includes(e.target.value.toLowerCase())
+        ) {
             c.parentElement.style.display = "block"
+        }
     }
 })
 
