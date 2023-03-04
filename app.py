@@ -43,7 +43,7 @@ app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 60 * 60
 app.secret_key = config["app_secret_key"]
 
 # create the request limiter
-limiter = Limiter(app, key_func=get_remote_address)
+limiter = Limiter(app)
 
 language = "en_US"
 multisearch_max_size = 8
@@ -112,7 +112,7 @@ def route_team_builder():
 
 
 @app.route("/team_builder/<region>/<summoner>")
-@limiter.limit("6/minutes")
+@limiter.limit("30/minutes")
 def route_team_builder_summoner(region, summoner):
     try:
         region = regions_by_abbreviation[region]
@@ -234,7 +234,7 @@ def route_multisearch():
 
 
 @app.route("/multisearch/<region>/<summoners_names_text>")
-@limiter.limit("2/minutes")
+@limiter.limit("30/minutes")
 def route_multisearch_result(region, summoners_names_text):
     try:
         region = regions_by_abbreviation[region]
