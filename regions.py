@@ -132,10 +132,10 @@ regions_by_country_code = {
     for country_code in region["country_codes"]
 }
 
+ipinfo_handler = ipinfo.getHandler(config["ipinfo_token"])
 
 def get_region_from_ip(ip_address):
     try:
-        ipinfo_handler = ipinfo.getHandler(config["ipinfo_token"])
         details = ipinfo_handler.getDetails(ip_address)
         country_code = details.country
         region = regions_by_country_code[country_code]

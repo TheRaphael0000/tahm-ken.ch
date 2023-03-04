@@ -22,7 +22,7 @@
                              src="/static/img/challengecrystal/{{ summoner_challenges_info['total_points']['level'] }}.ls_c2.png"
                              alt="{{ summoner_challenges_info['total_points']['level'].lower()}}">
                     </td>
-                    {% for id_, score in priority_scores %}
+                    {% for id_, is_max_scores, challenge_progress in priority_scores %}
                         <td>
                             <span class="tooltip_simple">
                                 <img src="https://raw.communitydragon.org/latest/game/assets/challenges/config/{{ id_ }}/tokens/{{ summoner_challenges_info['summoner_challenges'][id_]['level'] }}.png"
@@ -40,11 +40,23 @@
             {% endfor %}
             <tr class="border-top">
                 <td colspan="3" class="pt-3">
-                    <i>Priority</i> <span class="tooltip_">?<span class="tooltip_text">Geometric mean of the challenge progression between all players, ranged between 1 and 100.</span>
+                    <i>Completion</i>
+                    <span class="tooltip_">?<span class="tooltip_text">The number of players that are at least master on this challenge</span>
                 </td>
-                {% for id_, score in priority_scores %}
+                {% for id_, is_max_scores, challenge_progress in priority_scores %}
                     <td class="text-center">
-                        <i>{{ score|round|int }}</i>
+                        <i>{{ is_max_scores|round|int }}</i>
+                    </td>
+                {% endfor %}
+            </tr>
+            <tr>
+                <td colspan="3" class="pt-3">
+                    <i>RMSE</i>
+                    <span class="tooltip_">?<span class="tooltip_text">Root-mean-square error on the progression to master</span>
+                </td>
+                {% for id_, is_max_scores, challenge_progress in priority_scores %}
+                    <td class="text-center">
+                        <i>{{'%0.1f'| format(challenge_progress|float)}}</i>
                     </td>
                 {% endfor %}
             </tr>

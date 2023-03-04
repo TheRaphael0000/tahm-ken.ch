@@ -166,33 +166,30 @@ def get_summoner_challenges_info(region, summoner):
 
 
 def compute_challenges_priority_scores(challenges_info):
-    priority_scores = defaultdict(lambda: 1)
+    is_max_scores = defaultdict(lambda: 0)
+    progress_error = defaultdict(lambda: 0)
     # compute geometric mean
     for sid_, s in challenges_info.items():
         for id_, challenge in s["summoner_challenges"].items():
-            # +1: avoid having to multiply by 0
-            # min: avoid having too high progress having too much influence
-            # +5: more margin for the min
-            priority_scores[id_] *= min(challenge["value"] + 1,
-                                        challenges_config[id_]["thresholds"]["MASTER"] + 5)
+            # completion
+            is_maxed = challenge["next_threshold"] is None
+            is_max_scores[id_] += 1 if is_maxed else 0
+            # progress
+            challenge_step = challenge["value"]
+            max_step = challenges_config[id_]["thresholds"]["MASTER"]
+            error = (max_step - min(challenge_step, max_step))
+            progress_error[id_] += error ** 2
 
     N = len(challenges_info)
     # take the square root
-    for id_ in priority_scores:
-        priority_scores[id_] **= 1/N
+    for id_ in progress_error:
+        progress_error[id_] = (progress_error[id_] / N) ** 1/2
 
-    # range the values
-    min_, max_ = min(priority_scores.values()), max(priority_scores.values())
-    min_range, max_range = 1, 100
-    for id_, score in priority_scores.items():
-        score = (score - min_) / (max_ - min_)
-        score = score * (max_range - min_range) + min_range
-        priority_scores[id_] = score
+    ids = set(progress_error) & set(is_max_scores)
+    priority_scores = [(id_, is_max_scores[id_], progress_error[id_]) for id_ in ids]
 
     # sort the array
-    priority_scores = list(priority_scores.items())
-    priority_scores.sort(key=lambda l: l[-1])
-
+    priority_scores.sort(key=lambda l: (l[1], -l[2], l[0]))
     return priority_scores
 
 

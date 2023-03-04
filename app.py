@@ -5,7 +5,6 @@ from flask import Flask
 from flask import abort
 from flask import render_template
 from flask import redirect
-from flask import request
 from flask import session
 
 from flask_limiter import Limiter
@@ -49,6 +48,7 @@ language = "en_US"
 multisearch_max_size = 8
 
 composition_limit = 1500
+query_limit = 25000
 
 # load the pre-calculated compositions
 compositions = json.load(open("static/compositions.json", "r"))
@@ -72,7 +72,7 @@ def get_default_region():
     if "default_region" in session:
         default_region = session["default_region"]
     else:
-        default_region = get_region_from_ip(request.environ.get('HTTP_X_REAL_IP', request.remote_addr))
+        default_region = get_region_from_ip(get_remote_address())
         session["default_region"] = default_region
     return default_region
 
@@ -81,9 +81,11 @@ def get_default_region():
 def main():
     return redirect("/team_builder")
 
+
 @app.route("/challenges_intersection")
 def redirect1():
     return redirect("/team_builder")
+
 
 @app.route("/challenges_intersection/<region>/<summoner>")
 def redirect2(region, summoner):
@@ -126,6 +128,7 @@ def route_team_builder_summoner(region, summoner):
     except Exception as e:
         args["error"] = f"Couldn't find '{summoner}' on {region['abbreviation']}"
     return render_template("team_builder.html", **args)
+
 
 def comps_processing(comps):
     # limit large challenges
@@ -183,7 +186,6 @@ def args_custom_compositions():
 @app.route("/optimize/<route>")
 def route_optimize(route):
     # route: id1,id2,id3|champion1,champion2
-    query_limit = int(2.5e4)
     try:
         challenges, champions = route.split("&")
         challenges = set(challenges.split(",")) - {""}
@@ -204,15 +206,18 @@ def route_optimize(route):
     args["challenge_name"] = "Compositions optimization"
     args["notices"] = []
     if len(comps) > composition_limit:
-        args["notices"].append(f"Showing the best {composition_limit} compositions out of {len(comps)} computed.")
+        args["notices"].append(
+            f"Showing the best {composition_limit} compositions out of {len(comps)} computed.")
     if len(comps) >= query_limit:
-        args["notices"].append(f"BEST EFFORT: The optimization stopped early, which means that the current result may be not optimal for the given constraints. To avoid this, be more specific and add more challenges or champions")
+        args["notices"].append(
+            f"BEST EFFORT: The optimization stopped early, which means that the current result may be not optimal for the given constraints. To avoid this, be more specific and add more challenges or champions")
     args["constraints"] = []
 
     for challenge_id in challenges:
         challenge = get_challenge_from_id(challenge_id)
         challenge = challenges_config[challenge['id']]
-        args["constraints"].append(challenge["localizedNames"][language]["name"])
+        args["constraints"].append(
+            challenge["localizedNames"][language]["name"])
     for champion in champions:
         args["constraints"].append(champion)
 
