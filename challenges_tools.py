@@ -133,8 +133,12 @@ def get_summoner_challenges_info(region, summoner):
         for _, threshold in thresholds:
             if threshold > challenge_for_this_summoner["value"]:
                 return str(int(threshold))
+            
+    progress = 0
+    total = 0
+    summoner_challenges = {}
 
-    def create_summoner_challenge(challenge_id):
+    for challenge_id in challenges_data.keys():
         if challenge_id in summoner_challenges_by_id:
             challenge_for_this_summoner = {
                 "level": summoner_challenges_by_id[challenge_id]["level"].lower(),
@@ -146,14 +150,13 @@ def get_summoner_challenges_info(region, summoner):
                 "value": 0,
             }
 
-        challenge_for_this_summoner["next_threshold"] = find_next_threshold(
-            challenges_config[challenge_id]["thresholds"], challenge_for_this_summoner)
-        return challenge_for_this_summoner
+        thresholds = challenges_config[challenge_id]["thresholds"]
+        challenge_for_this_summoner["next_threshold"] = find_next_threshold(thresholds, challenge_for_this_summoner)
+        summoner_challenges[challenge_id] = challenge_for_this_summoner
 
-    summoner_challenges = {
-        challenge_id: create_summoner_challenge(challenge_id)
-        for challenge_id in challenges_data.keys()
-    }
+        threshold_MASTER = thresholds["MASTER"]
+        progress += min(challenge_for_this_summoner["value"], threshold_MASTER)
+        total += threshold_MASTER
 
     total_points = summoner_challenges_infos["totalPoints"]
     total_points["level"] = total_points["level"].lower()
@@ -162,31 +165,40 @@ def get_summoner_challenges_info(region, summoner):
     if total_points["level"] == "none":
         total_points["level"] = "iron"
 
-    return {"summoner": summoner, "summoner_challenges": summoner_challenges, "total_points": total_points}
+    output = {
+        "summoner": summoner,
+        "summoner_challenges": summoner_challenges,
+        "total_points": total_points,
+        "progress": progress,
+        "total": total,
+        "progress_ratio": progress / total,
+    }
+
+    return output
 
 
 def compute_challenges_priority_scores(challenges_info):
     is_max_scores = defaultdict(lambda: 0)
     progress_error = defaultdict(lambda: 0)
-    # compute geometric mean
+
     for sid_, s in challenges_info.items():
         for id_, challenge in s["summoner_challenges"].items():
             # completion
             is_maxed = challenge["next_threshold"] is None
             is_max_scores[id_] += 1 if is_maxed else 0
             # progress
-            challenge_step = challenge["value"]
             max_step = challenges_config[id_]["thresholds"]["MASTER"]
-            error = (max_step - min(challenge_step, max_step))
-            progress_error[id_] += error ** 2
+            error = abs(max_step - min(challenge["value"], max_step))
+            progress_error[id_] += error
 
     N = len(challenges_info)
     # take the square root
     for id_ in progress_error:
-        progress_error[id_] = (progress_error[id_] / N) ** 1/2
+        progress_error[id_] /= N
 
     ids = set(progress_error) & set(is_max_scores)
-    priority_scores = [(id_, is_max_scores[id_], progress_error[id_]) for id_ in ids]
+    priority_scores = [(id_, is_max_scores[id_], progress_error[id_])
+                       for id_ in ids]
 
     # sort the array
     priority_scores.sort(key=lambda l: (l[1], -l[2], l[0]))

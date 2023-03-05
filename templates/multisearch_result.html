@@ -12,30 +12,24 @@
             </tr>
             {% for id, summoner_challenges_info in summoners_challenges_info.items() %}
                 <tr>
-                    <td class="pe-3">{{ summoner_challenges_info['summoner']['name'] }}</td>
+                    <td class="pe-1">{{ summoner_challenges_info['summoner']['name'] }}</td>
                     <td>
-                        <img height="50px"
+                        <img width="41px"
                              src="https://raw.communitydragon.org/latest/game/assets/ux/summonericons/profileicon{{ summoner_challenges_info['summoner']['profileIconId'] }}.png">
                     </td>
                     <td>
-                        <img height="50px"
+                        <img width="41px"
                              src="/static/img/challengecrystal/{{ summoner_challenges_info['total_points']['level'] }}.ls_c2.png"
                              alt="{{ summoner_challenges_info['total_points']['level'].lower()}}">
                     </td>
                     {% for id_, is_max_scores, challenge_progress in priority_scores %}
-                        <td>
-                            <span class="tooltip_simple">
-                                <img src="https://raw.communitydragon.org/latest/game/assets/challenges/config/{{ id_ }}/tokens/{{ summoner_challenges_info['summoner_challenges'][id_]['level'] }}.png"
-                                     height="40px">
-                                <span class="tooltip_text">
-                                    <p>
-                                        <b>{{ challenges_config[id_]["localizedNames"][layout.language]["name"] }}</b>
-                                    </p>
-                                    <p>Progress : {{ summoner_challenges_info['summoner_challenges'][id_]['value'] }}</p>
-                                </span>
-                            </span>
-                        </td>
+                        <td class="position-relative">
+                            <span class="position-absolute" style="right:0px; bottom:0px;">{{ summoner_challenges_info['summoner_challenges'][id_]['value'] }}</span>
+                            <img src="https://raw.communitydragon.org/latest/game/assets/challenges/config/{{ id_ }}/tokens/{{ summoner_challenges_info['summoner_challenges'][id_]['level'] }}.png"
+                                 width="41px">
+                        </td>   
                     {% endfor %}
+                    <td class="ps-1" class="text-end">{{'%0.1f'| format(summoner_challenges_info["progress_ratio"] * 100)}}&nbsp;%</td>
                 </tr>
             {% endfor %}
             <tr class="border-top">
@@ -51,8 +45,8 @@
             </tr>
             <tr>
                 <td colspan="3" class="pt-3">
-                    <i>RMSE</i>
-                    <span class="tooltip_">?<span class="tooltip_text">Root-mean-square error on the progression to master</span>
+                    <i>MAE</i>
+                    <span class="tooltip_">?<span class="tooltip_text">Mean absolute error: The average missing challeges to master</span>
                 </td>
                 {% for id_, is_max_scores, challenge_progress in priority_scores %}
                     <td class="text-center">

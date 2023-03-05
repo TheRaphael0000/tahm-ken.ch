@@ -15,8 +15,10 @@
              src="/static/img/challengecrystal/{{ total_points['level'] }}.ls_c2.png"
              alt="{{ total_points['level'].lower()}}"/>
       </li>
+    {% endif %}
+    {% if progress %}
       <li class="p-2">
-        <span class="badge rounded-pill text-bg-light">{{ total_points['current'] }} pts.</span>
+        <span class="badge rounded-pill text-bg-light">{{progress|int}}/{{total|int}}</span>
       </li>
     {% endif %}
     {% if error %}<li class="nav-item text-danger fw-bold">{{ error }}</li>{% endif %}
@@ -147,8 +149,8 @@
                 type="button"
                 class="btn btn-outline-light tooltip_"
                 title="Share selections"
-                style="font-style:normal;">
-                <span class="tooltip_text tooltip_below">Copy a link to your current selection to the clipboard</span>
+                style="font-style:normal">
+          <span class="tooltip_text tooltip_below">Copy a link to your current selection to the clipboard</span>
           <i class="fa-solid fa-arrow-up-from-bracket"></i>
         </button>
       </div>
@@ -195,7 +197,7 @@
                  alt="{{ champion }}"
                  data-champion_name="{{ champion }}"
                  data-champion_display_name="{{ champions[champion]["name"] }}"
-                 data-champion_id="{{ champions[champion]["key"]}}"/>
+                 data-champion_id="{{ champions[champion]["key"] }}"/>
             <img id="champion_role_{{ champion }}" src="" class="champion_role"/>
           </div>
         {% endfor %}
