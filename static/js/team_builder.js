@@ -453,10 +453,17 @@ function set_champion_size() {
     let maxImageSize = 200
     let minImageSize = 65
 
+    let champions = document.querySelectorAll(".champion")
+
+    // reset the width to reset the pool size
+    for (let champion of champions) {
+        champion.style.width = "0px"
+        champion.style.height = "0px"
+    }
+
     let pool = document.querySelector("#champions_pool")
     let w = pool.offsetWidth
     let h = pool.offsetHeight
-    let champions = document.querySelectorAll(".champion")
 
     let n = champions.length
 
@@ -473,11 +480,14 @@ function set_champion_size() {
         optimal_s = s
     }
 
+    optimal_s += 1
+
     for (let champion of champions) {
-        champion.style.width = optimal_s + "px";
-        champion.style.height = optimal_s + "px";
+        champion.style.width = optimal_s + "px"
+        champion.style.height = optimal_s + "px"
     }
 }
+
 
 window.addEventListener("resize", set_champion_size)
 set_champion_size()
