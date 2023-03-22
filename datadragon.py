@@ -7,6 +7,7 @@ endpoint = "https://ddragon.leagueoflegends.com"
 folder = "static/datadragon_cache"
 
 def dl(url, subfolder=""):
+    print(url)
     url = endpoint + url
     u_r_l = urlparse(url)
     filename = u_r_l.path.split("/")[-1]
