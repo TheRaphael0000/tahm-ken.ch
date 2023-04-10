@@ -14,6 +14,8 @@ let region = document.querySelector("#region")
 let summoner = document.querySelector("#summoner")
 let search = document.querySelector("#search")
 let search_champion = document.querySelector("#search_champion")
+let completed = document.querySelector("#completed")
+let completed_img = document.querySelector("#completed_img")
 
 let completed_challenges = true
 
@@ -24,6 +26,17 @@ let role_mapping = {
     "bottom": "bottom",
     "support": "utility",
 }
+
+let completed_possible_icons = [
+    "fiora_happy_cheers_inventory.png",
+    "leesin_happy_cheers_inventory.png",
+    "lulu_happy_cheerful_inventory.png",
+    "lux_happy_cheerful_inventory.png",
+    "poro_happy_cheers_inventory.png",
+    "teemo_happy_cheers_inventory.png",
+    "thumb_happy_up_inventory.png",
+    "ziggs_happy_cheers_inventory.png",
+]
 
 // selection order for the URL selection bitfield
 // APPEND NEW CHALLEGNES ID AT THE END OF THIS LIST TO KEEP URL CONSISTENCY 
@@ -269,14 +282,26 @@ function toggle_completed_challenges() {
 }
 
 function update_challenges_visibility(completed_challenges) {
+    let visible_challenges = 0
     for (challenge_tr_ of challenge_tr) {
         let children = challenge_tr_.children
         let next_threshold = children[children.length - 1].dataset.next_threshold
         challenge_tr_.classList.remove("hide")
+        visible_challenges++
 
-        if (!completed_challenges && next_threshold == "None")
+        if (!completed_challenges && next_threshold == "None") {
             challenge_tr_.classList.add("hide")
+            visible_challenges--
+        }
     }
+
+    let icon = completed_possible_icons[Math.floor(Math.random() * completed_possible_icons.length)]
+    let url = `/static/img/happy_cheerful/${icon}`
+    completed_img.src = url
+
+    completed.classList.add("hide")
+    if (visible_challenges <= 2)
+        completed.classList.remove("hide")
 }
 
 function reset() {

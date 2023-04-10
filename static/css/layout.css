@@ -9,7 +9,7 @@ h4 {
 }
 
 .bg_img {
-    background-image: url("/static/img/TahmKench_0.jpg");
+    background-image: url("/static/img/tahm_kench/TahmKench_0.jpg");
     position: fixed;
     background-position: center;
     background-size: cover;
