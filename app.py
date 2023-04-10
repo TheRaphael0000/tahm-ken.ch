@@ -42,7 +42,7 @@ app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 60 * 60
 app.secret_key = config["app_secret_key"]
 
 # create the request limiter
-limiter = Limiter(app, key_func=get_remote_address)
+limiter = Limiter(get_remote_address, app=app)
 
 language = "en_US"
 multisearch_max_size = 8
