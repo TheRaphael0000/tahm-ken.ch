@@ -18,30 +18,25 @@
     {% endif %}
     {% if progress %}
       <li class="p-2">
-        <span class="badge rounded-pill text-bg-light">{{progress|int}}/{{total|int}}</span>
+        <span class="badge rounded-pill text-bg-light">{{ progress|int }}/{{ total|int }}</span>
       </li>
     {% endif %}
     {% if error %}<li class="nav-item text-danger fw-bold">{{ error }}</li>{% endif %}
-  </ul>
-  <ul class="navbar-nav toolbox">
-    <li class="nav-item  mx-2">
+    <div class="input-group flex-nowrap">
+      <select id="region" class="form-select custom_control" style="width:100px;">
+        {{ region_select(regions, region) }}
+      </select>
       <input id="summoner"
              type="text"
              class="form-control custom_control"
              placeholder="Summoner name..."
              aria-label="Search"
+             style="width:250px"
              value="{{ summoner['name'] }}"/>
-    </li>
-    <li class="nav-item mx-2">
-      <select id="region" class="form-select custom_control">
-        {{ region_select(regions, region) }}
-      </select>
-    </li>
-    <li class="nav-item ms-2">
       <button id="search" type="button" class="btn btn-outline-light">
         <i class="fa-solid fa-fw fa-magnifying-glass"></i>
       </button>
-    </li>
+    </div>
   </ul>
 {% endblock navbar %}
 {% macro challenge_row(challenge_data, challenge_config, summoner_challenge, parent) %}
@@ -187,6 +182,12 @@
             </tbody>
           {% endfor %}
         </table>
+        <div id="completed" class="hide">
+          <img id="completed_img" src="" width="400px"/>
+          <p>
+            <cite>You've finished all the Harmony and Globtrotter challenges GG !</cite>
+          </p>
+        </div>
       </div>
       <div id="champions_pool">
         {% for champion in champions_alphabetical %}
