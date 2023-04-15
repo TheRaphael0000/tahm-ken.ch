@@ -9,3 +9,4 @@ click
 flask-limiter
 ipinfo
 scipy
+engineering_notation
