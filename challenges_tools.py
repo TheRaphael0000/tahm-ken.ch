@@ -1,11 +1,13 @@
 from collections import defaultdict
 import itertools
 import json
+from pprint import pprint
 
 import scipy as sp
 import scipy.special
 from riotwatcher import LolWatcher
 from riotwatcher import ApiError
+from engineering_notation import EngNumber
 
 from config import config
 from regions import default_region
@@ -71,6 +73,9 @@ champions_by_challenge = {
 # load champions data
 champions_alphabetical = sorted(champions, key=lambda c: champions[c]["name"])
 
+champions_by_key = {champion["key"]
+    : champion for id_, champion in champions.items()}
+
 try:
     lol_watcher = None
     challenges_config = None
@@ -133,7 +138,7 @@ def get_summoner_challenges_info(region, summoner):
         for _, threshold in thresholds:
             if threshold > challenge_for_this_summoner["value"]:
                 return str(int(threshold))
-            
+
     progress = 0
     total = 0
     summoner_challenges = {}
@@ -151,7 +156,8 @@ def get_summoner_challenges_info(region, summoner):
             }
 
         thresholds = challenges_config[challenge_id]["thresholds"]
-        challenge_for_this_summoner["next_threshold"] = find_next_threshold(thresholds, challenge_for_this_summoner)
+        challenge_for_this_summoner["next_threshold"] = find_next_threshold(
+            thresholds, challenge_for_this_summoner)
         summoner_challenges[challenge_id] = challenge_for_this_summoner
 
         threshold_MASTER = thresholds["MASTER"]
@@ -165,6 +171,9 @@ def get_summoner_challenges_info(region, summoner):
     if total_points["level"] == "none":
         total_points["level"] = "iron"
 
+    champion_masteries = get_champion_mastery_by_challenge(
+        region, summoner['id'])
+
     output = {
         "summoner": summoner,
         "summoner_challenges": summoner_challenges,
@@ -172,9 +181,35 @@ def get_summoner_challenges_info(region, summoner):
         "progress": progress,
         "total": total,
         "progress_ratio": progress / total,
+        "champion_masteries": champion_masteries,
     }
 
     return output
+
+
+def get_champion_mastery_by_challenge(region, summoner_puuid):
+    champions_masteries = lol_watcher.champion_mastery.by_summoner(
+        region, summoner_puuid)
+    for cm in champions_masteries:
+        cm["championPointsE"] = str(
+            EngNumber(cm["championPoints"], precision=0))
+        cm["championId"] = champions_by_key[str(cm["championId"])]["id"]
+    champions_masteries_by_id = {
+        c["championId"]: c for c in champions_masteries}
+    summoner_played_champions = set(champions_masteries_by_id.keys())
+
+    champion_mastery_by_challenge = {}
+    for challenge_id, subchallenges in challenges_data.items():
+        challenge_champions = set.union(
+            *[subchallenge["champions"] for subchallenge in subchallenges])
+        challenge_champions_key_played = summoner_played_champions.intersection(
+            challenge_champions)
+        challenge_champions_masteries = [
+            champions_masteries_by_id[c] for c in challenge_champions_key_played]
+        challenge_champions_masteries.sort(key=lambda l: -l["championPoints"])
+        champion_mastery_by_challenge[challenge_id] = challenge_champions_masteries
+
+    return champion_mastery_by_challenge
 
 
 def compute_challenges_priority_scores(challenges_info):
