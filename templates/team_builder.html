@@ -75,7 +75,7 @@
     {% endif %}
   </td>
   <td>
-    <span class="tooltip_">?<span class="tooltip_text">{{ challenge_config["localizedNames"][layout["language"]]["description"] }}</span></span>
+    <span class="tooltip_ hoverable">?<span class="tooltip_text tooltip_right">{{ challenge_config["localizedNames"][layout["language"]]["description"] }}</span></span>
   </td>
   <svg class="champion_placeholder"
        style="display:none"
@@ -160,7 +160,7 @@
             <th>Label</th>
             <th data-sort-method='none'></th>
             <th data-sort-method='none'>
-              Selection <span class="tooltip_">?<span class="tooltip_text">You can click on the champion on the right to prepare your composition.</span></span>
+              Selection <span class="tooltip_">?<span class="tooltip_text tooltip_right">You can click on the champion on the right to prepare your composition.</span></span>
             </th>
             {% if summoner_challenges %}<th colspan="2" data-sort-default>Progress</th>{% endif %}
           </thead>
@@ -191,7 +191,7 @@
       </div>
       <div id="champions_pool">
         {% for champion in champions_alphabetical %}
-          <div class="champion">
+          <div class="champion tooltip_">
             <img id="champion_{{ champion }}"
                  class="champion_img"
                  src="/static/datadragon_cache/champions_img/{{ champion }}.png"
@@ -200,6 +200,9 @@
                  data-champion_display_name="{{ champions[champion]["name"] }}"
                  data-champion_id="{{ champions[champion]["key"] }}"/>
             <img id="champion_role_{{ champion }}" src="" class="champion_role"/>
+            <div class="tooltip_text tooltip_below">
+              <div>{{ champions[champion]["name"] }}</div>
+            </div>
           </div>
         {% endfor %}
       </div>

@@ -27,8 +27,8 @@
                              alt="{{ summoner_challenges_info['total_points']['level'].lower()}}">
                     </td>
                     {% for id_, is_max_scores, challenge_progress in priority_scores %}
-                        <td class="position-relative ">
-                            <div class="tooltip_simple">
+                        <td class="position-relative">
+                            <div class="tooltip_">
                                 <span class="position-absolute" style="right:0px; bottom:0px;">{{ summoner_challenges_info['summoner_challenges'][id_]['value'] }}</span>
                                 <img src="https://raw.communitydragon.org/latest/game/assets/challenges/config/{{ id_ }}/tokens/{{ summoner_challenges_info['summoner_challenges'][id_]['level'] }}.png"
                                      width="41px">

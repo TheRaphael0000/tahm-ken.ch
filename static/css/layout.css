@@ -41,47 +41,46 @@ h4 {
 }
 
 
-/* tooltip mainly from https://www.w3schools.com/css/tryit.asp?filename=trycss_tooltip */
-.tooltip_,
-.tooltip_simple {
+.hoverable {
+    font-style: italic;
+    border-bottom: 1px dotted white;
+}
+
+.hoverable .tooltip_text {
+    font-weight: normal;
+}
+
+.tooltip_ {
     position: relative;
     display: inline-block;
 }
 
-.tooltip_ {
-    font-style: italic;
-    border-bottom: 1px dotted white;
-    position: relative;
-}
-
-.tooltip_text {
+.tooltip_ .tooltip_text {
     pointer-events: none;
     visibility: hidden;
-    font-weight: normal;
+    width: max-content;
+    max-width: 400px;
     background-color: rgba(20, 20, 20, 0.85);
-    width: 250px;
     color: #fff;
-    text-align: center;
-    border-radius: 6px;
     padding: 5px;
     position: absolute;
-    left: 50px;
-    top: calc(-50%);
     z-index: 1;
 }
 
 .tooltip_below {
-    left: calc(-125px + 50%);
-    top: calc(100% + 5px);
+    top: 100%;
 }
+
+.tooltip_right {
+    top: -50%;
+    left: calc(100% + 10px);
+}
+
 
 .tooltip_:hover .tooltip_text {
     visibility: visible;
 }
 
-.tooltip_simple:hover .tooltip_text {
-    visibility: visible;
-}
 
 .custom_control {
     background-color: transparent !important;

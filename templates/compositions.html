@@ -33,8 +33,7 @@
             <h2>{{ number }} challenges</h2>
             <div class="compositions">
                 {% for champions_, challenges_ids, stupidty_level in comps %}
-                    <div class="composition"
-                         style="display: block"
+                    <div class="composition tooltip_"
                          data-stupidity_level="{{ stupidty_level }}">
                         {% for champion in champions_ %}
                             <img src="/static/datadragon_cache/champions_img/{{ champion }}.png"
@@ -42,7 +41,7 @@
                                  data-champion="{{ champion }}"
                                  width="65px">
                         {% endfor %}
-                        <div class="challenges">
+                        <div class="challenges tooltip_text tooltip_below">
                             <ul>
                                 {% for challenge_id in challenges_ids %}
                                     {% set challenge_config = challenges_config[challenge_id] %}

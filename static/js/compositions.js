@@ -1,4 +1,3 @@
-let tooltips_challenges = document.querySelectorAll('.challenges')
 let include_select = document.querySelector("#include_select")
 let exclude_select = document.querySelector("#exclude_select")
 let stupidity_level_select = document.querySelector("#stupidity_level_select")
@@ -133,14 +132,3 @@ function updateFilters() {
 }
 
 updateFilters()
-
-
-// makes the challenges tooltips follow the cursor
-window.onmousemove = function (e) {
-    let x = (e.clientX + 5) + 'px'
-    let y = (e.clientY + 5) + 'px'
-    for (let tooltip_challenges of tooltips_challenges) {
-        tooltip_challenges.style.top = y
-        tooltip_challenges.style.left = x
-    }
-};
