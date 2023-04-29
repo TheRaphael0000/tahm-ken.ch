@@ -27,10 +27,18 @@
                              alt="{{ summoner_challenges_info['total_points']['level'].lower()}}">
                     </td>
                     {% for id_, is_max_scores, challenge_progress in priority_scores %}
-                        <td class="position-relative">
-                            <span class="position-absolute" style="right:0px; bottom:0px;">{{ summoner_challenges_info['summoner_challenges'][id_]['value'] }}</span>
-                            <img src="https://raw.communitydragon.org/latest/game/assets/challenges/config/{{ id_ }}/tokens/{{ summoner_challenges_info['summoner_challenges'][id_]['level'] }}.png"
-                                 width="41px">
+                        <td class="position-relative ">
+                            <div class="tooltip_simple">
+                                <span class="position-absolute" style="right:0px; bottom:0px;">{{ summoner_challenges_info['summoner_challenges'][id_]['value'] }}</span>
+                                <img src="https://raw.communitydragon.org/latest/game/assets/challenges/config/{{ id_ }}/tokens/{{ summoner_challenges_info['summoner_challenges'][id_]['level'] }}.png"
+                                     width="41px">
+                                <div class="tooltip_text tooltip_below">
+                                    <div>{{ challenges_config[id_]["localizedNames"][layout["language"]]["name"] }}</div>
+                                    {% for sub in challenges_data[id_] %}
+                                        <div>{{ sub["label"] }}</div>
+                                    {% endfor %}
+                                </div>
+                            </div>
                         </td>
                     {% endfor %}
                     <td class="ps-1" class="text-end">{{'%0.1f'| format(summoner_challenges_info["progress_ratio"] * 100)}}&nbsp;%</td>
@@ -84,7 +92,6 @@
             masteries_toggle.addEventListener("click", (e) => {
                 for(let mastery_tr of masteries_tr)
                 {
-                    console.log(mastery_tr)
                     if(masteries_toggle.checked)
                         mastery_tr.classList.remove("hide")
                     else

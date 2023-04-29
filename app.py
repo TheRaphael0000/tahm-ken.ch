@@ -261,7 +261,7 @@ def route_multisearch_result(region, summoners_names_text):
         for summoner in summoner_names:
             info = get_summoner_challenges_info(region['id'], summoner)
             summoners_challenges_info[info["summoner"]["id"]] = info
-        
+
         priority_scores = compute_challenges_priority_scores(
             summoners_challenges_info)
 
@@ -269,6 +269,7 @@ def route_multisearch_result(region, summoners_names_text):
             "summoners_challenges_info": summoners_challenges_info,
             "priority_scores": priority_scores,
             "challenges_config": challenges_config,
+            "challenges_data": challenges_data,
         }
     except Exception as e:
         return render_multisearch_search({"error": e, "summoners_names": "\n".join(summoner_names)})
