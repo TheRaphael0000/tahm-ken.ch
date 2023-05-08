@@ -10,9 +10,9 @@ from riotwatcher import ApiError
 from engineering_notation import EngNumber
 
 from config import config
-from regions import default_region
+from models.regions import default_region
 
-from champions_roles import champions
+from models.champions_roles import champions
 
 challenges_groups = [
     {

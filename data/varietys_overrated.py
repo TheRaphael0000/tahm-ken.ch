@@ -2,7 +2,7 @@ import json
 from collections import defaultdict
 
 champions = json.load(
-    open("static/datadragon_cache/champion.json", "rb"))["data"]
+    open("../static/datadragon_cache/champion.json", "rb"))["data"]
 
 champions_by_tag = defaultdict(list)
 

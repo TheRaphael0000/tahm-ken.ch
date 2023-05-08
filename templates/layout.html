@@ -48,10 +48,8 @@
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-9TT2F05HDD"></script>
     <script src="/static/js/analytics.js"></script>
-
     <!-- Base64 -->
     <script src="/static/js/custom_urlencode.js"></script>
-
 </head>
 <body class="bg-dark text-white">
     <header class="px-4">
@@ -75,8 +73,7 @@
                        aria-expanded="false">
                         Best challenges compositions
                     </a>
-                    <ul class="dropdown-menu"
-                        aria-labelledby="navbarDropdown">
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         {% for url, name in layout.compositions.items() %}
                             <li>
                                 <a class="dropdown-item" href="/compositions/{{ url }}">{{ name }}</a>
@@ -109,7 +106,7 @@
     </main>
     <footer class="text-center my-2">
         <div>
-            <cite>{{ layout.quote.random }}</cite> - The River King
+            <cite>{{ layout.quote() }}</cite> - The River King
         </div>
         <div class="socials m-2">
             <a class="discord" href="https://discord.gg/aHs3uDraNU" target="_blank"><i class="fa-brands fa-discord" style="color: #7289da;"></i></a>

@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 endpoint = "https://ddragon.leagueoflegends.com"
-folder = "static/datadragon_cache"
+folder = "../static/datadragon_cache"
 
 def dl(url, subfolder=""):
     print(url)
@@ -23,28 +23,28 @@ def dl(url, subfolder=""):
 print("data dragon cache helper")
 
 dl("/api/versions.json")
-lversion = json.load(open(f"{folder}/versions.json"))[0]
+latest_version = json.load(open(f"{folder}/versions.json"))[0]
 
-print(f"latest version : {lversion}")
+print(f"latest version : {latest_version}")
 
-cversion = None
+current_version = None
 try:
-    cversion = open(f"{folder}/version", "r").read()
+    current_version = open(f"{folder}/version", "r").read()
 except:
     pass
 
 
-if lversion == cversion:
+if latest_version == current_version:
     print(f"data dragon cache already up to date")
     exit()
 
-print(f"downloading files for version {lversion}")
+print(f"downloading files for version {latest_version}")
 
 
-dl(f"/cdn/{lversion}/data/en_US/champion.json")
+dl(f"/cdn/{latest_version}/data/en_US/champion.json")
 champions = json.load(open(f"{folder}/champion.json", "rb"))
 for id, champion in champions["data"].items():
-    image_url = f"/cdn/{lversion}/img/champion/{champion['image']['full']}"
+    image_url = f"/cdn/{latest_version}/img/champion/{champion['image']['full']}"
     dl(image_url, subfolder="/champions_img")
 
-open(f"{folder}/version", "w").write(lversion)
+open(f"{folder}/version", "w").write(latest_version)
