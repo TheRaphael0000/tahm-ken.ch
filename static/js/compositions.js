@@ -99,7 +99,7 @@ function updateFilters() {
             maximal_stupidity_level = stupidity_level
 
         for (let img of imgs) {
-            if (composition.style.display == "block" && !include_filters.has(img.dataset.champion))
+            if (["block", ""].includes(composition.style.display) && !include_filters.has(img.dataset.champion))
                 champions_remaining.set(img.dataset.champion, img.alt)
         }
     }
