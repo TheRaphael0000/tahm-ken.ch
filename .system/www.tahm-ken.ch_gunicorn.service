@@ -6,7 +6,7 @@ After=network.target
 User=www-data
 Group=www-data
 WorkingDirectory=/var/www/tahm-ken.ch/www.tahm-ken.ch/
-ExecStart=/usr/bin/python /usr/local/bin/gunicorn --bind unix:/tmp/www.tahm-ken.ch_gunicorn.sock -m 007 app:app
+ExecStart=/usr/bin/python /usr/local/bin/gunicorn --bind unix:/tmp/www.tahm-ken.ch_gunicorn.sock -m 007 app:app --workers=8
 
 [Install]
 WantedBy=multi-user.target
