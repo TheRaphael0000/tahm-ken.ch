@@ -81,11 +81,12 @@ try:
     challenges_config = None
     lol_watcher = LolWatcher(config["riot_api_key"])
     # the region doesn't matter
-    challenges_config = lol_watcher.challenges.config(default_region)
-    challenges_config = {c["id"]: c for c in challenges_config}
+    challenges_config_ = lol_watcher.challenges.config(default_region)
+    challenges_config_ = {c["id"]: c for c in challenges_config_}
     for c in challenges_data:
-        challenges_config[c['id']]["qte"] = c["qte"]
-        challenges_config[c['id']]["max"] = c["max"]
+        challenges_config_[c['id']]["qte"] = c["qte"]
+        challenges_config_[c['id']]["max"] = c["max"]
+    challenges_config = challenges_config_
 except ValueError:
     print("No Riot API key provided")
 except ApiError:

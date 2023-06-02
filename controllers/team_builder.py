@@ -60,7 +60,11 @@ def args_team_builder(region, summoner):
 @bp_team_builder.route("/team_builder")
 def route_team_builder():
     args = args_team_builder(get_default_region(), "")
-    return render_template("team_builder.html", **args)
+    try:
+        result = render_template("team_builder.html", **args)
+    except:
+        return abort(404)
+    return result
 
 
 @bp_team_builder.route("/team_builder/<region>/<summoner>")

@@ -13,3 +13,11 @@ def route_page_not_found(e):
         "layout": layout,
     }
     return render_template('404.html', **args), 404
+
+
+@bp_special_pages.app_errorhandler(500)
+def route_page_not_found(e):
+    args = {
+        "layout": layout,
+    }
+    return render_template('404.html', **args), 500

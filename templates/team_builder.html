@@ -2,211 +2,177 @@
 {% from "tools.html" import region_select with context %}
 {% set active_page = "team_builder" %}
 {% block title %}
-  Team Builder
+Team Builder
 {% endblock title %}
 {% block head %}
-  <link rel="stylesheet" href="/static/css/team_builder.css"/>
+<link rel="stylesheet" href="/static/css/team_builder.css" />
 {% endblock head %}
 {% block navbar %}
-  <ul class="navbar-nav ms-auto">
-    {% if total_points %}
-      <li class="nav-item">
-        <img height="40px"
-             src="/static/img/challengecrystal/{{ total_points['level'] }}.ls_c2.png"
-             alt="{{ total_points['level'].lower()}}"/>
-      </li>
-    {% endif %}
-    {% if progress %}
-      <li class="p-2">
-        <span class="badge rounded-pill text-bg-light">{{ progress|int }}/{{ total|int }}</span>
-      </li>
-    {% endif %}
-    {% if error %}<li class="nav-item text-danger fw-bold">{{ error }}</li>{% endif %}
-    <div class="input-group flex-nowrap">
-      <select id="region" class="form-select custom_control" style="width:100px;">
-        {{ region_select(regions, region) }}
-      </select>
-      <input id="summoner"
-             type="text"
-             class="form-control custom_control"
-             placeholder="Summoner name..."
-             aria-label="Search"
-             style="width:250px"
-             value="{{ summoner['name'] }}"/>
-      <button id="search" type="button" class="btn btn-outline-light">
-        <i class="fa-solid fa-fw fa-magnifying-glass"></i>
-      </button>
-    </div>
-  </ul>
+<ul class="navbar-nav ms-auto">
+  {% if total_points %}
+  <li class="nav-item">
+    <img height="40px" src="/static/img/challengecrystal/{{ total_points['level'] }}.ls_c2.png"
+      alt="{{ total_points['level'].lower()}}" />
+  </li>
+  {% endif %}
+  {% if progress %}
+  <li class="p-2">
+    <span class="badge rounded-pill text-bg-light">{{ progress|int }}/{{ total|int }}</span>
+  </li>
+  {% endif %}
+  {% if error %}<li class="nav-item text-danger fw-bold">{{ error }}</li>{% endif %}
+  <div class="input-group flex-nowrap">
+    <select id="region" class="form-select custom_control" style="width:100px;">
+      {{ region_select(regions, region) }}
+    </select>
+    <input id="summoner" type="text" class="form-control custom_control" placeholder="Summoner name..."
+      aria-label="Search" style="width:250px" value="{{ summoner['name'] }}" />
+    <button id="search" type="button" class="btn btn-outline-light">
+      <i class="fa-solid fa-fw fa-magnifying-glass"></i>
+    </button>
+  </div>
+</ul>
 {% endblock navbar %}
 {% macro challenge_row(challenge_data, challenge_config, summoner_challenge, parent) %}
-  {% set id = challenge_config['id'] %}
-  <tr id="challenge_tr_{{ id }}"
-      class="challenge_tr checked"
-      data-requirements="{{ challenge_config['qte'] }}">
-    <td>
-      {% if not parent %}
-        <input id="challenge_cb_{{ id }}"
-               class="challenge_cb"
-               type="checkbox"
-               data-id="{{ id }}"/>
-      {% endif %}
-    </td>
-    <td id="challenge_no_{{ id }}"
-        class="challenge_no text-end"
-        data-max="{{ challenge_config['max'] }}"></td>
-    <td>
-      <label for="challenge_cb_{{ id }}">{{ challenge_config["localizedNames"][layout["language"]]["name"] }}</label>
-    </td>
-    <td>
-      {% if challenge_data|length > 1 %}
-        <select id="challenge_select_{{ id }}"
-                class="custom_control challenges_select w-100"
-                style="margin:-4px"/>
-        {% for c in challenge_data %}
-          <option>
-            {{ c["label"] }}
-          </option>
-        {% endfor %}
-      </select>
+{% set id = challenge_config['id'] %}
+<tr id="challenge_tr_{{ id }}" class="challenge_tr checked" data-requirements="{{ challenge_config['qte'] }}">
+  <td>
+    {% if not parent %}
+    <input id="challenge_cb_{{ id }}" class="challenge_cb" type="checkbox" data-id="{{ id }}" />
+    {% endif %}
+  </td>
+  <td id="challenge_no_{{ id }}" class="challenge_no text-end" data-max="{{ challenge_config['max'] }}"></td>
+  <td>
+    <label for="challenge_cb_{{ id }}">{{ challenge_config["localizedNames"][layout["language"]]["name"] }}</label>
+  </td>
+  <td>
+    {% if challenge_data|length > 1 %}
+    <select id="challenge_select_{{ id }}" class="custom_control challenges_select w-100" style="margin:-4px" />
+    {% for c in challenge_data %}
+    <option>
+      {{ c["label"] }}
+    </option>
+    {% endfor %}
+    </select>
     {% endif %}
     {% if challenge_data|length == 1 %}
-      <label for="challenge_cb_{{ id }}">{{ challenge_data[0]["label"] }}</label>
+    <label for="challenge_cb_{{ id }}">{{ challenge_data[0]["label"] }}</label>
     {% endif %}
   </td>
   <td>
-    <span class="tooltip_ hoverable">?<span class="tooltip_text tooltip_right">{{ challenge_config["localizedNames"][layout["language"]]["description"] }}</span></span>
+    <span class="tooltip_ hoverable">?<span class="tooltip_text tooltip_right">{{
+        challenge_config["localizedNames"][layout["language"]]["description"] }}</span></span>
   </td>
-  <svg class="champion_placeholder"
-       style="display:none"
-       height="21px"
-       width="21px">
+  <svg class="champion_placeholder" style="display:none" height="21px" width="21px">
     <circle cx="10" cy="10" r="6" fill="rgba(255,255,255,0.3)" />
   </svg>
-  <td id="champion_selected_{{ id }}"
-      class="less_pad"
-      style="height:21px;
+  <td id="champion_selected_{{ id }}" class="less_pad" style="height:21px;
              overflow-y:hidden"></td>
   {% if summoner_challenge %}
-    <td data-sort-default data-sort="{{ summoner_challenge['value'] }}">
-      <img src="https://raw.communitydragon.org/latest/game/assets/challenges/config/{{ id }}/tokens/{{ summoner_challenge['level'] }}.png"
-           height="21px"/>
-    </td>
-    <td data-sort="{{ summoner_challenge['value'] }}"
-        data-next_threshold="{{ summoner_challenge['next_threshold'] }}"
-        class="text-center less_pad">
-      <span>
-        {{ summoner_challenge['value'] }}
-        {% if summoner_challenge['next_threshold'] %}/ {{ summoner_challenge['next_threshold'] }}{% endif %}
-      </span>
-    </td>
+  <td data-sort-default data-sort="{{ summoner_challenge['value'] }}">
+    <img
+      src="https://raw.communitydragon.org/latest/game/assets/challenges/config/{{ id }}/tokens/{{ summoner_challenge['level'] }}.png"
+      height="21px" />
+  </td>
+  <td data-sort="{{ summoner_challenge['value'] }}" data-next_threshold="{{ summoner_challenge['next_threshold'] }}"
+    class="text-center less_pad">
+    <span>
+      {{ summoner_challenge['value'] }}
+      {% if summoner_challenge['next_threshold'] %}/ {{ summoner_challenge['next_threshold'] }}{% endif %}
+    </span>
+  </td>
   {% endif %}
 </tr>
 {% endmacro %}
 {% block main %}
-  <div class="container-fluid">
-    <div class="row justify-content-md-center mb-2">
-      <div class="col-md-auto">
-        <button id="btn_toggle_completed_challenges"
-                type="button"
-                title="Show/Hide completed challenges"
-                class="btn btn-outline-light {% if not summoner_challenges %} disabled{% endif %}">
-          <i class="fa-solid fa-fw fa-eye"></i>
-        </button>
-      </div>
-      <div class="col-md-auto">
-        <input id="search_champion"
-               class="form-control custom_control"
-               placeholder="Search champion..."
-               title="Search for champions, enter allows you to selected when only one champion matches the search"
-               type="search"
-               value=""/>
-      </div>
-      <div class="col-md-auto">
-        <button id="btn_optimize_selection"
-                type="button"
-                title="Find compositions that satify the current selection (selected champions and challenges)."
-                style="width:207px"
-                class="btn btn-outline-light">
-          <i class="fa-solid fa-wand-magic-sparkles"></i> Optimize selection
-        </button>
-      </div>
-      <div class="col-md-auto">
-        <button id="btn_reset"
-                type="button"
-                class="btn btn-outline-light"
-                title="Clear selections">
-          <i class="fa-solid fa-fw fa-trash"></i>
-        </button>
-      </div>
-      <div class="col-md-auto">
-        <button id="btn_share"
-                type="button"
-                class="btn btn-outline-light tooltip_"
-                title="Share selections"
-                style="font-style:normal">
-          <span class="tooltip_text tooltip_below">Copy a link to your current selection to the clipboard</span>
-          <i class="fa-solid fa-arrow-up-from-bracket"></i>
-        </button>
-      </div>
+<div class="container-fluid">
+  <div class="row justify-content-md-center mb-2">
+    <div class="col-md-auto">
+      <button id="btn_toggle_completed_challenges" type="button" title="Show/Hide completed challenges"
+        class="btn btn-outline-light {% if not summoner_challenges %} disabled{% endif %}">
+        <i class="fa-solid fa-fw fa-eye"></i>
+      </button>
     </div>
-    <div id="tool_div" class="d-flex flex-nowrap">
-      <div class="d-flex flex-column flex-shrink-0">
-        <table class="table_challenges my-2">
-          <thead>
-            <th data-sort-method='none'></th>
-            <th width="37px" id="column_qte">#</th>
-            <th>Challenge</th>
-            <th>Label</th>
-            <th data-sort-method='none'></th>
-            <th data-sort-method='none'>
-              Selection <span class="tooltip_">?<span class="tooltip_text tooltip_right">You can click on the champion on the right to prepare your composition.</span></span>
-            </th>
-            {% if summoner_challenges %}<th colspan="2" data-sort-default>Progress</th>{% endif %}
-          </thead>
-          {% for challenges_group in challenges_groups %}
-            {% set parent_id = challenges_group['parent'] %}
-            {% set children = challenges_group['children'] %}
-            {% set challenge_config = challenges_config[parent_id] %}
-            {% set summoner_challenge = summoner_challenges[parent_id] %}
-            <thead>
-              {{ challenge_row({}, challenge_config, summoner_challenge, true) }}
-            </thead>
-            <tbody>
-              {% for child_id in children %}
-                {% set challenge_data = challenges_data[child_id] %}
-                {% set challenge_config = challenges_config[child_id] %}
-                {% set summoner_challenge = summoner_challenges[child_id] %}
-                {{ challenge_row(challenge_data, challenge_config, summoner_challenge, false) }}
-              {% endfor %}
-            </tbody>
-          {% endfor %}
-        </table>
-        <div id="completed" class="hide">
-          <img id="completed_img" src="" width="400px"/>
-          <p>
-            <cite>You've finished all the Harmony and Globtrotter challenges GG !</cite>
-          </p>
-        </div>
-      </div>
-      <div id="champions_pool">
-        {% for champion in champions_alphabetical %}
-          <div class="champion tooltip_">
-            <img id="champion_{{ champion }}"
-                 class="champion_img"
-                 src="/static/datadragon_cache/champions_img/{{ champion }}.png"
-                 alt="{{ champion }}"
-                 data-champion_name="{{ champion }}"
-                 data-champion_display_name="{{ champions[champion]["name"] }}"
-                 data-champion_id="{{ champions[champion]["key"] }}"/>
-            <img id="champion_role_{{ champion }}" src="" class="champion_role"/>
-            <div class="tooltip_text tooltip_below">
-              <div>{{ champions[champion]["name"] }}</div>
-            </div>
-          </div>
-        {% endfor %}
-      </div>
+    <div class="col-md-auto">
+      <input id="search_champion" class="form-control custom_control" placeholder="Search champion..."
+        title="Search for champions, enter allows you to selected when only one champion matches the search"
+        type="search" value="" />
+    </div>
+    <div class="col-md-auto">
+      <button id="btn_optimize_selection" type="button"
+        title="Find compositions that satify the current selection (selected champions and challenges)."
+        style="width:207px" class="btn btn-outline-light">
+        <i class="fa-solid fa-wand-magic-sparkles"></i> Optimize selection
+      </button>
+    </div>
+    <div class="col-md-auto">
+      <button id="btn_reset" type="button" class="btn btn-outline-light" title="Clear selections">
+        <i class="fa-solid fa-fw fa-trash"></i>
+      </button>
+    </div>
+    <div class="col-md-auto">
+      <button id="btn_share" type="button" class="btn btn-outline-light tooltip_" title="Share selections"
+        style="font-style:normal">
+        <span class="tooltip_text tooltip_below">Copy a link to your current selection to the clipboard</span>
+        <i class="fa-solid fa-arrow-up-from-bracket"></i>
+      </button>
     </div>
   </div>
-  <script src="/static/js/team_builder.js"></script>
+  <div id="tool_div" class="d-flex flex-nowrap">
+    <div class="d-flex flex-column flex-shrink-0">
+      <table class="table_challenges my-2">
+        <thead>
+          <th data-sort-method='none'></th>
+          <th width="37px" id="column_qte">#</th>
+          <th>Challenge</th>
+          <th>Label</th>
+          <th data-sort-method='none'></th>
+          <th data-sort-method='none'>
+            Selection <span class="tooltip_">?<span class="tooltip_text tooltip_right">You can click on the champion on
+                the right to prepare your composition.</span></span>
+          </th>
+          {% if summoner_challenges %}<th colspan="2" data-sort-default>Progress</th>{% endif %}
+        </thead>
+        {% for challenges_group in challenges_groups %}
+        {% set parent_id = challenges_group['parent'] %}
+        {% set children = challenges_group['children'] %}
+        {% set challenge_config = challenges_config[parent_id] %}
+        {% set summoner_challenge = summoner_challenges[parent_id] %}
+        <thead>
+          {{ challenge_row({}, challenge_config, summoner_challenge, true) }}
+        </thead>
+        <tbody>
+          {% for child_id in children %}
+          {% set challenge_data = challenges_data[child_id] %}
+          {% set challenge_config = challenges_config[child_id] %}
+          {% set summoner_challenge = summoner_challenges[child_id] %}
+          {{ challenge_row(challenge_data, challenge_config, summoner_challenge, false) }}
+          {% endfor %}
+        </tbody>
+        {% endfor %}
+      </table>
+      <div id="completed" class="hide">
+        <img id="completed_img" src="" width="400px" />
+        <p>
+          <cite>You've finished all the Harmony and Globtrotter challenges GG !</cite>
+        </p>
+      </div>
+    </div>
+    <div id="champions_pool">
+      {% for champion in champions_alphabetical %}
+      <div class="champion tooltip_">
+        <img id="champion_{{ champion }}" class="champion_img"
+          src="/static/datadragon_cache/champions_img/{{ champion }}.png" alt="{{ champion }}"
+          data-champion_name="{{ champion }}" data-champion_display_name="{{ champions[champion][" name"] }}"
+          data-champion_id="{{ champions[champion][" key"] }}" />
+        <img id="champion_role_{{ champion }}" src="" class="champion_role" />
+        <div class="tooltip_text tooltip_below">
+          <div>{{ champions[champion]["name"] }}</div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+<script src="/static/js/team_builder.js"></script>
 {% endblock main %}
