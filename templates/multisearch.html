@@ -3,18 +3,25 @@
 {% set active_page = "multisearch" %}
 {% block title %}Multisearch{% endblock %}
 {% block main %}
-    <div class="container">
-        {% if error %}<div class="text-danger">{{ error }}</div>{% endif %}
-        <h1>Multisearch</h1>
-        <label class="mt-2">Region :</label>
-        <select id="select_region" class="form-select custom_control">
-            {{ region_select(regions, region) }}
-        </select>
-        <label class="mt-3">
-            Summoners <span class="tooltip_">?<span class="tooltip_text">You can copy paste the lobby chat join messages (for the following languages: english, german, spanish, french, italian)</span></span> :
-        </label>
-        <textarea id="text_area_lobby" class="form-control custom_control text-white" rows="8" resi placeholder="Summoner 1 joined the lobby&#10;Summoner 2 joined the lobby&#10;Summoner 3 joined the lobby&#10;Summoner 4 joined the lobby&#10;Summoner 5 joined the lobby">{% if summoners_names %}{{summoners_names}}{%endif%}</textarea>
-        <button id="btn_multisearch" type="button" class="mt-2 btn btn-outline-light">Search</button>
+<div class="container">
+    {% if error %}<div class="text-danger">{{ error }}</div>{% endif %}
+    <h1>Multisearch</h1>
+    <label class="mt-2">Region :</label>
+    <select id="select_region" class="form-select custom_control">
+        {{ region_select(regions, region) }}
+    </select>
+    <label class="mt-3">
+        Summoners <span class="tooltip_">?<span class="tooltip_text">You can copy paste the lobby chat join messages
+                (for the following languages: english, german, spanish, french, italian)</span></span> :
+    </label>
+    <textarea id="text_area_lobby" class="form-control custom_control text-white" rows="8" resi
+        placeholder="Mystogan joined the lobby&#10;Neeko Tesla joined the lobby&#10;Donator 3 joined the lobby&#10;Donator 4 joined the lobby&#10;Donator 5 joined the lobby">{% if summoners_names %}{{summoners_names}}{%endif%}</textarea>
+    <button id="btn_multisearch" type="button" class="mt-2 btn btn-outline-light">Search</button>
+
+    <div class="text-secondary mt-2" style="font-size:0.8em;">
+        Here are listed the donators, thanks to them ! <a href="https://ko-fi.com/theraphael0000">The donation page</a>
+        <br />
     </div>
-    <script src="/static/js/multisearch.js"></script>
+</div>
+<script src="/static/js/multisearch.js"></script>
 {% endblock %}
