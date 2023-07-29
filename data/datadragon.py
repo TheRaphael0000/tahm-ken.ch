@@ -6,6 +6,7 @@ from pathlib import Path
 endpoint = "https://ddragon.leagueoflegends.com"
 folder = "../static/datadragon_cache"
 
+
 def dl(url, subfolder=""):
     print(url)
     url = endpoint + url
@@ -30,9 +31,10 @@ print(f"latest version : {latest_version}")
 current_version = None
 try:
     current_version = open(f"{folder}/version", "r").read()
-except:
-    pass
+except Exception as e:
+    print(e)
 
+print(f"{folder}/version")
 
 if latest_version == current_version:
     print(f"data dragon cache already up to date")

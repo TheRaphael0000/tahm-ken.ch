@@ -62,6 +62,7 @@
         "LeeSin",
         "Lillia",
         "MasterYi",
+        "Naafiri",
         "Nidalee",
         "Nocturne",
         "Nunu",
@@ -106,6 +107,7 @@
         "Lissandra",
         "Lux",
         "Malzahar",
+        "Naafiri",
         "Neeko",
         "Orianna",
         "Qiyana",
@@ -151,7 +153,7 @@
         "Xayah",
         "Zeri"
     ],
-    "support" : [
+    "support": [
         "Alistar",
         "Amumu",
         "Ashe",
