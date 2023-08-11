@@ -9,6 +9,7 @@ let ignored_text = [
     /* es */ " se ha unido a la sala.",
     /* fr */ " a rejoint le salon",
     /* it */ " si è unito alla lobby",
+    /* pl */ " dołącza do pokoju",
 ]
 
 text_area_multisearch.addEventListener("paste", e => {
