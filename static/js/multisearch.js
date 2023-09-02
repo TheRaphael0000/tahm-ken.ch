@@ -49,6 +49,12 @@ text_area_multisearch.addEventListener("paste", e => {
     let summoners_names = new Set(current_summoners)
 
     for (let l of lines) {
+        let prefix = " : ";
+        let substr = l.substring(0, prefix.length);
+        if (substr === prefix) {
+            continue;
+        }
+
         for (let j of ignored_text) {
             if (l.includes(j)) {
                 let name = l.replace(j, "").replace("\r", "").replace("\n", "")
