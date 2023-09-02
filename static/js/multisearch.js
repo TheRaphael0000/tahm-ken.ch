@@ -40,19 +40,20 @@ let ignored_text = [
     " lobiye katıldı"
 ]
 
-text_area_multisearch.addEventListener("paste", e => {
-    e.preventDefault()
-    let paste = (e.clipboardData || window.clipboardData).getData('text');
+text_area_multisearch.addEventListener("paste", event => {
+    event.preventDefault()
+
+    // load the current paste
+    let paste = (event.clipboardData || window.clipboardData).getData("text")
+
+    //change the current paste with summoner's name if present
     let lines = paste.split("\n")
-
-    let current_summoners = e.target.value.split("\n").filter(i => i != "")
-    let summoners_names = new Set(current_summoners)
-
+    let summoners_names = new Set()
     for (let l of lines) {
-        let prefix = " : ";
-        let substr = l.substring(0, prefix.length);
+        let prefix = " : "
+        let substr = l.substring(0, prefix.length)
         if (substr === prefix) {
-            continue;
+            continue
         }
 
         for (let j of ignored_text) {
@@ -63,8 +64,18 @@ text_area_multisearch.addEventListener("paste", e => {
             }
         }
     }
+    if (summoners_names.size > 0) {
+        paste = Array(...summoners_names).join("\n")
+    }
 
-    e.target.value = Array(...summoners_names).join("\n")
+    // handle selection
+    const selectionStart = text_area_multisearch.selectionStart;
+    const selectionEnd = text_area_multisearch.selectionEnd;
+    const currentValue = text_area_multisearch.value;
+    const modifiedValue = currentValue.substring(0, selectionStart) + paste + currentValue.substring(selectionEnd);
+    text_area_multisearch.value = modifiedValue;
+    const newPosition = selectionStart + paste.length;
+    text_area_multisearch.setSelectionRange(newPosition, newPosition);
 })
 
 btn_multisearch.addEventListener("click", function () {
