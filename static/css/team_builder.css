@@ -101,3 +101,14 @@ html {
     width: 21px;
     height: 21px;
 }
+
+.mastery_level {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-size: 1em;
+    font-weight: bold;
+    margin: 2px 6px;
+    opacity: 0.7;
+    pointer-events: none;
+}

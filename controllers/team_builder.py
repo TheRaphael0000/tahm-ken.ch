@@ -62,7 +62,8 @@ def route_team_builder():
     args = args_team_builder(get_default_region(), "")
     try:
         result = render_template("team_builder.html", **args)
-    except:
+    except Exception as e:
+        raise e
         return abort(404)
     return result
 

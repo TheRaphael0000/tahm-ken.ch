@@ -2,101 +2,104 @@
 {% set active_page = "multisearch" %}
 {% block title %}Multisearch{% endblock %}
 {% block main %}
-    <div class="container">
-        {% if error %}<div class="text-danger">{{ error }}</div>{% endif %}
-        <h1>Multisearch</h1>
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="masteries_toggle">
-            <label class="form-check-label" for="masteries_toggle">Champion Mastery</label>
-        </div>
-        <table id="results" class="w-100">
-            <tr>
-                <th colspan="3">Summoner</th>
-                <th colspan="25">Challenges</th>
-            </tr>
-            {% for id, summoner_challenges_info in summoners_challenges_info.items() %}
-                <tr>
-                    <td class="pe-1">{{ summoner_challenges_info['summoner']['name'] }}</td>
-                    <td>
-                        <img width="41px"
-                             src="https://raw.communitydragon.org/latest/game/assets/ux/summonericons/profileicon{{ summoner_challenges_info['summoner']['profileIconId'] }}.png">
-                    </td>
-                    <td>
-                        <img width="41px"
-                             src="/static/img/challengecrystal/{{ summoner_challenges_info['total_points']['level'] }}.ls_c2.png"
-                             alt="{{ summoner_challenges_info['total_points']['level'].lower()}}">
-                    </td>
-                    {% for id_, is_max_scores, challenge_progress in priority_scores %}
-                        <td class="position-relative">
-                            <div class="tooltip_">
-                                <span class="position-absolute" style="right:0px; bottom:0px;">{{ summoner_challenges_info['summoner_challenges'][id_]['value'] }}</span>
-                                <img src="https://raw.communitydragon.org/latest/game/assets/challenges/config/{{ id_ }}/tokens/{{ summoner_challenges_info['summoner_challenges'][id_]['level'] }}.png"
-                                     width="41px">
-                                <div class="tooltip_text tooltip_below">
-                                    <div>{{ challenges_config[id_]["localizedNames"][layout["language"]]["name"] }}</div>
-                                    {% for sub in challenges_data[id_] %}
-                                        <div>{{ sub["label"] }}</div>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                        </td>
-                    {% endfor %}
-                    <td class="ps-1" class="text-end">{{'%0.1f'| format(summoner_challenges_info["progress_ratio"] * 100)}}&nbsp;%</td>
-                </tr>
-                <tr class="align-top masteries_tr hide">
-                    <td colspan="3"></td>
-                    {% for id_, is_max_scores, challenge_progress in priority_scores %}
-                        {% set masteries = summoner_challenges_info["champion_masteries"][id_] %}
-                        <td>
-                            {% for mastery in masteries[0:3] %}
-                                <div class="position-relative">
-                                    <img src="/static/datadragon_cache/champions_img/{{ mastery['championId'] }}.png"
-                                         width="41px"
-                                         style="filter: brightness(0.6)">
-                                    <div class="position-absolute fw-semibold" style="right:0px; bottom:0px;">{{ mastery['championPointsE'] }}</div>
-                                </div>
-                            {% endfor %}
-                        </td>
-                    {% endfor %}
-                </tr>
-            {% endfor %}
-            <tr class="border-top">
-                <td colspan="3" class="pt-3">
-                    <i>Completion</i>
-                    <span class="tooltip_">?<span class="tooltip_text">The number of players that are at least master on this challenge</span>
-                </td>
-                {% for id_, is_max_scores, challenge_progress in priority_scores %}
-                    <td class="text-center">
-                        <i>{{ is_max_scores|round|int }}</i>
-                    </td>
-                {% endfor %}
-            </tr>
-            <tr>
-                <td colspan="3" class="pt-3">
-                    <i>MAE</i>
-                    <span class="tooltip_">?<span class="tooltip_text">Mean absolute error: The average missing challeges to master</span>
-                </td>
-                {% for id_, is_max_scores, challenge_progress in priority_scores %}
-                    <td class="text-center">
-                        <i>{{'%0.1f'| format(challenge_progress|float)}}</i>
-                    </td>
-                {% endfor %}
-            </tr>
-        </table>
+<div class="container">
+    {% if error %}<div class="text-danger">{{ error }}</div>{% endif %}
+    <h1>Multisearch</h1>
+    <div class="form-check">
+        <input class="form-check-input" type="checkbox" id="masteries_toggle">
+        <label class="form-check-label" for="masteries_toggle">Champion Mastery</label>
     </div>
-    <script>
-            let masteries_tr = document.querySelectorAll(".masteries_tr")
-            let masteries_toggle = document.querySelector("#masteries_toggle")
-                console.log(masteries_tr)
+    <table id="results" class="w-100">
+        <tr>
+            <th colspan="3">Summoner</th>
+            <th colspan="25">Challenges</th>
+        </tr>
+        {% for id, summoner_challenges_info in summoners_challenges_info.items() %}
+        <tr>
+            <td class="pe-1">{{ summoner_challenges_info['summoner']['name'] }}</td>
+            <td>
+                <img width="41px"
+                    src="https://raw.communitydragon.org/latest/game/assets/ux/summonericons/profileicon{{ summoner_challenges_info['summoner']['profileIconId'] }}.png">
+            </td>
+            <td>
+                <img width="41px"
+                    src="/static/img/challengecrystal/{{ summoner_challenges_info['total_points']['level'] }}.ls_c2.png"
+                    alt="{{ summoner_challenges_info['total_points']['level'].lower()}}">
+            </td>
+            {% for id_, is_max_scores, challenge_progress in priority_scores %}
+            <td class="position-relative">
+                <div class="tooltip_">
+                    <span class="position-absolute" style="right:0px; bottom:0px;">{{
+                        summoner_challenges_info['summoner_challenges'][id_]['value'] }}</span>
+                    <img src="https://raw.communitydragon.org/latest/game/assets/challenges/config/{{ id_ }}/tokens/{{ summoner_challenges_info['summoner_challenges'][id_]['level'] }}.png"
+                        width="41px">
+                    <div class="tooltip_text tooltip_below">
+                        <div>{{ challenges_config[id_]["localizedNames"][layout["language"]]["name"] }}</div>
+                        {% for sub in challenges_data[id_] %}
+                        <div>{{ sub["label"] }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </td>
+            {% endfor %}
+            <td class="ps-1" class="text-end">{{'%0.1f'| format(summoner_challenges_info["progress_ratio"] *
+                100)}}&nbsp;%</td>
+        </tr>
+        <tr class="align-top masteries_tr hide">
+            <td colspan="3"></td>
+            {% for id_, is_max_scores, challenge_progress in priority_scores %}
+            {% set masteries = summoner_challenges_info["champion_masteries_by_challenges"][id_] %}
+            <td>
+                {% for mastery in masteries[0:3] %}
+                <div class="position-relative">
+                    <img src="/static/datadragon_cache/champions_img/{{ mastery['championId'] }}.png" width="41px"
+                        style="filter: brightness(0.6)">
+                    <div class="position-absolute fw-semibold" style="right:0px; bottom:0px;">{{
+                        mastery['championPointsE'] }}</div>
+                </div>
+                {% endfor %}
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+        <tr class="border-top">
+            <td colspan="3" class="pt-3">
+                <i>Completion</i>
+                <span class="tooltip_">?<span class="tooltip_text">The number of players that are at least master on
+                        this challenge</span>
+            </td>
+            {% for id_, is_max_scores, challenge_progress in priority_scores %}
+            <td class="text-center">
+                <i>{{ is_max_scores|round|int }}</i>
+            </td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <td colspan="3" class="pt-3">
+                <i>MAE</i>
+                <span class="tooltip_">?<span class="tooltip_text">Mean absolute error: The average missing challeges to
+                        master</span>
+            </td>
+            {% for id_, is_max_scores, challenge_progress in priority_scores %}
+            <td class="text-center">
+                <i>{{'%0.1f'| format(challenge_progress|float)}}</i>
+            </td>
+            {% endfor %}
+        </tr>
+    </table>
+</div>
+<script>
+    let masteries_tr = document.querySelectorAll(".masteries_tr")
+    let masteries_toggle = document.querySelector("#masteries_toggle")
+    console.log(masteries_tr)
 
-            masteries_toggle.addEventListener("click", (e) => {
-                for(let mastery_tr of masteries_tr)
-                {
-                    if(masteries_toggle.checked)
-                        mastery_tr.classList.remove("hide")
-                    else
-                        mastery_tr.classList.add("hide")
-                }
-            })
-    </script>
+    masteries_toggle.addEventListener("click", (e) => {
+        for (let mastery_tr of masteries_tr) {
+            if (masteries_toggle.checked)
+                mastery_tr.classList.remove("hide")
+            else
+                mastery_tr.classList.add("hide")
+        }
+    })
+</script>
 {% endblock %}

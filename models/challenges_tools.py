@@ -80,7 +80,8 @@ try:
     lol_watcher = None
     challenges_config = None
     lol_watcher = LolWatcher(config["riot_api_key"])
-    challenges_config = json.load(open("static/api_cache/challenges_config.json", "r"))
+    challenges_config = json.load(
+        open("static/api_cache/challenges_config.json", "r"))
     challenges_config = {c["id"]: c for c in challenges_config}
     for c in challenges_data:
         challenges_config[c['id']]["qte"] = c["qte"]
@@ -168,7 +169,7 @@ def get_summoner_challenges_info(region, summoner):
     if total_points["level"] == "none":
         total_points["level"] = "iron"
 
-    champion_masteries = get_champion_mastery_by_challenge(
+    champion_masteries_by_challenges, champion_masteries = get_champion_mastery_by_challenge(
         region, summoner['id'])
 
     output = {
@@ -178,6 +179,7 @@ def get_summoner_challenges_info(region, summoner):
         "progress": progress,
         "total": total,
         "progress_ratio": progress / total,
+        "champion_masteries_by_challenges": champion_masteries_by_challenges,
         "champion_masteries": champion_masteries,
     }
 
@@ -187,6 +189,7 @@ def get_summoner_challenges_info(region, summoner):
 def get_champion_mastery_by_challenge(region, summoner_puuid):
     champions_masteries = lol_watcher.champion_mastery.by_summoner(
         region, summoner_puuid)
+
     for cm in champions_masteries:
         cm["championPointsE"] = str(
             EngNumber(cm["championPoints"], precision=0))
@@ -206,7 +209,9 @@ def get_champion_mastery_by_challenge(region, summoner_puuid):
         challenge_champions_masteries.sort(key=lambda l: -l["championPoints"])
         champion_mastery_by_challenge[challenge_id] = challenge_champions_masteries
 
-    return champion_mastery_by_challenge
+    champions_masteries = {d["championId"]: d for d in champions_masteries}
+
+    return champion_mastery_by_challenge, champions_masteries
 
 
 def compute_challenges_priority_scores(challenges_info):

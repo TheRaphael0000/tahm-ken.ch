@@ -160,12 +160,27 @@ Team Builder
     </div>
     <div id="champions_pool">
       {% for champion in champions_alphabetical %}
+      {% if champion_masteries %}
+      {% set championId = champions[champion]["id"] %}
+      {% set mastery = champion_masteries[championId] %}
+      {% if mastery %}
+      {% set level = champion_masteries[championId]["championLevel"] %}
+      {% else %}
+      {% set level = 0 %}
+      {% endif %}
+      {% else %}
+      {% set level = 0 %}
+      {% endif %}
+
       <div class="champion tooltip_">
         <img id="champion_{{ champion }}" class="champion_img"
           src="/static/datadragon_cache/champions_img/{{ champion }}.png" alt="{{ champion }}"
           data-champion_name="{{ champion }}" data-champion_display_name="{{ champions[champion][" name"] }}"
           data-champion_id="{{ champions[champion][" key"] }}" />
         <img id="champion_role_{{ champion }}" src="" class="champion_role" />
+        {% if level > 0 %}
+        <div class="mastery_level">{{level}}</div>
+        {% endif %}
         <div class="tooltip_text tooltip_below">
           <div>{{ champions[champion]["name"] }}</div>
         </div>
