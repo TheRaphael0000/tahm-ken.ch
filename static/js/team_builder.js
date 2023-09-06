@@ -140,6 +140,12 @@ function fetch_intersection(ids) {
         })
         .then((json) => {
             setChampionsChecked("0")
+
+            if (json.intersection.length <= 0 && ids == "none") {
+                for (let c of champion_img)
+                    c.dataset.checked = "1"
+            }
+
             for (let c of json.intersection) {
                 let img = document.getElementById("champion_" + c)
                 img.dataset.checked = "1"
@@ -432,16 +438,17 @@ function sort_champions() {
     let els = Array.prototype.slice.call(champions_pool.children, 0)
 
     els.sort((a, b) => {
-        let name = (x) => x.children[0].dataset.champion_display_name
         let checked = (x) => x.children[0].dataset.checked
+        let a_checked = checked(a)
+        let b_checked = checked(b)
+        let checked_compare = b_checked - a_checked
 
+        let name = (x) => x.children[0].dataset.champion_display_name
         let a_name = name(a)
         let b_name = name(b)
         let az_compare = a_name.localeCompare(b_name)
 
-        let a_checked = checked(a)
-        let b_checked = checked(b)
-        return 2 * (b_checked - a_checked) + az_compare
+        return 2 * checked_compare + az_compare
     })
 
     champions_pool.innerHTML = ""

@@ -175,8 +175,8 @@ Team Builder
       <div class="champion tooltip_">
         <img id="champion_{{ champion }}" class="champion_img"
           src="/static/datadragon_cache/champions_img/{{ champion }}.png" alt="{{ champion }}"
-          data-champion_name="{{ champion }}" data-champion_display_name="{{ champions[champion][" name"] }}"
-          data-champion_id="{{ champions[champion][" key"] }}" />
+          data-champion_name="{{ champion }}" data-champion_display_name="{{ champions[champion]['name'] }}"
+          data-champion_id="{{ champions[champion]['key'] }}" />
         <img id="champion_role_{{ champion }}" src="" class="champion_role" />
         {% if level >= 7 %}
         <div class="mastery_level mastery_level_7">{{level}}</div>
