@@ -438,17 +438,35 @@ function sort_champions() {
     let els = Array.prototype.slice.call(champions_pool.children, 0)
 
     els.sort((a, b) => {
-        let checked = (x) => x.children[0].dataset.checked
-        let a_checked = checked(a)
-        let b_checked = checked(b)
-        let checked_compare = b_checked - a_checked
-
         let name = (x) => x.children[0].dataset.champion_display_name
-        let a_name = name(a)
-        let b_name = name(b)
-        let az_compare = a_name.localeCompare(b_name)
+        let name_a = name(a)
+        let name_b = name(b)
+        let name_compare = name_a.localeCompare(name_b)
 
-        return 2 * checked_compare + az_compare
+        return name_compare
+    })
+
+    els.sort((a, b) => {
+        let level = (x) => x.children[0].dataset.champion_level
+        let level_a = level(a)
+        let level_b = level(b)
+        let level_compare = level_b - level_a
+
+        let points = (x) => x.children[0].dataset.champion_points
+        let points_a = points(a)
+        let points_b = points(b)
+        let points_compare = points_b - points_a
+
+        return level_compare || points_compare
+    })
+
+    els.sort((a, b) => {
+        let checked = (x) => x.children[0].dataset.checked
+        let checked_a = checked(a)
+        let checked_b = checked(b)
+        let checked_compare = checked_b - checked_a
+
+        return checked_compare
     })
 
     champions_pool.innerHTML = ""

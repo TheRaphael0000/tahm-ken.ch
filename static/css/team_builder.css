@@ -1,5 +1,6 @@
 html {
     overflow-y: scroll;
+    overflow-x: hidden;
 }
 
 @media only screen and (max-width: 920px) {
