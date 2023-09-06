@@ -108,7 +108,10 @@ html {
     right: 0;
     font-size: 1em;
     font-weight: bold;
-    margin: 2px 6px;
-    opacity: 0.7;
+    margin: 2px 3px;
+    opacity: 0.8;
     pointer-events: none;
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 0px 6px;
+    border-radius: 50% 0 0 0;
 }

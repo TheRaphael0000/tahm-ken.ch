@@ -178,9 +178,7 @@ Team Builder
           data-champion_name="{{ champion }}" data-champion_display_name="{{ champions[champion][" name"] }}"
           data-champion_id="{{ champions[champion][" key"] }}" />
         <img id="champion_role_{{ champion }}" src="" class="champion_role" />
-        {% if level > 0 %}
         <div class="mastery_level">{{level}}</div>
-        {% endif %}
         <div class="tooltip_text tooltip_below">
           <div>{{ champions[champion]["name"] }}</div>
         </div>
