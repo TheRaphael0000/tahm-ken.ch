@@ -1,0 +1,170 @@
+[
+  {
+    "id": 303401,
+    "_": "",
+    "label": "Global",
+    "qte": 3,
+    "champions": []
+  },
+  {
+    "id": 303402,
+    "_": "",
+    "label": "Ultimate AOE",
+    "qte": 3,
+    "champions": []
+  },
+  {
+    "id": 303403,
+    "_": "",
+    "label": "Ally Shield/Heal",
+    "qte": 3,
+    "champions": []
+  },
+  {
+    "id": 303404,
+    "_": "",
+    "label": "Revive/Immunity",
+    "qte": 3,
+    "champions": []
+  },
+  {
+    "id": 303405,
+    "_": "",
+    "label": "Stealth",
+    "qte": 3,
+    "champions": []
+  },
+  {
+    "id": 303406,
+    "_": "",
+    "label": "Poke",
+    "qte": 3,
+    "champions": []
+  },
+  {
+    "id": 303407,
+    "_": "",
+    "label": "Summoner",
+    "qte": 5,
+    "champions": []
+  },
+  {
+    "id": 303409,
+    "_": "",
+    "label": "Displacements",
+    "qte": 3,
+    "champions": []
+  },
+  {
+    "id": 303410,
+    "_": "",
+    "label": "Trap",
+    "qte": 3,
+    "champions": []
+  },
+  {
+    "id": 303411,
+    "_": "",
+    "label": "Terrain",
+    "qte": 3,
+    "champions": []
+  },
+  {
+    "id": 303412,
+    "_": "",
+    "label": "Crowd Controls",
+    "qte": 3,
+    "champions": []
+  },
+  {
+    "id": 303501,
+    "_": "",
+    "qte": 5,
+    "label": "Bandle City",
+    "champions": []
+  },
+  {
+    "id": 303502,
+    "_": "",
+    "qte": 5,
+    "label": "Bilgewater",
+    "champions": []
+  },
+  {
+    "id": 303503,
+    "_": "",
+    "qte": 5,
+    "label": "Demacia",
+    "champions": []
+  },
+  {
+    "id": 303504,
+    "_": "",
+    "qte": 5,
+    "label": "Freljord",
+    "champions": []
+  },
+  {
+    "id": 303505,
+    "_": "",
+    "qte": 5,
+    "label": "Ionia",
+    "champions": []
+  },
+  {
+    "id": 303506,
+    "_": "",
+    "qte": 5,
+    "label": "Ixtal",
+    "champions": []
+  },
+  {
+    "id": 303507,
+    "_": "",
+    "qte": 5,
+    "label": "Noxus",
+    "champions": []
+  },
+  {
+    "id": 303508,
+    "_": "",
+    "qte": 5,
+    "label": "Piltover",
+    "champions": []
+  },
+  {
+    "id": 303509,
+    "_": "",
+    "qte": 5,
+    "label": "Shadow Isles",
+    "champions": []
+  },
+  {
+    "id": 303510,
+    "_": "",
+    "qte": 5,
+    "label": "Shurima",
+    "champions": []
+  },
+  {
+    "id": 303511,
+    "_": "",
+    "qte": 5,
+    "label": "Targon",
+    "champions": []
+  },
+  {
+    "id": 303512,
+    "_": "",
+    "qte": 5,
+    "label": "Void",
+    "champions": []
+  },
+  {
+    "id": 303513,
+    "_": "",
+    "qte": 5,
+    "label": "Zaun",
+    "champions": []
+  }
+]
