@@ -66,6 +66,9 @@ Team Builder
   <svg class="champion_placeholder" style="display:none" height="21px" width="21px">
     <circle cx="10" cy="10" r="6" fill="rgba(255,255,255,0.3)" />
   </svg>
+  <svg class="champion_placeholder_large" style="display:none" height="38px" width="38px">
+    <circle cx="19" cy="19" r="9" fill="rgba(255,255,255,0.3)" />
+  </svg>
   <td id="champion_selected_{{ id }}" class="less_pad" style="height:21px;
              overflow-y:hidden"></td>
   {% if summoner_challenge %}
@@ -104,6 +107,9 @@ Team Builder
         style="width:207px" class="btn btn-outline-light">
         <i class="fa-solid fa-wand-magic-sparkles"></i> Optimize selection
       </button>
+    </div>
+    <div class="col col-md-auto">
+      <div id="selection"></div>
     </div>
     <div class="col-md-auto">
       <button id="btn_reset" type="button" class="btn btn-outline-light" title="Clear selections">

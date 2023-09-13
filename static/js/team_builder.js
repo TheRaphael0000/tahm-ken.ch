@@ -16,6 +16,7 @@ let search = document.querySelector("#search")
 let search_champion = document.querySelector("#search_champion")
 let completed = document.querySelector("#completed")
 let completed_img = document.querySelector("#completed_img")
+let selection = document.querySelector("#selection")
 
 let completed_challenges = true
 
@@ -66,6 +67,24 @@ function updateChampionsStyle() {
         }
     }
     sort_champions()
+
+    let selectedChampions = getSelectedChampions()
+    let champion_placeholder_large = document.querySelector(".champion_placeholder_large")
+    selection.innerHTML = ""
+    for (let i = 0; i < 5; i++) {
+        if (i < selectedChampions.length) {
+            let champion = selectedChampions[i]
+            let img = document.createElement("img")
+            img.src = champion.src
+            img.classList.add("selection_champion")
+            img.addEventListener("click", () => selectChampion(champion))
+            selection.appendChild(img)
+        } else {
+            let svg = champion_placeholder_large.cloneNode(true)
+            svg.style.display = "inline-block"
+            selection.appendChild(svg)
+        }
+    }
 }
 
 function setChampionsChecked(value) {
@@ -80,6 +99,7 @@ function setChampionsSelected(value) {
         img.dataset.selected = value
     }
     updateChampionsStyle()
+
 }
 
 function resetChallenge() {

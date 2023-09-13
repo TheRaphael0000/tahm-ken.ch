@@ -75,7 +75,7 @@ html {
     height: 100%;
     border: 3px solid transparent;
     opacity: 0.3;
-    transition: opacity 0.3s, border 0.3s;
+    transition: opacity 0.3s, border 0.3s, transform 0.5s ease-in-out;
 }
 
 .champion_img:hover {
@@ -127,4 +127,14 @@ html {
 
 .mastery_level_5 {
     background-color: #8C201C96;
+}
+
+.selection {
+    text-align: center;
+    min-width: 200px;
+}
+
+.selection_champion {
+    border: 2px solid yellow !important;
+    height: 38px;
 }
