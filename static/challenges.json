@@ -587,6 +587,7 @@
         "qte": 5,
         "label": "Noxus",
         "champions": [
+            "Briar",
             "Cassiopeia",
             "Darius",
             "Draven",
@@ -700,7 +701,6 @@
         "label": "Zaun",
         "champions": [
             "Blitzcrank",
-            "Briar",
             "DrMundo",
             "Ekko",
             "Janna",
