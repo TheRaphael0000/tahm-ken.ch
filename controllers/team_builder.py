@@ -63,24 +63,24 @@ def route_team_builder():
     try:
         result = render_template("team_builder.html", **args)
     except Exception as e:
-        raise e
         return abort(404)
     return result
 
 
-@bp_team_builder.route("/team_builder/<region>/<summoner>")
-def route_team_builder_summoner(region, summoner):
+@bp_team_builder.route("/team_builder/<region>/<query>")
+def route_team_builder_summoner(region, query):
+    print(region, query)
     try:
         region = regions_by_abbreviation[region]
     except:
         return redirect("/team_builder")
-    summoner = summoner.replace("_", " ")
-    args = args_team_builder(region, summoner)
+    
+    args = args_team_builder(region, query)
     try:
-        challenges_info = get_summoner_challenges_info(region["id"], summoner)
+        challenges_info = get_summoner_challenges_info(region["id"], query)
         args |= challenges_info
     except Exception as e:
-        args["error"] = f"Couldn't find '{summoner}' on {region['abbreviation']}"
+        args["error"] = f"Couldn't find '{query}' on {region['abbreviation']}"
     return render_template("team_builder.html", **args)
 
 

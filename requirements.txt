@@ -10,3 +10,4 @@ flask-limiter
 ipinfo
 scipy
 engineering_notation
+requests

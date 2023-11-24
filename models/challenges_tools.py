@@ -9,10 +9,15 @@ from riotwatcher import LolWatcher
 from riotwatcher import ApiError
 from engineering_notation import EngNumber
 
+import requests
+from urllib.parse import urlencode, quote
+
 from config import config
 from models.regions import default_region
 
 from models.champions_roles import champions
+
+riot_api_endpoint = "https://europe.api.riotgames.com"
 
 challenges_groups = [
     {
@@ -73,8 +78,7 @@ champions_by_challenge = {
 # load champions data
 champions_alphabetical = sorted(champions, key=lambda c: champions[c]["name"])
 
-champions_by_key = {champion["key"]
-    : champion for id_, champion in champions.items()}
+champions_by_key = {champion["key"] : champion for id_, champion in champions.items()}
 
 try:
     lol_watcher = None
@@ -115,11 +119,21 @@ def find_challenges_details(comp):
     return challenges_details
 
 
-def get_summoner_challenges_info(region, summoner):
-    try:
+def get_summoner_challenges_info(region, query):
+    tag = None
+    split = query.replace("_", " ").split("-")
+    summoner = split[0]
+    if len(split) >= 2:
+        tag = split[1]
+
+    if tag is None:
         summoner = lol_watcher.summoner.by_name(region, summoner)
-    except:
-        raise Exception(f"{summoner} not found on {region}")
+    else:
+        url = f"{riot_api_endpoint}/riot/account/v1/accounts/by-riot-id/{summoner}/{tag}"
+        response = requests.get(url, headers={"X-Riot-Token": config["riot_api_key"]})
+        data = response.json()
+        summoner = lol_watcher.summoner.by_puuid(region, data["puuid"])
+
     summoner_challenges_infos = lol_watcher.challenges.by_puuid(
         region, summoner['puuid'])
 

@@ -79,6 +79,6 @@ text_area_multisearch.addEventListener("paste", event => {
 })
 
 btn_multisearch.addEventListener("click", function () {
-    let url = "/multisearch/" + select_region.value + "/" + text_area_multisearch.value.split("\n").join(",")
+    let url = "/multisearch/" + select_region.value + "/" + text_area_multisearch.value.split("\n").join(",").replaceAll("#", "-")
     window.location.href = url
 })

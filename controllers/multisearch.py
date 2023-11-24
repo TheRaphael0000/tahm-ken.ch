@@ -43,16 +43,17 @@ def route_multisearch_result(region, summoners_names_text):
         "layout": layout,
     }
 
-    summoner_names = list(dict.fromkeys(summoners_names_text.split(",")))
+    queries = list(dict.fromkeys(summoners_names_text.split(",")))
 
     try:
-        if len(summoner_names) > multisearch_max_size:
+        if len(queries) > multisearch_max_size:
             raise Exception(
                 f"Too many summoner names (max: {multisearch_max_size})")
 
         summoners_challenges_info = {}
-        for summoner in summoner_names:
-            info = get_summoner_challenges_info(region['id'], summoner)
+        for query in queries:
+            print(query)
+            info = get_summoner_challenges_info(region['id'], query)
             summoners_challenges_info[info["summoner"]["id"]] = info
 
         priority_scores = compute_challenges_priority_scores(
@@ -65,6 +66,6 @@ def route_multisearch_result(region, summoners_names_text):
             "challenges_data": challenges_data,
         }
     except Exception as e:
-        return render_multisearch_search({"error": e, "summoners_names": "\n".join(summoner_names)})
+        return render_multisearch_search({"error": e, "summoners_names": "\n".join(queries)})
 
     return render_template("multisearch_result.html", **args)
