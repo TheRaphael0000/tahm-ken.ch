@@ -1,17 +1,17 @@
-from riotwatcher import LolWatcher
-from riotwatcher import ApiError
 from config import config
 import json
 from pathlib import Path
 
+from models.riot_api import api_request
+
 FOLDER = Path("static/api_cache/")
 
-lol_watcher = LolWatcher(config["riot_api_key"])
-challenges_config = lol_watcher.challenges.config("EUW1")
+challenges_config = api_request("/lol/challenges/v1/challenges/config")
 
 try:
     FOLDER.mkdir(parents=True)
 except:
     pass
 
-json.dump(challenges_config, open(FOLDER / Path("challenges_config.json"), "w"))
+json.dump(challenges_config, open(
+    FOLDER / Path("challenges_config.json"), "w"))

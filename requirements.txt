@@ -3,7 +3,6 @@ gunicorn
 jupyter
 numpy
 matplotlib
-riotwatcher
 fabric
 click
 flask-limiter

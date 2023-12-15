@@ -5,8 +5,6 @@ from pprint import pprint
 
 import scipy as sp
 import scipy.special
-from riotwatcher import LolWatcher
-from riotwatcher import ApiError
 from engineering_notation import EngNumber
 
 import requests
@@ -15,9 +13,10 @@ from urllib.parse import urlencode, quote
 from config import config
 from models.regions import default_region
 
+from .riot_api import api_request
+
 from models.champions_roles import champions
 
-riot_api_endpoint = "https://europe.api.riotgames.com"
 
 challenges_groups = [
     {
@@ -78,12 +77,9 @@ champions_by_challenge = {
 # load champions data
 champions_alphabetical = sorted(champions, key=lambda c: champions[c]["name"])
 
-champions_by_key = {champion["key"] : champion for id_, champion in champions.items()}
+champions_by_key = {champion["key"]                    : champion for id_, champion in champions.items()}
 
 try:
-    lol_watcher = None
-    challenges_config = None
-    lol_watcher = LolWatcher(config["riot_api_key"])
     challenges_config = json.load(
         open("static/api_cache/challenges_config.json", "r"))
     challenges_config = {c["id"]: c for c in challenges_config}
@@ -126,16 +122,12 @@ def get_summoner_challenges_info(region, query):
     if len(split) >= 2:
         tag = split[1]
 
-    if tag is None:
-        summoner = lol_watcher.summoner.by_name(region, summoner)
-    else:
-        url = f"{riot_api_endpoint}/riot/account/v1/accounts/by-riot-id/{summoner}/{tag}"
-        response = requests.get(url, headers={"X-Riot-Token": config["riot_api_key"]})
-        data = response.json()
-        summoner = lol_watcher.summoner.by_puuid(region, data["puuid"])
-
-    summoner_challenges_infos = lol_watcher.challenges.by_puuid(
-        region, summoner['puuid'])
+    data = api_request(
+        f"/riot/account/v1/accounts/by-riot-id/{summoner}/{tag}", True)
+    puuid = data["puuid"]
+    summoner = api_request(f"/lol/summoner/v4/summoners/by-puuid/{puuid}")
+    summoner_challenges_infos = api_request(
+        f"/lol/challenges/v1/player-data/{puuid}")
 
     summoner_challenges_by_id = {
         c["challengeId"]: c for c in summoner_challenges_infos["challenges"]}
@@ -184,7 +176,7 @@ def get_summoner_challenges_info(region, query):
         total_points["level"] = "iron"
 
     champion_masteries_by_challenges, champion_masteries = get_champion_mastery_by_challenge(
-        region, summoner['id'])
+        region, puuid)
 
     output = {
         "summoner": summoner,
@@ -200,9 +192,9 @@ def get_summoner_challenges_info(region, query):
     return output
 
 
-def get_champion_mastery_by_challenge(region, summoner_puuid):
-    champions_masteries = lol_watcher.champion_mastery.by_summoner(
-        region, summoner_puuid)
+def get_champion_mastery_by_challenge(region, encryptedPUUID):
+    url = f"/lol/champion-mastery/v4/champion-masteries/by-puuid/{encryptedPUUID}"
+    champions_masteries = api_request(url)
 
     for cm in champions_masteries:
         cm["championPointsE"] = str(
