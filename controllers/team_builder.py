@@ -44,6 +44,7 @@ def redirect2(region, summoner):
 
 def args_team_builder(region, summoner):
     return {
+        "account": "",
         "champions": champions,
         "champions_alphabetical": champions_alphabetical,
         "challenges_data": challenges_data,
