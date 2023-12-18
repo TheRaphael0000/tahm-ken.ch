@@ -77,7 +77,7 @@ champions_by_challenge = {
 # load champions data
 champions_alphabetical = sorted(champions, key=lambda c: champions[c]["name"])
 
-champions_by_key = {champion["key"]                    : champion for id_, champion in champions.items()}
+champions_by_key = {champion["key"]: champion for id_, champion in champions.items()}
 
 try:
     challenges_config = json.load(
@@ -122,12 +122,16 @@ def get_summoner_challenges_info(region, query):
     if len(split) >= 2:
         tag = split[1]
 
-    data = api_request(
-        f"/riot/account/v1/accounts/by-riot-id/{summoner}/{tag}", True)
-    puuid = data["puuid"]
-    summoner = api_request(f"/lol/summoner/v4/summoners/by-puuid/{puuid}")
+    account = api_request(
+        f"/riot/account/v1/accounts/by-riot-id/{summoner}/{tag}")
+    puuid = account["puuid"]
+
+    account["gameTag"] = account["gameName"] + "#" + account["tagLine"]
+
+    summoner = api_request(
+        f"/lol/summoner/v4/summoners/by-puuid/{puuid}", region)
     summoner_challenges_infos = api_request(
-        f"/lol/challenges/v1/player-data/{puuid}")
+        f"/lol/challenges/v1/player-data/{puuid}", region)
 
     summoner_challenges_by_id = {
         c["challengeId"]: c for c in summoner_challenges_infos["challenges"]}
@@ -179,6 +183,7 @@ def get_summoner_challenges_info(region, query):
         region, puuid)
 
     output = {
+        "account": account,
         "summoner": summoner,
         "summoner_challenges": summoner_challenges,
         "total_points": total_points,
@@ -194,7 +199,7 @@ def get_summoner_challenges_info(region, query):
 
 def get_champion_mastery_by_challenge(region, encryptedPUUID):
     url = f"/lol/champion-mastery/v4/champion-masteries/by-puuid/{encryptedPUUID}"
-    champions_masteries = api_request(url)
+    champions_masteries = api_request(url, region)
 
     for cm in champions_masteries:
         cm["championPointsE"] = str(

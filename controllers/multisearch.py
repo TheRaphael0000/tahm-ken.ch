@@ -1,3 +1,5 @@
+import traceback
+
 from flask import Blueprint
 from flask import render_template
 from flask import redirect
@@ -52,7 +54,6 @@ def route_multisearch_result(region, summoners_names_text):
 
         summoners_challenges_info = {}
         for query in queries:
-            print(query)
             info = get_summoner_challenges_info(region['id'], query)
             summoners_challenges_info[info["summoner"]["id"]] = info
 

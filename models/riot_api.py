@@ -1,16 +1,20 @@
 import requests
 from config import config
+from .regions import regions_by_id
 
 riot_endpoint = "https://europe.api.riotgames.com"
-league_endpoint = "https://euw1.api.riotgames.com"
+league_endpoint = "https://{0}.api.riotgames.com"
 
 
-def api_request(url, is_riot_endpoint=False):
-    if is_riot_endpoint:
+def api_request(url, region=None):
+    if region is None:
         url = f"{riot_endpoint}{url}"
     else:
-        url = f"{league_endpoint}{url}"
+        endpoint = league_endpoint.format(
+            regions_by_id[region]["id"])
+        url = f"{endpoint}{url}"
 
+    print(url)
     response = requests.get(
         url, headers={"X-Riot-Token": config["riot_api_key"]})
     data = response.json()

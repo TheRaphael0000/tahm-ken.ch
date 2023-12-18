@@ -134,6 +134,7 @@ regions_by_country_code = {
 
 ipinfo_handler = ipinfo.getHandler(config["ipinfo_token"])
 
+
 def get_region_from_ip(ip_address):
     try:
         details = ipinfo_handler.getDetails(ip_address)
@@ -146,6 +147,10 @@ def get_region_from_ip(ip_address):
 
 
 if __name__ == "__main__":
+
+    print(regions_by_id)
+    print(regions_by_country_code)
+    print(regions_by_abbreviation)
     # tests
 
     # Swisscom DNS IP

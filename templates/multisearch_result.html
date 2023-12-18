@@ -16,7 +16,7 @@
         </tr>
         {% for id, summoner_challenges_info in summoners_challenges_info.items() %}
         <tr>
-            <td class="pe-1">{{ summoner_challenges_info['summoner']['name'] }}</td>
+            <td class="pe-1">{{ summoner_challenges_info['account']['gameTag'] }}</td>
             <td>
                 <img width="41px"
                     src="https://raw.communitydragon.org/latest/game/assets/ux/summonericons/profileicon{{ summoner_challenges_info['summoner']['profileIconId'] }}.png">

@@ -20,7 +20,6 @@ communities = {
     "zASN5E6RCv": {},
     "FJXAvqxw6T": {},
     "yapEVysv3b": {},
-    "SnqzHyJWUR": {},
     "cKGS6ASyuZ": {},
 }
 
@@ -40,7 +39,8 @@ def _update_discord_server_information(invite_id, community):
         _, response = _discord_api_request(invite_url)
         data = response.read().decode("utf-8")
         data = json.loads(data)
-        print(f"Loaded: {data['guild']['name']}, expire at {data['expires_at']}")
+        print(
+            f"Loaded: {data['guild']['name']}, expire at {data['expires_at']}")
         community['title'] = data['guild']['name']
         community['img'] = f"https://cdn.discordapp.com/icons/{ data['guild']['id'] }/{ data['guild']['icon'] }.jpg?size=256"
         community['text'] = data['guild']['description']
@@ -48,8 +48,7 @@ def _update_discord_server_information(invite_id, community):
         community['type'] = "Discord"
 
     except Exception as e:
-        print(e)
-        print(e.read())
+        pass
 
 
 def _update_discord():
