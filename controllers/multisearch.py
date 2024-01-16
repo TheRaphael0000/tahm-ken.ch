@@ -19,12 +19,15 @@ bp_multisearch = Blueprint('bp_multisearch', __name__,
                            template_folder='templates')
 multisearch_max_size = 8
 
+donators = open("data/donators.txt").read().split("\n")
+placeholder = "".join([f"{d} joined the lobby\n" for d in donators])
 
 def render_multisearch_search(additional_args={}):
     args = {
         "layout": layout,
         "regions": regions,
-        "region": get_default_region()
+        "region": get_default_region(),
+        "placeholder": placeholder,
     } | additional_args
     return render_template("multisearch.html", **args)
 

@@ -15,12 +15,13 @@
                 (for the following languages: english, german, spanish, french, italian)</span></span> :
     </label>
     <textarea id="text_area_lobby" class="form-control custom_control text-white" rows="8" resi
-        placeholder="Mystogan#EUW joined the lobby&#10;Neeko Tesla#EUW joined the lobby&#10;Donator 3#EUW joined the lobby&#10;Donator 4#EUW joined the lobby&#10;Donator 5#EUW joined the lobby">{% if summoners_names %}{{summoners_names}}{%endif%}</textarea>
+        placeholder="{{ placeholder }}">{% if summoners_names %}{{summoners_names}}{%endif%}</textarea>
     <button id="btn_multisearch" type="button" class="mt-2 btn btn-outline-light">Search</button>
 
-    <div class="text-secondary mt-2" style="font-size:0.8em;">
-        Here are listed the donators, thanks to them ! <a href="https://ko-fi.com/theraphael0000">The donation page</a>
-        <br />
+    <div class="text-secondary mt-2" style="font-size:0.9em;">
+        The placeholder contains the list of the Donators, thanks to them ! link to the <a
+            href="https://ko-fi.com/theraphael0000">donation page</a>
+        <(^.^<) <br />
     </div>
 </div>
 <script src="/static/js/multisearch.js"></script>

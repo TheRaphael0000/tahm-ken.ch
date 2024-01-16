@@ -6,7 +6,7 @@ from models.riot_api import api_request
 
 FOLDER = Path("static/api_cache/")
 
-challenges_config = api_request("/lol/challenges/v1/challenges/config")
+challenges_config = api_request("/lol/challenges/v1/challenges/config", region="EUW1")
 
 try:
     FOLDER.mkdir(parents=True)
