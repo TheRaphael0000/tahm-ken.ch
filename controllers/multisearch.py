@@ -56,9 +56,16 @@ def route_multisearch_result(region, summoners_names_text):
                 f"Too many summoner names (max: {multisearch_max_size})")
 
         summoners_challenges_info = {}
+        invalids = []
         for query in queries:
-            info = get_summoner_challenges_info(region['id'], query)
-            summoners_challenges_info[info["summoner"]["id"]] = info
+            try:
+                info = get_summoner_challenges_info(region['id'], query)
+                summoners_challenges_info[info["summoner"]["id"]] = info
+            except:
+                invalids.append(query)
+
+        if len(invalids) > 0:
+            raise Exception(f"Couldn't find {' / '.join(invalids)} on {region['id']}")
 
         priority_scores = compute_challenges_priority_scores(
             summoners_challenges_info)
