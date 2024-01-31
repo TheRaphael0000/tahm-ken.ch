@@ -81,7 +81,7 @@ champions_by_key = {champion["key"]: champion for id_, champion in champions.ite
 
 try:
     challenges_config = json.load(
-        open("static/api_cache/challenges_config.json", "r"))
+        open("static/cache_riot_api/challenges_config.json", "r"))
     challenges_config = {c["id"]: c for c in challenges_config}
     for c in challenges_data:
         challenges_config[c['id']]["qte"] = c["qte"]

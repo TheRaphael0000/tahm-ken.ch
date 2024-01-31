@@ -3,7 +3,7 @@ import random
 import json
 
 champions = json.load(
-    open("static/datadragon_cache/champion.json", "rb"))["data"]
+    open("static/cache_datadragon/champion.json", "rb"))["data"]
 
 
 champions_by_roles = json.load(open("static/champions_roles.json", "r"))

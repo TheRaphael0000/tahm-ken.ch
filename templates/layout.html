@@ -1,100 +1,93 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-    <head>
-        {% set title_s %}
-        {% block title %}
-        {% endblock title %}
+
+<head>
+    {% set title_s %}
+    {% block title %}
+    {% endblock title %}
     {% endset %}
-    {% set description_s %}Find optimal composition for teamwork Challenges in League of Legends with this open source tool{% endset %}
+    {% set description_s %}Find optimal composition for teamwork Challenges in League of Legends with this open source
+    tool{% endset %}
     {% set icon %}https://tahm-ken.ch/static/img/favicon.png{% endset %}
     <!-- Meta tags -->
-    <meta charset="UTF-8"/>
-    <meta name="description" content="{{ description_s }}"/>
-    <meta name="keywords"
-          content="league of legends, league, lol, challenges, optimization, compositions"/>
-    <meta name="author" content="TheRaphael0000"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8" />
+    <meta name="description" content="{{ description_s }}" />
+    <meta name="keywords" content="league of legends, league, lol, challenges, optimization, compositions" />
+    <meta name="author" content="TheRaphael0000" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Meta OG tags -->
-    <meta property="og:site_name" content="Tahm-Ken.ch"/>
-    <meta property="og:type" content="website"/>
-    <meta property="og:url" content="https://tahm-ken.ch"/>
-    <meta property="og:title" content="{{ title_s }}"/>
-    <meta property="og:description" content="{{ description_s }}"/>
-    <meta property="og:image" content="{{ icon }}"/>
+    <meta property="og:site_name" content="Tahm-Ken.ch" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://tahm-ken.ch" />
+    <meta property="og:title" content="{{ title_s }}" />
+    <meta property="og:description" content="{{ description_s }}" />
+    <meta property="og:image" content="{{ icon }}" />
     <!-- Meta Twitter tags -->
-    <meta name="twitter:card" content="summary"/>
-    <meta name="twitter:description" content="{{ description_s }}"/>
-    <meta name="twitter:title" content="{{ title_s }}"/>
-    <meta name="twitter:image" content="{{ icon }}"/>
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:description" content="{{ description_s }}" />
+    <meta name="twitter:title" content="{{ title_s }}" />
+    <meta name="twitter:image" content="{{ icon }}" />
     <title>{{ title_s }} - Tahm-Ken.ch</title>
-    <link rel="icon" href="{{ icon }}"/>
+    <link rel="icon" href="{{ icon }}" />
     <!-- Custom CSS/JS -->
-    <link rel="stylesheet" href="/static/css/layout.css"/>
+    <link rel="stylesheet" href="/static/css/layout.css" />
     {% block head %}
     {% endblock head %}
     <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
-          crossorigin="anonymous"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous" />
     <!-- TableSort -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tablesort/5.2.1/tablesort.min.js" integrity="sha512-F/gIMdDfda6OD2rnzt/Iyp2V9JLHlFQ+EUyixDg9+rkwjqgW1snpkpx7FD5FV1+gG2fmFj7I3r6ReQDUidHelA==" crossorigin="anonymous" referrerpolicy="no-referrer">
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tablesort/5.2.1/sorts/tablesort.number.min.js" integrity="sha512-dRD755QRxlybm0h3LXXIGrFcjNakuxW3reZqnPtUkMv6YsSWoJf+slPjY5v4lZvx2ss+wBZQFegepmA7a2W9eA==" crossorigin="anonymous" referrerpolicy="no-referrer">
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tablesort/5.2.1/tablesort.min.js"
+        integrity="sha512-F/gIMdDfda6OD2rnzt/Iyp2V9JLHlFQ+EUyixDg9+rkwjqgW1snpkpx7FD5FV1+gG2fmFj7I3r6ReQDUidHelA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+        </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tablesort/5.2.1/sorts/tablesort.number.min.js"
+        integrity="sha512-dRD755QRxlybm0h3LXXIGrFcjNakuxW3reZqnPtUkMv6YsSWoJf+slPjY5v4lZvx2ss+wBZQFegepmA7a2W9eA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+        </script>
     <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css"
-          rel="stylesheet"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.2/css/all.min.css" rel="stylesheet" />
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-9TT2F05HDD"></script>
     <script src="/static/js/analytics.js"></script>
     <!-- Base64 -->
     <script src="/static/js/custom_urlencode.js"></script>
 </head>
+
 <body class="bg-dark text-white">
     <header class="px-4">
         <nav class="navbar navbar-expand navbar-dark">
             <a class="navbar-brand" href="/">
-                <img src="{{ icon }}" width="40px"/>
+                <img src="{{ icon }}" width="40px" />
             </a>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a accesskey="1"
-                       class="nav-link {% if active_page == 'team_builder' %}active{% endif %}"
-                       href="/team_builder">Team Builder</a>
+                    <a accesskey="1" class="nav-link {% if active_page == 'team_builder' %}active{% endif %}"
+                        href="/team_builder">Team Builder</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a accesskey="2"
-                       class="nav-link dropdown-toggle"
-                       href="#"
-                       id="navbarDropdown"
-                       role="button"
-                       data-bs-toggle="dropdown"
-                       aria-expanded="false">
-                        Best challenges compositions
+                    <a accesskey="2" class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Most challenges compositions
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                         {% for url, name in layout.compositions.items() %}
-                            <li>
-                                <a class="dropdown-item" href="/compositions/{{ url }}">{{ name }}</a>
-                            </li>
+                        <li>
+                            <a class="dropdown-item" href="/compositions/{{ url }}">{{ name }}</a>
+                        </li>
                         {% endfor %}
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a accesskey="3"
-                       class="nav-link {% if active_page == 'multisearch' %}active{% endif %}"
-                       href="/multisearch">Multisearch</a>
+                    <a accesskey="3" class="nav-link {% if active_page == 'multisearch' %}active{% endif %}"
+                        href="/multisearch">Multisearch</a>
                 </li>
                 <li class="nav-item">
-                    <a accesskey="4"
-                       class="nav-link {% if active_page == 'communities' %}active{% endif %}"
-                       href="/communities">Communities</a>
+                    <a accesskey="4" class="nav-link {% if active_page == 'communities' %}active{% endif %}"
+                        href="/communities">Communities</a>
                 </li>
                 <li class="nav-item">
-                    <a accesskey="5"
-                       class="nav-link {% if active_page == 'faq' %}active{% endif %}"
-                       href="/faq">FAQ</a>
+                    <a accesskey="5" class="nav-link {% if active_page == 'faq' %}active{% endif %}" href="/faq">FAQ</a>
                 </li>
             </ul>
             {% block navbar %}{% endblock %}
@@ -109,20 +102,24 @@
             <cite>{{ layout.quote() }}</cite> - The River King
         </div>
         <div class="socials m-2">
-            <a class="discord" href="https://discord.gg/aHs3uDraNU" target="_blank"><i class="fa-brands fa-discord" style="color: #7289da;"></i></a>
-            <a class="kofi" href="https://ko-fi.com/theraphael0000" target="_blank"><i class="fa-solid fa-heart" style="color: Crimson;"></i></a>
-            <a class="github"
-               href="https://github.com/TheRaphael0000/tahm-ken.ch/"
-               target="_blank"><i class="fa-brands fa-github" style="color: #fafafa;"></i></a>
+            <a class="discord" href="https://discord.gg/aHs3uDraNU" target="_blank"><i class="fa-brands fa-discord"
+                    style="color: #7289da;"></i></a>
+            <a class="kofi" href="https://ko-fi.com/theraphael0000" target="_blank"><i class="fa-solid fa-heart"
+                    style="color: Crimson;"></i></a>
+            <a class="github" href="https://github.com/TheRaphael0000/tahm-ken.ch/" target="_blank"><i
+                    class="fa-brands fa-github" style="color: #fafafa;"></i></a>
         </div>
         <div class="text-secondary" style="font-size:0.8em;">
-            Tahm-Ken.ch isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties.
-            <br/>
+            Tahm-Ken.ch isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone
+            officially involved in producing or managing Riot Games properties.
+            <br />
             Riot Games, and all associated properties are trademarks or registered trademarks of Riot Games, Inc.
         </div>
     </footer>
     <!-- JavaScript Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous">
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous">
+        </script>
 </body>
+
 </html>

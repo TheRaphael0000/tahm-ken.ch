@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 
 endpoint = "https://ddragon.leagueoflegends.com"
-folder = "../static/datadragon_cache"
+folder = "static/cache_datadragon"
 
 
 def dl(url, subfolder=""):

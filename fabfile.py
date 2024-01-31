@@ -3,9 +3,10 @@
 import click
 import fabric
 
+repo_folder = "/var/www/tahm-ken.ch/www.tahm-ken.ch"
 
 def deploy(c):
-    with c.cd("/var/www/tahm-ken.ch/www.tahm-ken.ch"):
+    with c.cd(repo_folder):
         current_commit = c.run("git rev-parse HEAD", hide=True).stdout.replace('\n', '')
 
         git_status = c.run("git status --short")
@@ -27,8 +28,11 @@ def deploy(c):
         if len(diff_on_requirements.stdout) > 0:
             c.run("pip install -r requirements.txt --upgrade")
         
-        c.run("systemctl restart www.tahm-ken.ch_gunicorn.service")
+    with c.cd(repo_folder):
+        c.run("python cache_riot_api.py")
+        c.run("python cache_datadragon.py")
 
+    c.run("systemctl restart www.tahm-ken.ch_gunicorn.service")
 
 c = fabric.Connection(host="tahm-ken.ch", user="root", port=22)
 deploy(c)

@@ -25,10 +25,10 @@ except FileNotFoundError:
     print("Client not open")
 
 
-challenges_template = json.load(open("challenges_template.json", "r"))
+challenges_template = json.load(open("static/challenges_template.json", "r"))
 challenges = query(f"/lol-challenges/v1/challenges/local-player")
 champions = json.load(
-    open("../static/datadragon_cache/champion.json", "rb"))["data"]
+    open("static/cache_datadragon/champion.json", "rb"))["data"]
 
 valid_groups = ["Harmony", "Globetrotter"]
 
@@ -66,4 +66,4 @@ for tag, champions in champions_by_tag.items():
     challenges_template.append(challenge)
 
 json.dump(challenges_template, open(
-    "../static/challenges.json", "w"), indent=4)
+    "static/challenges.json", "w"), indent=4)
