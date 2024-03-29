@@ -17,15 +17,16 @@ let search_champion = document.querySelector("#search_champion")
 let completed = document.querySelector("#completed")
 let completed_img = document.querySelector("#completed_img")
 let selection = document.querySelector("#selection")
+let attribution_score = document.querySelector("#attribution_score")
 
 let completed_challenges = true
 
 let role_mapping = {
-    "top": "top",
-    "jungle": "jungle",
-    "mid": "middle",
-    "bottom": "bottom",
-    "support": "utility",
+    "ADC": "bottom",
+    "JUNGLE": "jungle",
+    "MID": "middle",
+    "TOP": "top",
+    "SUPPORT": "utility"
 }
 
 let completed_possible_icons = [
@@ -229,8 +230,7 @@ function selectChampion(e) {
     }
     else if (canSelectChampion()) {
         e.dataset.selected = "1"
-        if (getSelectedChampions().length >= 5)
-            best_fit_roles()
+        best_fit_positions()
     }
 
     updateChampionsSelection()
@@ -495,12 +495,17 @@ function sort_champions() {
     }
 }
 
-function best_fit_roles() {
+function best_fit_positions() {
+
+    if (getSelectedChampions().length < 5) {
+        attribution_score.innerHTML = "0.00/5.00"
+        return;
+    }
     let selected_champions = getSelectedChampionsName(true)
 
     selected_champions = selected_champions.join(",")
 
-    fetch("/best_fit_roles/" + selected_champions)
+    fetch("/best_fit_positions/" + selected_champions)
         .then((response) => {
             return response.json()
         })
@@ -516,6 +521,8 @@ function best_fit_roles() {
 
                 champion_role.src = "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/svg/position-" + role_ + color + ".svg"
             }
+
+            attribution_score.innerHTML = json[1].toFixed(2) + "/5.00"
         })
 }
 

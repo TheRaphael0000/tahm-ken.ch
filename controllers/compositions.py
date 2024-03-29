@@ -4,8 +4,6 @@ from flask import abort
 
 from collections import defaultdict
 
-from models.constants import roles
-
 from models.challenges_tools import champions
 from models.challenges_tools import challenges_config
 from models.challenges_tools import complete_comp
@@ -17,7 +15,8 @@ from models.compositions import compositions_names_routes
 from global_data import layout
 from global_data import language
 
-from models.champions_roles import best_fit_roles
+from models.champions_positions import best_fit_positions
+from models.champions_positions import X_label as positions
 
 composition_limit = 1500
 query_limit = 25000
@@ -30,13 +29,14 @@ def comps_processing(comps):
     # limit large challenges
     by_number = defaultdict(list)
 
-    comps.sort(key=lambda l: (-len(l[1]), l[-1], "".join(l[0].values())))
+    comps.sort(key=lambda l: (-len(l[1]), -l[-1], "".join(l[0].values())))
     comps = comps[0:composition_limit]
 
     champions_available = set()
-    for comp, challenges, stupidity_level in comps:
-        comp = [comp[role] for role in roles]
-        by_number[len(challenges)].append((comp, challenges, stupidity_level))
+    for comp, challenges, attribution_score in comps:
+        comp = [comp[position] for position in positions]
+        by_number[len(challenges)].append(
+            (comp, challenges, attribution_score))
         champions_available |= set(comp)
 
     champions_ = {
@@ -84,7 +84,7 @@ def route_optimize(route):
         comps = []
         for comp in complete_comp(champions, challenges, limit=query_limit):
             challenges_ = find_challenges(comp)
-            roles = best_fit_roles(comp)
+            roles = best_fit_positions(comp)
             comps.append((roles[0], challenges_, roles[1]))
     except Exception as e:
         return abort(404)

@@ -14,7 +14,7 @@ from models.challenges_tools import get_summoner_challenges_info
 from models.challenges_tools import get_challenge_from_id
 from models.challenges_tools import find_challenges_details
 
-from models.champions_roles import best_fit_roles
+from models.champions_positions import best_fit_positions
 
 from models.regions import regions
 from models.regions import regions_by_abbreviation
@@ -136,12 +136,12 @@ def route_champions_selected(champions=""):
     return json.dumps(challenges_info)
 
 
-@bp_team_builder.route("/best_fit_roles/<champions>")
-def route_best_fit_roles(champions=""):
+@bp_team_builder.route("/best_fit_positions/<champions>")
+def route_best_fit_positions(champions=""):
     try:
         comp = set(champions.split(","))
-        roles = best_fit_roles(set(comp))
+        positions = best_fit_positions(set(comp))
     except:
         return abort(404)
 
-    return json.dumps(roles)
+    return json.dumps(positions)

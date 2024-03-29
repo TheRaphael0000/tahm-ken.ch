@@ -9,11 +9,3 @@ ranks = {
     "GRANDMASTER",
     "CHALLENGER",
 }
-
-roles = [
-    "top",
-    "jungle",
-    "mid",
-    "bottom",
-    "support",
-]

@@ -12,17 +12,14 @@ def get_endpoint(game_folder):
     values = open(game_folder / Path("lockfile")).read().split(":")
     return (f"{values[4]}://127.0.0.1:{values[2]}", ("riot", values[3]))
 
-
 def query(route):
-    answer = get(url + route, auth=basic, verify=Path(certif_path))
-    return json.loads(answer.content)
-
-
-try:
-    url, creds = get_endpoint(Path(game_path))
-    basic = auth.HTTPBasicAuth(*creds)
-except FileNotFoundError:
-    print("Client not open")
+    try:
+        url, creds = get_endpoint(Path(game_path))
+        basic = auth.HTTPBasicAuth(*creds)
+        answer = get(url + route, auth=basic, verify=Path(certif_path))
+        return json.loads(answer.content)
+    except FileNotFoundError:
+        print("Client not open")
 
 
 challenges_template = json.load(open("static/challenges_template.json", "r"))

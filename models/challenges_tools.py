@@ -7,15 +7,9 @@ import scipy as sp
 import scipy.special
 from engineering_notation import EngNumber
 
-import requests
-from urllib.parse import urlencode, quote
-
-from config import config
-from models.regions import default_region
-
 from .riot_api import api_request
 
-from models.champions_roles import champions
+from models.champions_positions import champions
 
 
 challenges_groups = [
