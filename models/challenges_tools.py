@@ -51,7 +51,7 @@ challenges_groups = [
 ]
 
 
-challenges_data = json.load(open("static/challenges.json"))
+challenges_data = json.load(open("static/cache_lcu/challenges.json"))
 for c in challenges_data:
     c["max"] = len(c["champions"])
     c["champions"] = set(c["champions"])

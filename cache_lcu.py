@@ -12,6 +12,7 @@ def get_endpoint(game_folder):
     values = open(game_folder / Path("lockfile")).read().split(":")
     return (f"{values[4]}://127.0.0.1:{values[2]}", ("riot", values[3]))
 
+
 def query(route):
     try:
         url, creds = get_endpoint(Path(game_path))
@@ -22,7 +23,8 @@ def query(route):
         print("Client not open")
 
 
-challenges_template = json.load(open("static/challenges_template.json", "r"))
+challenges_template = json.load(
+    open("static/cache_lcu/challenges_template.json", "r"))
 challenges = query(f"/lol-challenges/v1/challenges/local-player")
 champions = json.load(
     open("static/cache_datadragon/champion.json", "rb"))["data"]
@@ -63,4 +65,4 @@ for tag, champions in champions_by_tag.items():
     challenges_template.append(challenge)
 
 json.dump(challenges_template, open(
-    "static/challenges.json", "w"), indent=4)
+    "static/cache_lcu/challenges.json", "w"), indent=4)
