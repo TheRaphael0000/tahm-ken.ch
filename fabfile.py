@@ -2,42 +2,58 @@
 
 import click
 import fabric
+from pathlib import Path
+import os
 
 repo_folder = "/var/www/tahm-ken.ch/www.tahm-ken.ch"
+c = fabric.Connection(host="tahm-ken.ch", user="root", port=22)
 
-
-def deploy(c):
-    with c.cd(repo_folder):
-        current_commit = c.run("git rev-parse HEAD",
-                               hide=True).stdout.replace('\n', '')
+with c.cd(repo_folder):
+    if click.confirm("Update code?", default=True):
+        before_pulling = c.run("git rev-parse HEAD", hide=True).stdout
+        before_pulling = before_pulling.replace('\n', '')
 
         git_status = c.run("git status --short")
-
         if len(git_status.stdout) > 0:
-            stash = click.confirm("Stash and deploy to main ?", default=True)
-            if stash:
+            if click.confirm("Stash and deploy to main ?", default=True):
                 c.run("git stash")
             else:
                 print("Deployment aborted.")
                 exit()
 
         # update main
+        print(f"Updating code...")
         c.run("git checkout main")
         c.run("git pull")
 
         # upgrade modules if needed
-        diff_on_requirements = c.run(
-            f"git diff {current_commit} requirements.txt", hide=True)
+        command = f"git diff {before_pulling} requirements.txt"
+        diff_on_requirements = c.run(command, hide=True)
         if len(diff_on_requirements.stdout) > 0:
+            print(f"Upgrading pip requirements...")
             c.run("pip install -r requirements.txt --upgrade")
+    print()
 
-    with c.cd(repo_folder):
+    if click.confirm("Update cache?", default=True):
+        print("Updating Riot API cache...")
         c.run("python cache_riot_api.py")
+        print()
+
+        print("Updating Datadragon cache...")
         c.run("python cache_datadragon.py")
+        print()
+
+        print("Updating Opgg cache...")
         c.run("python cache_opgg.py")
+        print()
 
-    c.run("systemctl restart www.tahm-ken.ch_gunicorn.service")
+    file = "static/cache_compositions/compositions.json"
+    if click.confirm(f"Update {file}?", default=True):
+        print(f"Copying {file}...")
+        # couldn't make it work with the c.cd()
+        c.put(file, repo_folder + "/" + file)
+        print()
 
-
-c = fabric.Connection(host="tahm-ken.ch", user="root", port=22)
-deploy(c)
+    if click.confirm(f"Restart gunicorn service?", default=True):
+        print(f"Restarting gunicorn service...")
+        c.run("systemctl restart www.tahm-ken.ch_gunicorn.service")
