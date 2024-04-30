@@ -4,7 +4,7 @@ import json
 from pprint import pprint
 from collections import defaultdict
 
-game_path = "C:\Riot Games\League of Legends"
+game_path = "C:/Riot Games/League of Legends/"
 certif_path = "./riotgames.pem"
 
 
