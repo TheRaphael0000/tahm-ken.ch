@@ -117,16 +117,28 @@ html {
     border-radius: 50% 0 0 0;
 }
 
+.mastery_level_10 {
+    background-color: #992E5E;
+}
+
+.mastery_level_9 {
+    background-color: #99692E;
+}
+
+.mastery_level_8 {
+    background-color: #7E2E99;
+}
+
 .mastery_level_7 {
-    background-color: #1C8C8C96;
+    background-color: #2E4399;
 }
 
 .mastery_level_6 {
-    background-color: #8C1C8796;
+    background-color: #2E9939;
 }
 
 .mastery_level_5 {
-    background-color: #8C201C96;
+    background-color: #2E6099;
 }
 
 .selection {

@@ -193,7 +193,13 @@ Team Builder
           data-champion_id="{{ champions[champion]['key'] }}" data-champion_level="{{ level }}"
           data-champion_points="{{ points }}" />
         <img id="champion_role_{{ champion }}" src="" class="champion_role" />
-        {% if level >= 7 %}
+        {% if level >= 10 %}
+        <div class="mastery_level mastery_level_10">{{level}}</div>
+        {% elif level >= 9 %}
+        <div class="mastery_level mastery_level_9">{{level}}</div>
+        {% elif level >= 8 %}
+        <div class="mastery_level mastery_level_8">{{level}}</div>
+        {% elif level >= 7 %}
         <div class="mastery_level mastery_level_7">{{level}}</div>
         {% elif level >= 6 %}
         <div class="mastery_level mastery_level_6">{{level}}</div>
