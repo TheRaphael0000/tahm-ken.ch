@@ -1,11 +1,9 @@
 flask
 gunicorn
-jupyter
 numpy
 matplotlib
 fabric
 click
-flask-limiter
 ipinfo
 scipy
 engineering_notation

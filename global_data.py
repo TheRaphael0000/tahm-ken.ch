@@ -1,7 +1,5 @@
 from flask import session
-
-from flask_limiter import Limiter
-from flask_limiter.util import get_remote_address
+from flask import request
 
 from models.quotes import random_quote
 from models.regions import get_region_from_ip
@@ -18,8 +16,6 @@ layout = {
     "language": language,
 }
 
-limiter = Limiter(get_remote_address)
-
 
 def get_default_region():
     # store the region in the session
@@ -27,6 +23,6 @@ def get_default_region():
     if "default_region" in session:
         default_region = session["default_region"]
     else:
-        default_region = get_region_from_ip(get_remote_address())
+        default_region = get_region_from_ip(request.remote_addr)
         session["default_region"] = default_region
     return default_region

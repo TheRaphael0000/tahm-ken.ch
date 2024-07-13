@@ -2,8 +2,6 @@ from flask import Flask
 
 from config import config
 
-from global_data import limiter
-
 from controllers.multisearch import bp_multisearch
 from controllers.team_builder import bp_team_builder
 from controllers.compositions import bp_compositions
@@ -15,8 +13,6 @@ from controllers.special_pages import bp_special_pages
 app = Flask(__name__, static_url_path="/static")
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 60 * 60
 app.secret_key = config["app_secret_key"]
-
-limiter.init_app(app)
 
 app.register_blueprint(bp_multisearch)
 app.register_blueprint(bp_team_builder)
