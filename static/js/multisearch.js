@@ -4,8 +4,13 @@ let select_region = document.querySelector("#select_region")
 
 // thanks to DarkIntaqt: https://discord.com/channels/187652476080488449/379429593829867521/1139574848134332416
 let ignored_text = [
+    "⁦⁦",
+    "⁩ ",
+    "⁦",
+    "⁩⁩",
     ",",
     "\n",
+    "\r",
     ":",
     " 님이 방에 참가했습니다.",
     " 님이 그룹에 참여했습니다.",
@@ -58,11 +63,10 @@ text_area_multisearch.addEventListener("paste", event => {
 
         for (let j of ignored_text) {
             if (l.includes(j)) {
-                let name = l.replace(j, "").replace("\r", "").replace("\n", "")
-                summoners_names.add(name)
-                break
+                l = l.replace(j, "")
             }
         }
+        summoners_names.add(l)
     }
     if (summoners_names.size > 0) {
         paste = Array(...summoners_names).join("\n")
