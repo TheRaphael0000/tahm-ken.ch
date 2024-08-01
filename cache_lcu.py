@@ -32,6 +32,7 @@ champions = json.load(
 valid_groups = ["Harmony", "Globetrotter"]
 
 champion_key_to_id = {c["key"]: c["id"] for c in champions.values()}
+
 challenges_index_lookup = {t["id"]: i for i,
                            t in enumerate(challenges_template)}
 
@@ -43,8 +44,12 @@ for challenge in challenges.values():
     challenges_template[index]["_"] = challenge["name"]
 
     for champion_key in challenge["availableIds"]:
-        challenges_template[index]["champions"].append(
-            champion_key_to_id[str(champion_key)])
+        # there are a lot of garbage ids here now, riot wtf??
+        if str(champion_key) not in champion_key_to_id:
+            print(f"Error with id {champion_key}")
+            continue
+        c = champion_key_to_id[str(champion_key)]
+        challenges_template[index]["champions"].append(c)
     challenges_template[index]["champions"].sort()
 
 # add variety is overrated
