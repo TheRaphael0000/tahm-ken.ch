@@ -198,7 +198,10 @@ def get_champion_mastery_by_challenge(region, encryptedPUUID):
     for cm in champions_masteries:
         cm["championPointsE"] = str(
             EngNumber(cm["championPoints"], precision=0))
-        cm["championId"] = champions_by_key[str(cm["championId"])]["id"]
+        key = str(cm["championId"])
+        if key not in champions_by_key:
+            continue
+        cm["championId"] = champions_by_key[key]["id"]
     champions_masteries_by_id = {
         c["championId"]: c for c in champions_masteries}
     summoner_played_champions = set(champions_masteries_by_id.keys())
