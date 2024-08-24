@@ -4,6 +4,7 @@ from flask import Blueprint
 from flask import redirect
 from flask import render_template
 from flask import abort
+from flask import Response
 
 from models.challenges_tools import champions
 from models.challenges_tools import champions_alphabetical
@@ -122,7 +123,7 @@ def route_challenge_intersection(challenges_id):
             response["challenges_additional_intersection"].append(
                 [f"{id_}:{i}", l])
 
-    return json.dumps(response)
+    return Response(json.dumps(response), mimetype='application/json')
 
 
 @bp_team_builder.route("/champions_selected/<champions>")
@@ -133,7 +134,7 @@ def route_champions_selected(champions=""):
     except:
         return abort(404)
 
-    return json.dumps(challenges_info)
+    return Response(json.dumps(challenges_info), mimetype='application/json')
 
 
 @bp_team_builder.route("/best_fit_positions/<champions>")
@@ -144,4 +145,4 @@ def route_best_fit_positions(champions=""):
     except:
         return abort(404)
 
-    return json.dumps(positions)
+    return Response(json.dumps(positions), mimetype='application/json')
