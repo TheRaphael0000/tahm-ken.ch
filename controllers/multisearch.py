@@ -1,4 +1,4 @@
-import traceback
+import random
 
 from flask import Blueprint
 from flask import render_template
@@ -20,9 +20,11 @@ bp_multisearch = Blueprint('bp_multisearch', __name__,
 multisearch_max_size = 8
 
 donators = open("static/donators.txt").read().split("\n")
-placeholder = "".join([f"{d} joined the lobby\n" for d in donators])
+
 
 def render_multisearch_search(additional_args={}):
+    random.shuffle(donators)
+    placeholder = "".join([f"{d} joined the lobby\n" for d in donators])
     args = {
         "layout": layout,
         "regions": regions,
@@ -65,7 +67,8 @@ def route_multisearch_result(region, summoners_names_text):
                 invalids.append(query)
 
         if len(invalids) > 0:
-            raise Exception(f"Couldn't find {' / '.join(invalids)} on {region['id']}")
+            raise Exception(f"Couldn't find {
+                            ' / '.join(invalids)} on {region['id']}")
 
         priority_scores = compute_challenges_priority_scores(
             summoners_challenges_info)
