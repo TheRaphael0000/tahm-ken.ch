@@ -67,8 +67,7 @@ def route_multisearch_result(region, summoners_names_text):
                 invalids.append(query)
 
         if len(invalids) > 0:
-            raise Exception(f"Couldn't find {
-                            ' / '.join(invalids)} on {region['id']}")
+            raise Exception(f"Couldn't find {' / '.join(invalids)} on {region['id']}")
 
         priority_scores = compute_challenges_priority_scores(
             summoners_challenges_info)
