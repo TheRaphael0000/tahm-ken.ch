@@ -10,9 +10,6 @@ champions_ranked = json.load(
     open("static/cache_opgg/champions_ranked.json", "rb"))["data"]
 
 
-# print(champions_ranked)
-# print(champions)
-
 champions_by_ig_name = {
     champion["name"]: champion
     for _, champion in champions.items()
@@ -28,11 +25,16 @@ Y_label = []
 positions_champions_matrix = []
 
 for champion_ranked in champions_ranked:
-    champion = champions_by_key[champion_ranked["id"]]
+    id_ = champion_ranked["id"]
+    champion = champions_by_key[id_]
     champion_id = champion["id"]
 
     Y_label.append(champion_id)
 
+    if "average_stats" not in champion_ranked or champion_ranked["average_stats"] is None:
+        champion_ranked["average_stats"] = {
+            "pick_rate": 0,
+        }
     pickrate = champion_ranked["average_stats"]["pick_rate"]
     champion_positions = set()
 
@@ -102,4 +104,6 @@ if __name__ == "__main__":
         ["Blitzcrank", "Caitlyn", "Diana", "Gnar", "JarvanIV"]))
     print(best_fit_positions(
         ["Pantheon", "Zac", "Singed", "Tryndamere", "Karthus"]))
+    print(best_fit_positions(
+        ["Pantheon", "Zac", "Singed", "Tryndamere", "Corki"]))
     print(best_fit_positions(["Singed", "Lux", "Lux", "Zoe", "Poppy"]))
