@@ -600,6 +600,7 @@
         "qte": 5,
         "label": "Noxus",
         "champions": [
+            "Ambessa",
             "Briar",
             "Cassiopeia",
             "Darius",
@@ -735,6 +736,7 @@
         "label": "Fighter",
         "champions": [
             "Aatrox",
+            "Ambessa",
             "Belveth",
             "Briar",
             "Camille",
@@ -885,6 +887,7 @@
             "Ahri",
             "Akali",
             "Akshan",
+            "Ambessa",
             "Aurora",
             "Briar",
             "Camille",
