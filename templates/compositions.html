@@ -27,10 +27,8 @@
     <div class="compositions">
         {% for champions_, challenges_ids, attribution_score in comps %}
         <div class="composition tooltip_">
-            {% for champion in champions_ %}
-            <img src="/static/cache_datadragon/champions_img/{{ champion }}.png" alt="{{ champions[champion]['name'] }}"
-                data-champion="{{ champion }}" width="65px">
-            {% endfor %}
+            {% for champion in champions_ %}<img src="/static/cache_datadragon/champions_img/{{ champion }}.png"
+                alt="{{ champions[champion]['name'] }}" data-champion="{{ champion }}" width="65px">{% endfor %}
             <div class="challenges tooltip_text tooltip_below">
                 Attribution score: {{ "%.2f"|format(attribution_score) }}
                 <ul>
