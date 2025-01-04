@@ -643,7 +643,7 @@ function share() {
             let oldHTML = btn_share.innerHTML
             btn_share.classList.add("btn-success")
             btn_share.classList.remove("btn-outline-light")
-            btn_share.innerHTML = "<i class='fa-solid fa-check'></i>"
+            btn_share.innerHTML = "<i class='fa-solid fa-check'></i> Copied!"
 
             setTimeout(() => {
                 btn_share.classList.remove("btn-success")
