@@ -66,6 +66,10 @@ text_area_multisearch.addEventListener("paste", event => {
                 l = l.replace(j, "")
             }
         }
+
+        if (l) { // Ensure only non-empty lines are added
+            summoners_names.add(l);
+        }
         summoners_names.add(l)
     }
     if (summoners_names.size > 0) {
