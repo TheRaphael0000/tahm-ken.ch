@@ -1,12 +1,14 @@
 import requests
 import json
+from pathlib import Path
 
 
-def save(url, path):
+def save():
+    url = "https://lol-web-api.op.gg/api/v1.0/internal/bypass/champions/euw/ranked"
+    path = Path("static/cache_opgg")
     print(f"{url} -> {path}")
     data = requests.get(url).json()
-    json.dump(data, open(path, "w"))
+    path.mkdir(parents=True, exist_ok=True)
+    json.dump(data, open(path / "champions_ranked.json" , "w"))
 
-
-save("https://lol-web-api.op.gg/api/v1.0/internal/bypass/champions/euw/ranked",
-     "static/cache_opgg/champions_ranked.json")
+save()

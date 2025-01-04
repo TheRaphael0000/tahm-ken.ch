@@ -1,77 +1,79 @@
-# challenges intersection league
+# Tahm-Ken.ch
 
-trying to create an app which help to optimize the teamwork challenges in league of legends by finding compositions that contain the most challenges.
+If you want to help, don't hesitate. The projected is quite a mess right now though, so good luck!
 
-still wip, you can pr if you want.
+## Dev setup
 
-## todo
-- [ ] allow to remove champions (right click), idea from BlackDizzle 
-- [ ] multi-language, adapt the code for this
-- [ ] (bugfix) show points for harmony and globetrotter
-- [ ] responsiveness for mobile
-- [ ] update table sorting and add visual clue of the current sort
-- [ ] create a batch file for windows install
-- [ ] User eXperience (help needed)
+I've tested this install setup on Windows Ubuntu WSL, but this probably also works on Linux or Mac.
+For Windows install WSL or good luck!
 
+### Install dependencies
 
-## done
-- [x] show challenges for each champions when ~~hovering~~ selecting them (act like you added them)
-- [x] have a multisearch feature like op.gg
-- [x] collect the data
-- [x] parse the data
-- [x] create a basic ui
-- [x] add functions to intersect the sets
-- [x] update the ui according to the challenge selections
-- [x] copy the selected champion into the clipboard
-- [x] update the ui according to the champion selections
-- [x] add a page to good composition found for each challenges that require 5 specifics champions
-- [x] add a filter for specifics champions in optimized compositions
-- [x] show challenges for each champions when selecting them 
-- [x] find a way to implement Variety's Overrated
-- [x] fetch from Riot API current challenges
-- [x] in the compositions, update the filter to only show available champs
-- [x] search for champions when typing letters
-- [x] add tooltips for the challenges, idea from PureImplosion on Reddit
-- [x] filter out champions in compositions, idea from DOOGLAK on Reddit
-- [x] recompute the optimized composition for "Variety's Overrated", idea from Konstamonsta on Reddit
-- [x] replace the space in the name of the compositions by underscores or dashes
-- [x] use cdragon icon for the challenge
-- [x] add a Q&A
-- [x] add summoners icon and challenge progression when searching for summoner
-- [x] block api route when too many request from same client (look into the flask_limiter package)
-- [x] custom compositions (algo that find good comps depending on the masteries)
-- [x] use role identifications for ordering the champions in the optimized compositions
-- [x] move the "how to use" on the corresponding pages (modal dialog)
-- [x] add more filters for optimized compositions (for champions role for example) -> became the stupidity level metric
-- [x] select the 'correct' server by default depending on the ip address
+```bash
+# python if you don't have it
+apt install python3 python3-pip
 
-## install
-you need python 3
-
-```
-make install
+# create a venv and install dependencies
+python3 -m venv venv
+source venv/bin/activate
+python3 -m pip install -r requirements.txt
 ```
 
-the makefile will download the current `compositions.json` which can be obtained by running `compositions.ipynb` with jupyter.
+### Configs
 
-create `config.json` from `config_sample.json` and fill it in.
+```bash
+# create a config file from the sample
+cp config_sample.json config.json
 
-keys:
-- app_secret_key : `python -c "import secrets; print(secrets.token_hex(24))"`
-- riot_api_key : mandatory, for the League profiles inspections, https://developer.riotgames.com/
-- ipinfo_token : not mandatory, to select the default server, https://ipinfo.io/
-- discord_bot_token : not mandatory, for the discord communities, https://discord.com/developers/applications
-
-i'll try to make the riot api key not mandatory...
-
-## run
-```
-python app.py
+# create a the flask secret and set it in the config file
+sed -i 's/"app_secret_key": ""/"app_secret_key": "'$(python3 -c "import secrets; print(secrets.token_hex(24))")'"'/g config.json
 ```
 
-## thanks
+Other optional API keys used. These require manual steps on the given website. You can skip those!
+- `riot_api_key` : not mandatory, for the League profiles inspections, https://developer.riotgames.com/
+- `ipinfo_token` : not mandatory, to select the default server, https://ipinfo.io/
+- `discord_bot_token` : not mandatory, for the discord communities, https://discord.com/developers/applications
 
-people who directly helped the project (more than feedbacks):
+### Update caches
+
+```bash
+# download latest playrates from opgg
+python3 cache_opgg.py
+
+# download latest datadragon files (can take a few minutes)
+python3 cache_datadragon.py
+
+# download the latest precomputed caches file so you don't have to compute them yourself
+mkdir static/cache_compositions
+curl https://tahm-ken.ch/static/cache_compositions/compositions.json > static/cache_compositions/compositions.json
+# or you can compute it yourself by running:
+# python3 cache_compositions.py
+
+# download the latest challenge config file used on the server
+mkdir static/cache_riot_api
+curl https://tahm-ken.ch/static/cache_riot_api/challenges_config.json > static/cache_riot_api/challenges_config.json
+# if you set the Riot API key run this instead:
+# python3 cache_riot_api.py
+```
+
+
+### Run the dev env
+
+```bash
+source venv/bin/activate
+python3 app.py
+```
+
+## CD
+
+A CD script that update the website on a server through ssh. I guess nobody can access the server except me, so probably not useful for you :)
+```
+python fabfile.py
+```
+
+## Thanks
+
+People who directly helped the project (more than feedbacks):
 
 - thanks to @celiendonze and @Etiouse for helping me populate the initial `challenges.json`
 - thanks to @Pomarine for reviewing and correcting the `challenges.json` file
@@ -79,7 +81,7 @@ people who directly helped the project (more than feedbacks):
 - thanks to @DarkIntaqt for fixing a few typos and adding better meta tags
 - thanks to @DarkIntaqt for adding the share composition feature
 
-people who gave feedback that were implemented/bug fixed:
+People who gave feedback that were implemented/bug fixed:
 
 - u/PureImplosion
 - u/DOOGLAK
