@@ -42,10 +42,17 @@ let ignored_text = [
     " se ha unido a la sala",
     " se uni\xf3 a la sala",
     " odaya katıldı",
-    " lobiye katıldı"
+    " lobiye katıldı",
 ]
 
-text_area_multisearch.addEventListener("paste", event => {
+let search_summoners = (summoners_names) => {
+    btn_multisearch.classList.add("disabled")
+    let summoners_args = summoners_names.join(",").replaceAll("#", "-")
+    let url = `/multisearch/${select_region.value}/${summoners_args}`
+    window.location.href = url
+}
+
+text_area_multisearch.addEventListener("paste", (event) => {
     event.preventDefault()
 
     // load the current paste
@@ -66,23 +73,34 @@ text_area_multisearch.addEventListener("paste", event => {
                 l = l.replace(j, "")
             }
         }
-        summoners_names.add(l)
+
+        if (l) {
+            summoners_names.add(l)
+        }
     }
     if (summoners_names.size > 0) {
         paste = Array(...summoners_names).join("\n")
     }
 
     // handle selection
-    const selectionStart = text_area_multisearch.selectionStart;
-    const selectionEnd = text_area_multisearch.selectionEnd;
-    const currentValue = text_area_multisearch.value;
-    const modifiedValue = currentValue.substring(0, selectionStart) + paste + currentValue.substring(selectionEnd);
-    text_area_multisearch.value = modifiedValue;
-    const newPosition = selectionStart + paste.length;
-    text_area_multisearch.setSelectionRange(newPosition, newPosition);
+    const selectionStart = text_area_multisearch.selectionStart
+    const selectionEnd = text_area_multisearch.selectionEnd
+    const currentValue = text_area_multisearch.value
+    const modifiedValue = currentValue.substring(0, selectionStart) + paste + currentValue.substring(selectionEnd)
+    text_area_multisearch.value = modifiedValue
+    const newPosition = selectionStart + paste.length
+    text_area_multisearch.setSelectionRange(newPosition, newPosition)
+
+    // If someone pasted a complete set of 5 names, no reason for them to click the button, we start the search
+    if (summoners_names.size === 5) {
+        search_summoners(Array.from(summoners_names))
+    }
 })
 
 btn_multisearch.addEventListener("click", function () {
-    let url = "/multisearch/" + select_region.value + "/" + text_area_multisearch.value.split("\n").join(",").replaceAll("#", "-")
-    window.location.href = url
+    let summoners_names = text_area_multisearch.value
+        .split("\n")
+        // filter out empty lines
+        .filter((str) => str)
+    search_summoners(summoners_names)
 })
