@@ -22,11 +22,11 @@ let attribution_score = document.querySelector("#attribution_score")
 let completed_challenges = true
 
 let role_mapping = {
-    "ADC": "bottom",
-    "JUNGLE": "jungle",
-    "MID": "middle",
-    "TOP": "top",
-    "SUPPORT": "utility"
+    ADC: "bottom",
+    JUNGLE: "jungle",
+    MID: "middle",
+    TOP: "top",
+    SUPPORT: "utility",
 }
 
 let completed_possible_icons = [
@@ -41,30 +41,29 @@ let completed_possible_icons = [
 ]
 
 // selection order for the URL selection bitfield
-// APPEND NEW CHALLEGNES ID AT THE END OF THIS LIST TO KEEP URL CONSISTENCY 
+// APPEND NEW CHALLEGNES ID AT THE END OF THIS LIST TO KEEP URL CONSISTENCY
 let selection_order = [
-    303401, 303402, 303403, 303404, 303405, 303406, 303407, 3034080, 3034081, 3034082, 3034083, 3034084, 3034085, 303409, 303410, 303411, 303412, 303501, 303502, 303503, 303504, 303505, 303506, 303507, 303508, 303509, 303510, 303511, 303512, 303513
+    303401, 303402, 303403, 303404, 303405, 303406, 303407, 3034080, 3034081, 3034082, 3034083, 3034084, 3034085,
+    303409, 303410, 303411, 303412, 303501, 303502, 303503, 303504, 303505, 303506, 303507, 303508, 303509, 303510,
+    303511, 303512, 303513,
 ]
 
 let table = new Tablesort(table_challenges[0], {
-    descending: true
+    descending: true,
 })
 
 function updateChampionsStyle() {
     for (let img of champion_img) {
         if (img.dataset.checked == "1") {
-            img.classList.add("checked");
-        }
-        else {
-            img.classList.remove("checked");
+            img.classList.add("checked")
+        } else {
+            img.classList.remove("checked")
         }
 
         if (img.dataset.selected == "1") {
-            img.classList.add("selected");
-        }
-        else {
-
-            img.classList.remove("selected");
+            img.classList.add("selected")
+        } else {
+            img.classList.remove("selected")
         }
     }
     sort_champions()
@@ -100,7 +99,6 @@ function setChampionsSelected(value) {
         img.dataset.selected = value
     }
     updateChampionsStyle()
-
 }
 
 function resetChallenge() {
@@ -163,8 +161,7 @@ function fetch_intersection(ids) {
             setChampionsChecked("0")
 
             if (json.intersection.length <= 0 && ids == "none") {
-                for (let c of champion_img)
-                    c.dataset.checked = "1"
+                for (let c of champion_img) c.dataset.checked = "1"
             }
 
             for (let c of json.intersection) {
@@ -197,7 +194,7 @@ function fetch_intersection(ids) {
 }
 
 function getSelectedChampions() {
-    let selectedChampions = [];
+    let selectedChampions = []
     for (let img of champion_img) {
         if (img.dataset.selected == "1") {
             selectedChampions.push(img)
@@ -210,10 +207,8 @@ function getSelectedChampionsName(id) {
     let selectedChampions = getSelectedChampions()
     let selectedChampionName = []
     for (let s of selectedChampions)
-        if (id == true)
-            selectedChampionName.push(s.dataset.champion_name)
-        else
-            selectedChampionName.push(s.dataset.champion_display_name)
+        if (id == true) selectedChampionName.push(s.dataset.champion_name)
+        else selectedChampionName.push(s.dataset.champion_display_name)
     return selectedChampionName
 }
 
@@ -227,8 +222,7 @@ function selectChampion(e) {
 
     if (e.dataset.selected == "1") {
         e.dataset.selected = "0"
-    }
-    else if (canSelectChampion()) {
+    } else if (canSelectChampion()) {
         e.dataset.selected = "1"
         best_fit_positions()
     }
@@ -242,12 +236,10 @@ function updateChampionsSelection() {
     fetch_challenges(selectedChampionName)
 }
 
-
 function fetch_challenges(selectedChampionName) {
     let champions = "null"
 
-    if (selectedChampionName.length > 0)
-        champions = selectedChampionName.join(",")
+    if (selectedChampionName.length > 0) champions = selectedChampionName.join(",")
 
     fetch("/champions_selected/" + champions)
         .then((response) => {
@@ -271,18 +263,15 @@ function fetch_challenges(selectedChampionName) {
                         img.classList.add("challenge_selection_img")
                         champion_selected.appendChild(img)
                     } else {
-                        if (i >= requirements)
-                            break
+                        if (i >= requirements) break
                         let svg = champion_placeholder.cloneNode(true)
                         svg.style.display = "inline-block"
                         champion_selected.appendChild(svg)
                     }
                 }
 
-                if (champions.length >= requirements)
-                    challenge_tr.classList.add("selected")
-                else
-                    challenge_tr.classList.remove("selected")
+                if (champions.length >= requirements) challenge_tr.classList.add("selected")
+                else challenge_tr.classList.remove("selected")
             }
         })
 }
@@ -298,8 +287,7 @@ function toggle_completed_challenges() {
     if (completed_challenges) {
         el.classList.add(show)
         el.classList.remove(hide)
-    }
-    else {
+    } else {
         el.classList.add(hide)
         el.classList.remove(show)
     }
@@ -326,8 +314,7 @@ function update_challenges_visibility(completed_challenges) {
     completed_img.src = url
 
     completed.classList.add("hide")
-    if (visible_challenges <= 2)
-        completed.classList.remove("hide")
+    if (visible_challenges <= 2) completed.classList.remove("hide")
 }
 
 function reset() {
@@ -341,11 +328,11 @@ btn_toggle_completed_challenges.addEventListener("click", toggle_completed_chall
 reset()
 
 for (let cbc of challenge_cb) {
-    cbc.addEventListener('change', challengeChanged)
+    cbc.addEventListener("change", challengeChanged)
 }
 
 for (let s of challenges_select) {
-    s.addEventListener('change', challengeChanged)
+    s.addEventListener("change", challengeChanged)
 }
 
 for (let c of champion_img) {
@@ -355,7 +342,7 @@ for (let c of champion_img) {
 
     c.addEventListener("mouseenter", function (e) {
         if (canSelectChampion()) {
-            e.target.classList.add("selected");
+            e.target.classList.add("selected")
         }
     })
     c.addEventListener("mouseleave", function (e) {
@@ -371,7 +358,7 @@ function search_summoner() {
 }
 
 summoner.addEventListener("keydown", (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
         search_summoner()
     }
 })
@@ -408,17 +395,13 @@ search_champion.addEventListener("input", function (e) {
         c.parentElement.style.display = "none"
     }
     for (let c of champion_img) {
-
         /**
          * Make a champion searchable by name or internal id
-         * By using the internal id, it is easier to search champions 
+         * By using the internal id, it is easier to search champions
          * like Vel'Koz, as you don't have to add the apostrophe or space
          */
         let query = e.target.value.toLowerCase()
-        let targets = [
-            c.dataset.champion_display_name,
-            c.dataset.champion_name,
-        ]
+        let targets = [c.dataset.champion_display_name, c.dataset.champion_name]
 
         if (targets.some((e) => e.toLowerCase().includes(query))) {
             c.parentElement.style.display = "block"
@@ -447,9 +430,8 @@ btn_optimize_selection.addEventListener("click", (e) => {
 
     if (champions.length + challenges.length > 0) {
         let parameters = challenges.join(",") + "&" + champions.join(",")
-        window.location.href = "/optimize/" + parameters;
-    }
-    else {
+        window.location.href = "/optimize/" + parameters
+    } else {
         alert("Select at least 1 champion or 1 challenge to optimize.")
     }
 })
@@ -496,10 +478,9 @@ function sort_champions() {
 }
 
 function best_fit_positions() {
-
     if (getSelectedChampions().length < 5) {
         attribution_score.innerHTML = "0.00/5.00"
-        return;
+        return
     }
     let selected_champions = getSelectedChampionsName(true)
 
@@ -516,10 +497,13 @@ function best_fit_positions() {
                 let champion_role = document.getElementById("champion_role_" + champion)
                 let role_ = role_mapping[role]
                 let color = ""
-                if (off_role.includes(champion))
-                    color = "-red"
+                if (off_role.includes(champion)) color = "-red"
 
-                champion_role.src = "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/svg/position-" + role_ + color + ".svg"
+                champion_role.src =
+                    "https://raw.communitydragon.org/latest/plugins/rcp-fe-lol-static-assets/global/default/svg/position-" +
+                    role_ +
+                    color +
+                    ".svg"
             }
 
             attribution_score.innerHTML = json[1].toFixed(2) + "/5.00"
@@ -565,7 +549,6 @@ function set_champion_size() {
     }
 }
 
-
 window.addEventListener("resize", set_champion_size)
 set_champion_size()
 
@@ -591,14 +574,15 @@ function encodeSelection() {
     let challengesCode = encodeURL("1" + bitField)
 
     let selectedChampions = document.querySelectorAll(".champion_img.selected")
-    let championsCode = Array.from(selectedChampions).map((e) => {
-        return e.dataset.champion_name
-    }).toString();
+    let championsCode = Array.from(selectedChampions)
+        .map((e) => {
+            return e.dataset.champion_name
+        })
+        .toString()
 
     let code = challengesCode + "-" + championsCode
     return code
 }
-
 
 function decodeSelection(code) {
     code = code.replace("#", "").split("-")
@@ -611,8 +595,7 @@ function decodeSelection(code) {
     for (let i = 0; i < selection_order.length; i++) {
         let bit = bitField[i]
 
-        if (bit != "1")
-            continue
+        if (bit != "1") continue
 
         let s = selection_order[i]
         let node
@@ -623,8 +606,7 @@ function decodeSelection(code) {
                 challenges_select[0].selectedIndex = s.substring(6, 7)
             }
             node = document.querySelector("#challenge_cb_" + s.substring(0, 6))
-        }
-        else if (typeof s == "string") {
+        } else if (typeof s == "string") {
             node = document.querySelector("#champion_" + s)
         }
 
@@ -636,8 +618,7 @@ function decodeSelection(code) {
 
     for (let i = 0; i < champion_img.length; i++) {
         let node = champion_img[i]
-        if (selectedChampions.includes(node.dataset.champion_name))
-            node.click()
+        if (selectedChampions.includes(node.dataset.champion_name)) node.click()
     }
 }
 
@@ -656,23 +637,26 @@ function share() {
         return
     }
 
-    navigator.clipboard.writeText(shareURL).then(() => {
-        // copied url successfully
-        let oldHTML = btn_share.innerHTML;
-        btn_share.classList.add("btn-success");
-        btn_share.classList.remove("btn-outline-light");
-        btn_share.innerHTML = "<i class='fa-solid fa-check'></i>";
+    navigator.clipboard.writeText(shareURL).then(
+        () => {
+            // copied url successfully
+            let oldHTML = btn_share.innerHTML
+            btn_share.classList.add("btn-success")
+            btn_share.classList.remove("btn-outline-light")
+            btn_share.innerHTML = "<i class='fa-solid fa-check'></i>"
 
-        setTimeout(() => {
-            btn_share.classList.remove("btn-success");
-            btn_share.classList.add("btn-outline-light");
-            btn_share.innerHTML = oldHTML;
-        }, 750);
-    }, (e) => {
-        console.warn(e)
-        // failed to copy url, show alert() as an fallback instead
-        alert(shareURL)
-    })
+            setTimeout(() => {
+                btn_share.classList.remove("btn-success")
+                btn_share.classList.add("btn-outline-light")
+                btn_share.innerHTML = oldHTML
+            }, 750)
+        },
+        (e) => {
+            console.warn(e)
+            // failed to copy url, show alert() as an fallback instead
+            alert(shareURL)
+        },
+    )
 }
 
 // check for the hash

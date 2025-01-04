@@ -3,35 +3,34 @@
 {% block title %}Communities{% endblock %}
 {% block head %}{% endblock %}
 {% block main %}
-    <div class="container">
-        {% macro show_community(community) %}
-            <li>
-                <img src="{{ community['img'] }}"
-                     class="rounded-circle m-2"
-                     style="width:64px;
+<div class="container">
+    {% macro show_community(community) %}
+    <li>
+        <img src="{{ community['img'] }}" class="rounded-circle m-2" style="width:64px;
                             height: 64px;
                             object-fit: cover;">
-                <a href="{{ community['url'] }}" target="_blank">{{ community['title'] }}</a> ({{community['type']}})
-                <p>
-                    <cite>
-                        {{ community['text'] }}
-                    </cite>
-                </p>
-            </li>
-        {% endmacro %}
-        {% if error %}
-            <p class="text-danger">{{error}}</p>
-            The list is not available now....
-        {% else %}
-            <h1>Challenges communities</h1>
-            <p>
-                You can ask on the Tahm-Ken.ch Discord server if you want to add your community on the site (it doesn't need to be a Discord server). You must be admin of this community.
-            </p>
-            <ul>
-                {% for community in communities.values() %}
-                    {{ show_community(community) }}
-                {% endfor %}
-            </ul>
-        {% endif %}
-    </div>
+        <a href="{{ community['url'] }}" target="_blank">{{ community['title'] }}</a> ({{community['type']}})
+        <p>
+            <cite>
+                {{ community['text'] }}
+            </cite>
+        </p>
+    </li>
+    {% endmacro %}
+    {% if error %}
+    <p class="text-danger">{{error}}</p>
+    The list is not available now....
+    {% else %}
+    <h1>Challenges communities</h1>
+    <p>
+        You can ask on the Tahm-Ken.ch Discord server if you want to add your community on the site (it doesn't need to
+        be a Discord server). You must be admin of this community.
+    </p>
+    <ul>
+        {% for community in communities.values() %}
+        {{ show_community(community) }}
+        {% endfor %}
+    </ul>
+    {% endif %}
+</div>
 {% endblock %}

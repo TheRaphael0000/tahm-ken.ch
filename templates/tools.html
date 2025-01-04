@@ -1,13 +1,13 @@
 {%macro region_select(regions, selected_region) %}
 {% for region in regions %}
-    {% if selected_region and region["id"] == selected_region["id"] %}
-        <option name="{{ region['id'] }}" selected="selected">
-            {{ region["abbreviation"] }}
-        </option>
-    {% else %}
-        <option name="{{ region['id'] }}">
-            {{ region["abbreviation"] }}
-        </option>
-    {% endif %}
+{% if selected_region and region["id"] == selected_region["id"] %}
+<option name="{{ region['id'] }}" selected="selected">
+    {{ region["abbreviation"] }}
+</option>
+{% else %}
+<option name="{{ region['id'] }}">
+    {{ region["abbreviation"] }}
+</option>
+{% endif %}
 {% endfor %}
 {% endmacro %}

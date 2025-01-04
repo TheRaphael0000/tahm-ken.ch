@@ -30,9 +30,10 @@ sed -i 's/"app_secret_key": ""/"app_secret_key": "'$(python3 -c "import secrets;
 ```
 
 Other optional API keys used. These require manual steps on the given website. You can skip those!
-- `riot_api_key` : not mandatory, for the League profiles inspections, https://developer.riotgames.com/
-- `ipinfo_token` : not mandatory, to select the default server, https://ipinfo.io/
-- `discord_bot_token` : not mandatory, for the discord communities, https://discord.com/developers/applications
+
+-   `riot_api_key` : not mandatory, for the League profiles inspections, https://developer.riotgames.com/
+-   `ipinfo_token` : not mandatory, to select the default server, https://ipinfo.io/
+-   `discord_bot_token` : not mandatory, for the discord communities, https://discord.com/developers/applications
 
 ### Update caches
 
@@ -56,7 +57,6 @@ curl https://tahm-ken.ch/static/cache_riot_api/challenges_config.json > static/c
 # python3 cache_riot_api.py
 ```
 
-
 ### Run the dev env
 
 ```bash
@@ -67,6 +67,7 @@ python3 app.py
 ## CD
 
 A CD script that update the website on a server through ssh. I guess nobody can access the server except me, so probably not useful for you :)
+
 ```
 python fabfile.py
 ```
@@ -75,19 +76,19 @@ python fabfile.py
 
 People who directly helped the project (more than feedbacks):
 
-- thanks to @celiendonze and @Etiouse for helping me populate the initial `challenges.json`
-- thanks to @Pomarine for reviewing and correcting the `challenges.json` file
-- thanks to @Naralas for fixing paths in `brute_force_compositions.ipynb`
-- thanks to @DarkIntaqt for fixing a few typos and adding better meta tags
-- thanks to @DarkIntaqt for adding the share composition feature
+-   thanks to @celiendonze and @Etiouse for helping me populate the initial `challenges.json`
+-   thanks to @Pomarine for reviewing and correcting the `challenges.json` file
+-   thanks to @Naralas for fixing paths in `brute_force_compositions.ipynb`
+-   thanks to @DarkIntaqt for fixing a few typos and adding better meta tags
+-   thanks to @DarkIntaqt for adding the share composition feature
 
 People who gave feedback that were implemented/bug fixed:
 
-- u/PureImplosion
-- u/DOOGLAK
-- u/Konstamonsta
-- Scraf#2052
-- Amy#5664
-- NotDay#2927
-- (NA) Carbunkle#0740
-- DarkIntaqt#2858
+-   u/PureImplosion
+-   u/DOOGLAK
+-   u/Konstamonsta
+-   Scraf#2052
+-   Amy#5664
+-   NotDay#2927
+-   (NA) Carbunkle#0740
+-   DarkIntaqt#2858

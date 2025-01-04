@@ -46,7 +46,8 @@ print(f"downloading files for version {latest_version}")
 dl(f"/cdn/{latest_version}/data/en_US/champion.json")
 champions = json.load(open(f"{folder}/champion.json", "rb"))
 for id, champion in champions["data"].items():
-    image_url = f"/cdn/{latest_version}/img/champion/{champion['image']['full']}"
+    image_url = f"/cdn/{latest_version}/img/champion/{
+        champion['image']['full']}"
     dl(image_url, subfolder="/champions_img")
 
 open(f"{folder}/version", "w").write(latest_version)

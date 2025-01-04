@@ -42,9 +42,10 @@ def _update_discord_server_information(invite_id, community):
         print(
             f"Loaded: {data['guild']['name']}, expire at {data['expires_at']}")
         community['title'] = data['guild']['name']
-        community['img'] = f"https://cdn.discordapp.com/icons/{ data['guild']['id'] }/{ data['guild']['icon'] }.jpg?size=256"
+        community['img'] = f"https://cdn.discordapp.com/icons/{
+            data['guild']['id']}/{data['guild']['icon']}.jpg?size=256"
         community['text'] = data['guild']['description']
-        community['url'] = f"https://discord.gg/{ invite_id }"
+        community['url'] = f"https://discord.gg/{invite_id}"
         community['type'] = "Discord"
 
     except Exception as e:
