@@ -9,7 +9,7 @@ import tqdm
 comps = defaultdict(list)
 previous_sizes = None
 
-for comp in tqdm.tqdm(complete_comp(selected_champions=set([]), selected_challenges=set([]), limit=1e7)):
+for comp in tqdm.tqdm(complete_comp(selected_champions=set([]), selected_challenges=set([]), limit=2e7)):
     comp_challenges = find_challenges(comp)
     if len(comp_challenges) < 6:
         continue
