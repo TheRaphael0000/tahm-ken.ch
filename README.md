@@ -1,11 +1,18 @@
 # Tahm-Ken.ch
 
-If you want to help, don't hesitate. The projected is quite a mess right now though, so good luck!
+The goal of this WebApp is to facilitate the completion of the _Harmony_ and _Globetrotter_ teamwork challenges in League of Legends.
+
+If you want to help, don't hesitate! The projected is quite a mess right now though, so good luck!
 
 ## Dev setup
 
 I've tested this install setup on Windows Ubuntu WSL, but this probably also works on Linux or Mac.
 For Windows install WSL or good luck!
+
+```bash
+git clone git@github.com:TheRaphael0000/tahm-ken.ch.git # or your fork URL
+cd tahm-ken.ch
+```
 
 ### Install dependencies
 
@@ -29,11 +36,11 @@ cp config_sample.json config.json
 sed -i 's/"app_secret_key": ""/"app_secret_key": "'$(python3 -c "import secrets; print(secrets.token_hex(24))")'"'/g config.json
 ```
 
-Other optional API keys used. These require manual steps on the given website. You can skip those!
+**Optional API keys**. These require manual steps on the given website. You can skip those for most cases!
 
--   `riot_api_key` : not mandatory, for the League profiles inspections, https://developer.riotgames.com/
--   `ipinfo_token` : not mandatory, to select the default server, https://ipinfo.io/
--   `discord_bot_token` : not mandatory, for the discord communities, https://discord.com/developers/applications
+-   `riot_api_key` : for the League profiles inspections, https://developer.riotgames.com/
+-   `ipinfo_token` : to select the default server, https://ipinfo.io/
+-   `discord_bot_token` : for the discord communities, https://discord.com/developers/applications
 
 ### Update caches
 
@@ -43,6 +50,9 @@ python3 cache_opgg.py
 
 # download latest datadragon files (can take a few minutes)
 python3 cache_datadragon.py
+
+# download latest challenge game only data (you must have your League of Legends client, more info here: https://riot-api-libraries.readthedocs.io/en/latest/lcu.html)
+python3 cache_lcu.py
 
 # download the latest precomputed caches file so you don't have to compute them yourself
 mkdir static/cache_compositions
@@ -69,7 +79,7 @@ python3 app.py
 A CD script that update the website on a server through ssh. I guess nobody can access the server except me, so probably not useful for you :)
 
 ```
-python fabfile.py
+python3 fabfile.py # need ssh-key for tahm-ken.ch :)
 ```
 
 ## Thanks
@@ -81,6 +91,7 @@ People who directly helped the project (more than feedbacks):
 -   thanks to @Naralas for fixing paths in `brute_force_compositions.ipynb`
 -   thanks to @DarkIntaqt for fixing a few typos and adding better meta tags
 -   thanks to @DarkIntaqt for adding the share composition feature
+-   thanks to @AndiZandi for improving UX in the multi-search
 
 People who gave feedback that were implemented/bug fixed:
 
