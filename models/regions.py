@@ -1,5 +1,4 @@
-import ipinfo
-from config import config
+import maxminddb
 
 regions = [
     {
@@ -132,15 +131,14 @@ regions_by_country_code = {
     for country_code in region["country_codes"]
 }
 
-ipinfo_handler = ipinfo.getHandler(config["ipinfo_token"])
-
+geoip = maxminddb.open_database("GeoLite2-Country.mmdb")
 
 def get_region_from_ip(ip_address):
     try:
-        details = ipinfo_handler.getDetails(ip_address)
-        country_code = details.country
+        data = geoip.get(ip_address)
+        country_code = data["country"]["iso_code"]
         region = regions_by_country_code[country_code]
-    except (AttributeError, ValueError) as e:
+    except:
         print(f"Couldn't fetch {ip_address} country.")
         region = regions_by_id[default_region]
     return region

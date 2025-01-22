@@ -39,7 +39,6 @@ sed -i 's/"app_secret_key": ""/"app_secret_key": "'$(python3 -c "import secrets;
 **Optional API keys**. These require manual steps on the given website. You can skip those for most cases!
 
 -   `riot_api_key` : for the League profiles inspections, https://developer.riotgames.com/
--   `ipinfo_token` : to select the default server, https://ipinfo.io/
 -   `discord_bot_token` : for the discord communities, https://discord.com/developers/applications
 
 ### Update caches
@@ -66,6 +65,12 @@ curl https://tahm-ken.ch/static/cache_riot_api/challenges_config.json > static/c
 # if you set the Riot API key run this instead:
 # python3 cache_riot_api.py
 ```
+
+### GeoIP
+
+If you want to automatically select the default server depending on the IP of the client.
+Download `GeoLite2-Country.mmdb` and put it in the root folder.
+Let you google how to get it.
 
 ### Run the dev env
 
