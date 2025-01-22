@@ -5,6 +5,8 @@ import fabric
 from pathlib import Path
 import os
 
+python_bin = "venv/bin/python"
+pip_bin = "venv/bin/pip"
 repo_folder = "/var/www/tahm-ken.ch/www.tahm-ken.ch"
 c = fabric.Connection(host="tahm-ken.ch", user="root", port=22)
 
@@ -31,20 +33,20 @@ with c.cd(repo_folder):
         diff_on_requirements = c.run(command, hide=True)
         if len(diff_on_requirements.stdout) > 0:
             print(f"Upgrading pip requirements...")
-            c.run("pip install -r requirements.txt --upgrade")
+            c.run(f"{pip_bin} install -r requirements.txt --upgrade")
     print()
 
     if click.confirm("Update cache?", default=True):
         print("Updating Riot API cache...")
-        c.run("python cache_riot_api.py")
+        c.run(f"{python_bin} cache_riot_api.py")
         print()
 
         print("Updating Datadragon cache...")
-        c.run("python cache_datadragon.py")
+        c.run(f"{python_bin} cache_datadragon.py")
         print()
 
         print("Updating Opgg cache...")
-        c.run("python cache_opgg.py")
+        c.run(f"{python_bin} cache_opgg.py")
         print()
 
     file = "static/cache_compositions/compositions.json"
