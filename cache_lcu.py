@@ -7,6 +7,7 @@ from collections import defaultdict
 game_path = "C:/Riot Games/League of Legends/"
 certif_path = "./riotgames.pem"
 
+print("UPDATE DATADRAGON CACHE BEFORE!!!!!")
 
 def get_endpoint(game_folder):
     values = open(game_folder / Path("lockfile")).read().split(":")
@@ -26,6 +27,7 @@ def query(route):
 challenges_template = json.load(
     open("static/cache_lcu/challenges_template.json", "r"))
 challenges = query(f"/lol-challenges/v1/challenges/local-player")
+
 champions = json.load(
     open("static/cache_datadragon/champion.json", "rb"))["data"]
 
