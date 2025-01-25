@@ -193,8 +193,7 @@ def get_summoner_challenges_info(region, query):
 
 
 def get_champion_mastery_by_challenge(region, encryptedPUUID):
-    url = f"/lol/champion-mastery/v4/champion-masteries/by-puuid/{
-        encryptedPUUID}"
+    url = f"/lol/champion-mastery/v4/champion-masteries/by-puuid/{encryptedPUUID}"
     champions_masteries = api_request(url, region)
 
     for cm in champions_masteries:
