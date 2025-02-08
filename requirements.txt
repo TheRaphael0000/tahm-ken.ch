@@ -9,3 +9,4 @@ engineering_notation
 requests
 maxminddb
 python-dotenv
+tqdm

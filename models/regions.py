@@ -136,7 +136,7 @@ regions_by_country_code = {
 def get_region_from_ip(ip_address):
     try:
         try:
-            with maxminddb.open_database("GeoLite2-Country.mmdb") as geoip:
+            with maxminddb.open_database("static/cache/geo/GeoLite2-Country.mmdb") as geoip:
                 data = geoip.get(ip_address)
         except:
             print("Can't load IP database")

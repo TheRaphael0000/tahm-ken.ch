@@ -4,7 +4,7 @@ The goal of this WebApp is to facilitate the completion of the _Harmony_ and _Gl
 
 If you want to help, don't hesitate! The projected is quite a mess right now though, so good luck!
 
-## Dev setup
+# Dev setup
 
 I've tested this install setup on Windows Ubuntu WSL, but this probably also works on Linux or Mac.
 For Windows install WSL or good luck!
@@ -14,7 +14,7 @@ git clone git@github.com:TheRaphael0000/tahm-ken.ch.git # or your fork URL
 cd tahm-ken.ch
 ```
 
-### Install dependencies
+## Install dependencies
 
 ```bash
 # python if you don't have it
@@ -26,19 +26,11 @@ source venv/bin/activate
 python3 -m pip install -r requirements.txt
 ```
 
-### Configs
+## Caches
 
-```bash
-# create a config file from the sample
-cp .env_sample .env
-```
+Some data are not directly included in this repository and you need to fetch them yourself:
 
-**Optional API keys**. These require manual steps on the given website. You can skip those for most cases!
-
--   `riot_api_key` : for the League profiles inspections, https://developer.riotgames.com/
--   `discord_bot_token` : for the discord communities, https://discord.com/developers/applications
-
-### Update caches
+### Mandatory caches
 
 ```bash
 # download latest playrates from opgg
@@ -60,8 +52,9 @@ curl https://tahm-ken.ch/static/cache/riot_api/challenges_config.json > static/c
 # python3 cache_riot_api.py
 ```
 
-**Cache LCU: Optional step** (since I push this data to the repository): 
+### Optional caches
 
+#### LCU data
 This is a bit of a weird step. You must run this from Windows. Since you are probably using WSL, you have to map WSL as a windows drive and then run it from there.
 If you really want to do this and you dont understand what I just said, contact me on discord (theraphael0000).
 You must have your League of Legends client updated and running, more info here: https://riot-api-libraries.readthedocs.io/en/latest/lcu.html
@@ -70,13 +63,24 @@ You must have your League of Legends client updated and running, more info here:
 python cache_lcu.py
 ```
 
-### GeoIP
+#### Geo IP
 
 If you want to automatically select the default server depending on the IP of the client.
-Download `GeoLite2-Country.mmdb` and put it in the root folder.
+Download `GeoLite2-Country.mmdb` and put it in `static/cache/geo`.
 Let you google how to get it.
 
-### Run the dev env
+## Optional API keys
+
+```bash
+# create a config file from the sample
+cp .env_sample .env
+```
+
+These require manual steps on the given website.
+
+-   `riot_api_key` : for the League profiles inspections, https://developer.riotgames.com/
+
+## Run the dev env
 
 ```bash
 source venv/bin/activate
@@ -91,7 +95,7 @@ A CD script that update the website on a server through ssh. I guess nobody can 
 python3 fabfile.py # need ssh-key for tahm-ken.ch :)
 ```
 
-## Thanks
+# Thanks
 
 People who directly helped the project (more than feedbacks):
 
