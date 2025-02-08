@@ -17,12 +17,16 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Git version
         id: version
         run: |
-          echo "version=$(git describe --tags)" >> $GITHUB_OUTPUT
-
+          git describe --tags --always >> version
+          echo "version=$(cat version)" >> .env
+          echo "version=$(cat version)" >> $GITHUB_OUTPUT
+          
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
