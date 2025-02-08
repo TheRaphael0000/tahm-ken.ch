@@ -3,11 +3,11 @@ import numpy as np
 from scipy.optimize import linear_sum_assignment
 
 champions = json.load(
-    open("static/cache_datadragon/champion.json", "rb"))["data"]
+    open("static/cache/datadragon/champion.json", "rb"))["data"]
 
 
 champions_ranked = json.load(
-    open("static/cache_opgg/champions_ranked.json", "rb"))["data"]
+    open("static/cache/opgg/champions_ranked.json", "rb"))["data"]
 
 
 champions_by_ig_name = {

@@ -3,7 +3,7 @@ from pathlib import Path
 
 from models.riot_api import api_request
 
-FOLDER = Path("static/cache_riot_api/")
+FOLDER = Path("static/cache/riot_api/")
 
 challenges_config = api_request(
     "/lol/challenges/v1/challenges/config", region="EUW1")

@@ -25,11 +25,11 @@ def query(route):
 
 
 challenges_template = json.load(
-    open("static/cache_lcu/challenges_template.json", "r"))
+    open("static/lcu/challenges_template.json", "r"))
 challenges = query(f"/lol-challenges/v1/challenges/local-player")
 
 champions = json.load(
-    open("static/cache_datadragon/champion.json", "rb"))["data"]
+    open("static/cache/datadragon/champion.json", "rb"))["data"]
 
 valid_groups = ["Harmony", "Globetrotter"]
 
@@ -72,4 +72,4 @@ for tag, champions in champions_by_tag.items():
     challenges_template.append(challenge)
 
 json.dump(challenges_template, open(
-    "static/cache_lcu/challenges.json", "w"), indent=4)
+    "static/lcu/challenges.json", "w"), indent=4)

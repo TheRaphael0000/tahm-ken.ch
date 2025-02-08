@@ -18,7 +18,7 @@ cd tahm-ken.ch
 
 ```bash
 # python if you don't have it
-apt install python3 python3-pip
+apt install python3 python3-pip -y
 
 # create a venv and install dependencies
 python3 -m venv venv
@@ -30,14 +30,12 @@ python3 -m pip install -r requirements.txt
 
 ```bash
 # create a config file from the sample
-cp config_sample.json config.json
-
-# create a the flask secret and set it in the config file
-sed -i 's/"app_secret_key": ""/"app_secret_key": "'$(python3 -c "import secrets; print(secrets.token_hex(24))")'"'/g config.json
+cp .env_sample .env
 ```
 
 **Optional API keys**. These require manual steps on the given website. You can skip those for most cases!
 
+-   `app_secret_key` : run this: `python3 -c "import secrets; print(secrets.token_hex(24))`
 -   `riot_api_key` : for the League profiles inspections, https://developer.riotgames.com/
 -   `discord_bot_token` : for the discord communities, https://discord.com/developers/applications
 
@@ -54,14 +52,14 @@ python3 cache_datadragon.py
 python3 cache_lcu.py
 
 # download the latest precomputed caches file so you don't have to compute them yourself
-mkdir static/cache_compositions
-curl https://tahm-ken.ch/static/cache_compositions/compositions.json > static/cache_compositions/compositions.json
+mkdir static/cache/compositions
+curl https://tahm-ken.ch/static/cache/compositions/compositions.json > static/cache/compositions/compositions.json
 # or you can compute it yourself by running:
 # python3 cache_compositions.py
 
 # download the latest challenge config file used on the server
-mkdir static/cache_riot_api
-curl https://tahm-ken.ch/static/cache_riot_api/challenges_config.json > static/cache_riot_api/challenges_config.json
+mkdir static/cache/riot_api
+curl https://tahm-ken.ch/static/cache/riot_api/challenges_config.json > static/cache/riot_api/challenges_config.json
 # if you set the Riot API key run this instead:
 # python3 cache_riot_api.py
 ```

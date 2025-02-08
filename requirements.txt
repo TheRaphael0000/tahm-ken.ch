@@ -8,3 +8,4 @@ scipy
 engineering_notation
 requests
 maxminddb
+python-dotenv

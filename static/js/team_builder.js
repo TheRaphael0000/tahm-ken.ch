@@ -259,7 +259,7 @@ function fetch_challenges(selectedChampionName) {
                     if (i < champions.length) {
                         let champion = champions[i]
                         let img = document.createElement("img")
-                        img.src = "/static/cache_datadragon/champions_img/" + champion + ".png"
+                        img.src = "/static/cache/datadragon/champions_img/" + champion + ".png"
                         img.classList.add("challenge_selection_img")
                         champion_selected.appendChild(img)
                     } else {

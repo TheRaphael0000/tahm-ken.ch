@@ -2,7 +2,7 @@ import json
 
 # load the pre-calculated compositions
 compositions = json.load(
-    open("static/cache_compositions/compositions.json", "r"))
+    open("static/cache/compositions/compositions.json", "r"))
 
 compositions_names_routes = {}
 for key in compositions.keys():

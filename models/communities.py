@@ -2,7 +2,7 @@ import datetime
 import urllib.request
 import datetime
 import json
-from config import config
+import os
 
 # initialize to old date, to be updated on the first request
 last_update = datetime.datetime(year=1, month=1, day=1)
@@ -26,7 +26,7 @@ communities = {
 
 def _discord_api_request(url):
     request = urllib.request.Request(url)
-    request.add_header("Authorization", f"Bot {config['discord_bot_token']}")
+    request.add_header("Authorization", f"Bot {os.getenv('discord_bot_token')}")
     request.add_header("User-Agent", "TKBOT (https://tahm-ken.ch, 1.0)")
     request.add_header("Content-Type", "application/json")
     response = urllib.request.urlopen(request)
@@ -59,7 +59,7 @@ def _update_discord():
 
 
 def get_communities():
-    if len(config['discord_bot_token']) <= 0:
+    if len(os.getenv('discord_bot_token')) <= 0:
         raise ConnectionError("Discord token not set")
 
     global last_update

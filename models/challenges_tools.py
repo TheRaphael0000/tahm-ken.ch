@@ -51,7 +51,7 @@ challenges_groups = [
 ]
 
 
-challenges_data = json.load(open("static/cache_lcu/challenges.json"))
+challenges_data = json.load(open("static/lcu/challenges.json"))
 for c in challenges_data:
     c["max"] = len(c["champions"])
     c["champions"] = set(c["champions"])
@@ -76,7 +76,7 @@ champions_by_key = {champion["key"]
 
 try:
     challenges_config = json.load(
-        open("static/cache_riot_api/challenges_config.json", "r"))
+        open("static/cache/riot_api/challenges_config.json", "r"))
     challenges_config = {c["id"]: c for c in challenges_config}
     for c in challenges_data:
         challenges_config[c['id']]["qte"] = c["qte"]

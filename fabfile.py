@@ -49,7 +49,7 @@ with c.cd(repo_folder):
         c.run(f"{python_bin} cache_opgg.py")
         print()
 
-    file = "static/cache_compositions/compositions.json"
+    file = "static/cache/compositions/compositions.json"
     if click.confirm(f"Update {file}?", default=True):
         print(f"Copying {file}...")
         # couldn't make it work with the c.cd()

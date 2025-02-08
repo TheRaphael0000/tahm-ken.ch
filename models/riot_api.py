@@ -1,5 +1,5 @@
 import requests
-from config import config
+import os
 from .regions import regions_by_id
 
 riot_endpoint = "https://europe.api.riotgames.com"
@@ -16,6 +16,6 @@ def api_request(url, region=None):
 
     print(url)
     response = requests.get(
-        url, headers={"X-Riot-Token": config["riot_api_key"]})
+        url, headers={"X-Riot-Token": os.getenv("riot_api_key")})
     data = response.json()
     return data

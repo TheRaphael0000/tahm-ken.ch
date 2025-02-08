@@ -32,4 +32,4 @@ comps = dict(comps)
 for k, v in comps.items():
     print(k, len(v))
 
-json.dump(comps, open("static/cache_compositions/compositions.json", "w"))
+json.dump(comps, open("static/cache/compositions/compositions.json", "w"))
