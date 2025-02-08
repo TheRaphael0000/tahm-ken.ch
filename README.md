@@ -35,7 +35,6 @@ cp .env_sample .env
 
 **Optional API keys**. These require manual steps on the given website. You can skip those for most cases!
 
--   `app_secret_key` : run this: `python3 -c "import secrets; print(secrets.token_hex(24))`
 -   `riot_api_key` : for the League profiles inspections, https://developer.riotgames.com/
 -   `discord_bot_token` : for the discord communities, https://discord.com/developers/applications
 
@@ -48,9 +47,6 @@ python3 cache_opgg.py
 # download latest datadragon files (can take a few minutes)
 python3 cache_datadragon.py
 
-# download latest challenge game only data (you must have your League of Legends client, more info here: https://riot-api-libraries.readthedocs.io/en/latest/lcu.html)
-python3 cache_lcu.py
-
 # download the latest precomputed caches file so you don't have to compute them yourself
 mkdir static/cache/compositions
 curl https://tahm-ken.ch/static/cache/compositions/compositions.json > static/cache/compositions/compositions.json
@@ -62,6 +58,16 @@ mkdir static/cache/riot_api
 curl https://tahm-ken.ch/static/cache/riot_api/challenges_config.json > static/cache/riot_api/challenges_config.json
 # if you set the Riot API key run this instead:
 # python3 cache_riot_api.py
+```
+
+**Cache LCU: Optional step** (since I push this data to the repository): 
+
+This is a bit of a weird step. You must run this from Windows. Since you are probably using WSL, you have to map WSL as a windows drive and then run it from there.
+If you really want to do this and you dont understand what I just said, contact me on discord (theraphael0000).
+You must have your League of Legends client updated and running, more info here: https://riot-api-libraries.readthedocs.io/en/latest/lcu.html
+```
+# optional: download latest challenge game only data
+python cache_lcu.py
 ```
 
 ### GeoIP

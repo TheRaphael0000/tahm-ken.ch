@@ -1,4 +1,4 @@
-import os
+import secrets
 from dotenv import load_dotenv
 from flask import Flask
 
@@ -14,7 +14,7 @@ load_dotenv()
 # create the flask app
 app = Flask(__name__, static_url_path="/static")
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 60 * 60
-app.secret_key = os.getenv("app_secret_key")
+app.secret_key = secrets.token_hex(24)
 
 app.register_blueprint(bp_multisearch)
 app.register_blueprint(bp_team_builder)
