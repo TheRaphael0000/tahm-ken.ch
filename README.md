@@ -18,7 +18,7 @@ cd tahm-ken.ch
 
 ```bash
 # python if you don't have it
-apt install python3 python3-pip -y
+apt install python3 python3-pip python3-venv -y
 
 # create a venv and install dependencies
 python3 -m venv venv

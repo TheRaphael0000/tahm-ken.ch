@@ -1,5 +1,6 @@
 import json
 from pathlib import Path
+from dotenv import load_dotenv
 
 from models.riot_api import api_request
 

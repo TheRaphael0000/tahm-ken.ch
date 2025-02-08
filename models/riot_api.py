@@ -1,6 +1,9 @@
 import requests
 import os
 from .regions import regions_by_id
+from dotenv import load_dotenv
+
+load_dotenv()
 
 riot_endpoint = "https://europe.api.riotgames.com"
 league_endpoint = "https://{0}.api.riotgames.com"
