@@ -20,7 +20,7 @@ jobs:
 
       - name: Git version
         id: version
-        run:
+        run: |
           echo "version=$(git describe --tags)" >> $GITHUB_OUTPUT
 
       - name: Set up Docker Buildx
