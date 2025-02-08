@@ -7,3 +7,4 @@ services:
     env_file: ".env"
     volumes:
       - ./static/cache:/usr/src/app/static/cache
+    restart: unless-stopped
