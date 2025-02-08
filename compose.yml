@@ -3,4 +3,7 @@ services:
     build: .
     container_name: tahm-ken.ch
     ports:
-      - 8080:80
+      - 80:80
+    env_file: ".env"
+    volumes:
+      - ./static/cache:/usr/src/app/static/cache
