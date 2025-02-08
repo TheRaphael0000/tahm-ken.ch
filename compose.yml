@@ -1,9 +1,16 @@
 services:
   web:
     build: .
-    container_name: tahm-ken.ch
+    container_name: tahmkench
     ports:
-      - 8001:8001
+      - 8001:80
     env_file: ".env"
     volumes:
       - ./static/cache:/usr/src/app/static/cache
+    networks:
+      - nginx
+
+networks:
+  nginx:
+    external: true
+    name: nginx
